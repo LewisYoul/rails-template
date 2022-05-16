@@ -45,7 +45,7 @@
           </div>
         </div>
         <div class="hidden md:flex md:items-center md:space-x-6">
-          <%= link_to 'Log In', "https://www.strava.com/oauth/authorize?client_id=57045&response_type=code&redirect_uri=http://localhost:3000/oauth&approval_prompt=force&scope=activity:read", class: "text-base font-medium text-white hover:text-gray-300" %>
+          <%= link_to 'Log In', new_session_path, class: "text-base font-medium text-white hover:text-gray-300" %>
           <a href="#" class="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-gray-600 hover:bg-gray-700"> Start free trial </a>
         </div>
       </nav>
