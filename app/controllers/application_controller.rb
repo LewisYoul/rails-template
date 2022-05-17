@@ -6,6 +6,12 @@ class ApplicationController < ActionController::Base
   end
 
   def authenticate_user
-    return redirect_to unauthenticated_root_path unless current_user
+    return if current_user
+
+    if request.format.json?
+      return render json: { message: :unauthorized }, status: :unauthorized
+    else
+      return redirect_to unauthenticated_root_path 
+    end
   end
 end

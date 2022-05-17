@@ -4,7 +4,9 @@
   "dependencies": {
     "@hotwired/stimulus": "^3.0.1",
     "@hotwired/turbo-rails": "^7.1.1",
+    "@mapbox/polyline": "^1.1.1",
     "autoprefixer": "^10.4.7",
+    "axios": "^0.27.2",
     "esbuild": "^0.14.39",
     "leaflet": "^1.8.0",
     "postcss": "^8.4.13",

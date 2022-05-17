@@ -11,4 +11,6 @@ Rails.application.routes.draw do
   resources :map, only: :index
   resources :oauth, only: :index
   resources :session, only: :new
+  resources :session, only: :new
+  resources :activities, only: :index
 end
