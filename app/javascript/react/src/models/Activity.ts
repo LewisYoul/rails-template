@@ -11,7 +11,6 @@ export default class Activity {
   constructor(activity: any, map: any, selectActivity: Function) {
     this.activity = activity;
     this.map = map;
-    this.color = this.getRandomColor()
     this.layer = L.geoJSON(this.asGeoJSON())
     this.id = activity.id
 
@@ -102,13 +101,13 @@ export default class Activity {
   }
 
   type() {
-    switch(this.activity.type) {
+    switch(this.activity.activity_type) {
       case 'StandUpPaddling':
         return 'SUP'
       case 'NordicSki':
         return 'Nordic Ski'
       default:
-        return this.activity.type
+        return this.activity.activity_type
     }
 
   }
@@ -149,7 +148,7 @@ export default class Activity {
 
   // probably encapsulate this in component?
   textColorClass() {
-    switch(this.activity.type) {
+    switch(this.activity.activity_type) {
       case 'Snowshoe':
         return 'text-pink-800'
       case 'Run':
@@ -165,7 +164,7 @@ export default class Activity {
       
   // probably encapsulate this in component?
   bgColorClass() {
-    switch(this.activity.type) {
+    switch(this.activity.activity_type) {
       case 'Snowshoe':
         return 'bg-pink-100'
       case 'Run':
@@ -204,14 +203,4 @@ export default class Activity {
   //   if (this.map.getLayer(id)) { this.map.removeLayer(id) }
   //   if (this.map.getSource(id)) { this.map.removeSource(id) }
   // }
-
-  getRandomColor() {
-    var letters = '0123456789ABCDEF';
-    var color = '#';
-    for (var i = 0; i < 6; i++) {
-      color += letters[Math.floor(Math.random() * 16)];
-    }
-  
-    return color;
-  }
 }

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_05_15_145224) do
+ActiveRecord::Schema[7.0].define(version: 2022_05_20_175205) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "plpgsql"
@@ -48,9 +48,20 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_15_145224) do
     t.float "elev_low"
     t.string "external_id"
     t.integer "total_photo_count"
+    t.boolean "fetched", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_activities_on_user_id"
+  end
+
+  create_table "photos", force: :cascade do |t|
+    t.string "unique_id"
+    t.boolean "default_photo"
+    t.string "url"
+    t.bigint "activity_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["activity_id"], name: "index_photos_on_activity_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -66,4 +77,5 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_15_145224) do
   end
 
   add_foreign_key "activities", "users"
+  add_foreign_key "photos", "activities"
 end

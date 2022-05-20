@@ -33,6 +33,7 @@ class CreateActivities < ActiveRecord::Migration[7.0]
       t.float :elev_low
       t.string :external_id
       t.integer :total_photo_count
+      t.boolean :fetched, null: false, default: false
 
       t.timestamps
     end

@@ -12,5 +12,5 @@ Rails.application.routes.draw do
   resources :oauth, only: :index
   resources :session, only: :new
   resources :session, only: :new
-  resources :activities, only: :index
+  resources :activities, only: %i[index show]
 end

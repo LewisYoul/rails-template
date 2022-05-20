@@ -3,6 +3,7 @@ import L from 'leaflet'
 import Actviti from '../clients/Actviti';
 import Activity from '../models/Activity';
 import ActivityList from './ActivityList';
+import Panel from './Panel';
 
 function Map() {
   const [activities, setActivities] = React.useState([])
@@ -73,6 +74,10 @@ function Map() {
     }
   }
 
+  const closePanel = () => {
+    setSelectedActivity(undefined)
+  }
+
   const activityList = () => {
     return (
       <ActivityList
@@ -86,9 +91,14 @@ function Map() {
                             
   return (
       <div className="w-full flex flex-col justify-end">
-        <div className="h-full w-full flex-1" id="map">
+        <div className="w-full h-full flex">
+          <div className="h-full w-full flex-1" id="map">
+          </div>
+          {selectedActivity ? 
+            <Panel activity={selectedActivity} closePanel={closePanel}/>
+          : null}
         </div>
-        <div id="listContainer" className="overflow-auto h-72 max-h-72">
+        <div id="listContainer" className="overflow-auto h-96 max-h-96">
           {activityList()}
         </div>
       </div>
