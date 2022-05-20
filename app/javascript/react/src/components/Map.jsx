@@ -28,11 +28,7 @@ function Map() {
       .then(res => {
         console.log(res)
 
-        const basicActivities = res.data.filter((activity) => {
-          return !!activity.summary_polyline
-        })
-
-        const activityInstances = basicActivities.map((activity) => { return new Activity(activity, newMap, selectActivity) })
+        const activityInstances = res.data.map((activity) => { return new Activity(activity, newMap, selectActivity) })
 
         setActivities(activityInstances)
       })
