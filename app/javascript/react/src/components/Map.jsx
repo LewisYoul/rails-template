@@ -47,19 +47,15 @@ function Map() {
   }, [activities])
 
   React.useEffect(() => {
-    if (!selectedActivity) {
-      map?.invalidateSize()
-      return
-    }
-
     const nonSelectedActivities = activities.filter((activity) => {
       return activity !== selectedActivity      
     })
 
     nonSelectedActivities.forEach((activity) => { activity.sendToBackground() })
 
-    selectedActivity.flyTo()
-    map.invalidateSize()
+    if (selectedActivity) { selectedActivity.flyTo() }
+
+    map?.invalidateSize()
   }, [selectedActivity])
 
   const selectActivity = (activity) => {
@@ -75,7 +71,7 @@ function Map() {
   }
 
   const closePanel = () => {
-    setSelectedActivity(undefined)
+    selectActivity(undefined)
   }
 
   const activityList = () => {
