@@ -59,6 +59,28 @@ export default class Activity {
     return (timeString[0] === '0') ? timeString.slice(1) : timeString
   }
 
+  elapsedTime() {
+    const timeString = moment().startOf('day').seconds(this.activity.elapsed_time).format('HH:mm:ss')
+
+    return (timeString[0] === '0') ? timeString.slice(1) : timeString
+  }
+
+  maxSpeed() {
+    return this.activity.max_speed
+  }
+
+  averageSpeed() {
+    return this.activity.average_speed
+  }
+
+  maxHeartrate() {
+    return this.activity.max_heartrate
+  }
+
+  averageHeartrate() {
+    return this.activity.average_heartrate
+  }
+
   // colorForDisplay () {
   //   switch(this.activity.type) {
   //     case 'Ride':

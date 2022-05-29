@@ -84,6 +84,34 @@ export default function Panel(props) {
               <span className="block text-gray-500 text-xs">Elevation</span>
             </div>
           </div>
+
+                    <table className="mt-3 min-w-full divide-y divide-gray-300">
+                      <tbody className="bg-white">
+                        <tr>
+                          <td className="whitespace-nowrap pr-3 text-sm font-light">Elapsed Time</td>
+                          <td className="whitespace-nowrap px-2 text-sm font-medium text-gray-900">{activity.elapsedTime()}</td>
+                        </tr>
+                        <tr>
+                          <td className="whitespace-nowrap pr-3 text-sm font-light">Max Speed</td>
+                          <td className="whitespace-nowrap px-2 text-sm font-medium text-gray-900">{activity.maxSpeed()} <span className="text-xs font-light">km/hr</span></td>
+                        </tr>
+                        <tr>
+                          <td className="whitespace-nowrap pr-3 text-sm font-light">Average Speed</td>
+                          <td className="whitespace-nowrap px-2 text-sm font-medium text-gray-900">{activity.averageSpeed()} <span className="text-xs font-light">km/hr</span></td>
+                        </tr>
+                        <tr>
+                          <td className="whitespace-nowrap pr-3 text-sm font-light">Max Heartrate</td>
+                          <td className="whitespace-nowrap px-2 text-sm font-medium text-gray-900">{activity.maxHeartrate()} <span className="text-xs font-light">bpm</span></td>
+                        </tr>
+                        <tr>
+                          <td className="whitespace-nowrap pr-3 text-sm font-light">Average Heartrate</td>
+                          <td className="whitespace-nowrap px-2 text-sm font-medium text-gray-900">{activity.averageHeartrate()} <span className="text-xs font-light">bpm</span></td>
+                        </tr>
+                      </tbody>
+                    </table>
+
+
+
         </div>
       )
     }
