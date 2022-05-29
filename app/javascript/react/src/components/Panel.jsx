@@ -62,6 +62,28 @@ export default function Panel(props) {
           <div className="mt-3">
             {photosEl()}
           </div>
+          <div className="flex justify-between mt-3">
+            <div>
+              <div>
+                <span className="text-2xl">{activity.distance()}</span>
+                <span className="text-md">km</span>
+              </div>
+              <span className="block text-gray-500 text-xs">Distance</span>
+            </div>
+            <div>
+              <div>
+                <span className="text-2xl">{activity.movingTime()}</span>
+              </div>
+              <span className="block text-gray-500 text-xs">Moving Time</span>
+            </div>
+            <div>
+              <div>
+                <span className="text-2xl">{activity.totalElevationGain()}</span>
+                <span className="text-md">m</span>
+              </div>
+              <span className="block text-gray-500 text-xs">Elevation</span>
+            </div>
+          </div>
         </div>
       )
     }

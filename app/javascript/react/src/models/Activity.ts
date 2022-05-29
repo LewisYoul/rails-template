@@ -1,6 +1,7 @@
 import polyline from "@mapbox/polyline";
 import turf from 'turf'
 import L from "leaflet";
+import moment from 'moment'
 
 export default class Activity {
   activity: any;
@@ -50,6 +51,12 @@ export default class Activity {
 
   totalElevationGain() {
     return this.activity.total_elevation_gain
+  }
+
+  movingTime() {
+    const timeString = moment().startOf('day').seconds(this.activity.moving_time).format('HH:mm:ss')
+
+    return (timeString[0] === '0') ? timeString.slice(1) : timeString
   }
 
   // colorForDisplay () {
