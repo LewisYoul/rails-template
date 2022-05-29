@@ -6,7 +6,6 @@ import LoaderWithText from './LoaderWithText';
 export default function Panel(props) {
   const { activity, closePanel } = props;
   const [fetchedActivity, setFetchedActivity] = React.useState();
-  const [photos, setPhotos] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
   const [requiresLoad, setRequiresLoad] = React.useState(true);
 
@@ -16,23 +15,23 @@ export default function Panel(props) {
     Actviti.activity(activity.id)
       .then(res => {
         setIsLoading(false)
-        setFetchedActivity(activity)
+        setFetchedActivity(res.data)
       })
       .catch(console.error)
   }, [activity])
 
   const hasPhotos = () => {
-    return photos.length > 0
+    return fetchedActivity?.photos.length > 0
   }
 
   const photosEl = () => {
     if (!hasPhotos()) { return }
 
     return (
-      <div className="divide-x-4 divide-white mr-4 bg-green-300 w-full h-40 overflow-x-auto flex bg-black">
-        {photos.map((photo) => {
+      <div className="divide-x-4 divide-white mr-4 bg-gray-200 w-full h-40 overflow-x-auto flex bg-black">
+        {fetchedActivity.photos.map((photo) => {
           return (
-            <img className="flex-none object-cover w-40 h-40 hover:opacity-90" src={photo.urls[0].replace('-48x64.', '-576x768.').replace('-64x48.', '-768x576.')}></img>
+            <img className="flex-none object-cover w-40 h-40 hover:opacity-90" src={photo.url.replace('-48x64.', '-576x768.').replace('-64x48.', '-768x576.')}></img>
           )
         })}
       </div>
@@ -40,7 +39,6 @@ export default function Panel(props) {
   }
 
   const content = () => {
-    console.log(activity.type())
     if (isLoading || (activity?.id !== fetchedActivity?.id)) {
       return <LoaderWithText text='Fetching your activity' width={50} height={50} /> 
     } else {
