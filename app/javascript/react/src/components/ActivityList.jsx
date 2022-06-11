@@ -1,5 +1,6 @@
 import * as React from 'react';
 import ActivityItem from './ActivityItem';
+import LoaderWithText from './LoaderWithText';
 
 export default function ActivityList(props) {
   const { isLoading, activities, selectActivity, selectedActivity } = props;
@@ -38,7 +39,7 @@ console.log('act', activities)
   // }, [hoveredActivity])
 
   const content = () => {
-    // if (isLoading) { return <LoaderWithText width={50} height={50} text={'Fetching your activities'} /> }
+    if (isLoading) { return <LoaderWithText width={50} height={50} text={'Fetching your activities'} /> }
 
     return (
       <div className="relative shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">

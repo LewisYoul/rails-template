@@ -7,6 +7,10 @@ const Actviti = {
 
   activity: (activityId) => {
     return axios.get(`/activities/${activityId}.json`)
+  },
+
+  refreshActivities: () => {
+    return axios.get('/activities/refresh')
   }
 }
 

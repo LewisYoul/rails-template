@@ -8,6 +8,7 @@ import Panel from './Panel';
 function Map() {
   const [activities, setActivities] = React.useState([])
   const [map, setMap] = React.useState()
+  const [isLoading, setIsLoading] = React.useState(true)
   const [selectedActivity, setSelectedActivity] = React.useState()
 
   React.useEffect(() => {
@@ -25,15 +26,7 @@ function Map() {
 
     setMap(newMap)
 
-    Actviti.activities()
-      .then(res => {
-        console.log(res)
-
-        const activityInstances = res.data.map((activity) => { return new Activity(activity, newMap, selectActivity) })
-
-        setActivities(activityInstances)
-      })
-      .catch(console.error)
+    fetchActivities(newMap)
   }, [])
 
   React.useEffect(() => {
@@ -58,6 +51,19 @@ function Map() {
     map?.invalidateSize()
   }, [selectedActivity])
 
+  const fetchActivities = (newMap) => {
+    Actviti.activities()
+      .then(res => {
+        console.log(res)
+
+        const activityInstances = res.data.map((activity) => { return new Activity(activity, newMap, selectActivity) })
+
+        setActivities(activityInstances)
+        setIsLoading(false)
+      })
+      .catch(console.error)
+  }
+
   const selectActivity = (activity) => {
     if (selectedActivity) {
       if (selectedActivity === activity) {
@@ -74,10 +80,35 @@ function Map() {
     selectActivity(undefined)
   }
 
+  const refreshActivities = () => {
+    setIsLoading(true)
+    closePanel()
+
+    Actviti.refreshActivities()
+      .then(() => {
+        console.log('refreshed')
+        fetchActivities(map)
+      })
+      .catch(console.error)
+  }
+
+  const refreshButton = () => {
+    if (isLoading) return null
+
+    return (
+      <button onClick={refreshActivities} className="shadow-md absolute m-4 z-500 top-0 right-0 whitespace-nowrap inline-flex items-center justify-center px-2 py-1 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-white hover:bg-gray-100 text-purple-600">
+        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+        </svg>
+        <span className="ml-1">Refresh Activities</span>
+      </button>
+    )
+  }
+
   const activityList = () => {
     return (
       <ActivityList
-        isLoading={false}
+        isLoading={isLoading}
         activities={activities}
         selectActivity={selectActivity}
         selectedActivity={selectedActivity}
@@ -89,6 +120,7 @@ function Map() {
       <div className="w-full flex flex-col justify-end">
         <div className="w-full h-full flex">
           <div className="h-full w-full flex-1" id="map">
+            {refreshButton()}
           </div>
           {selectedActivity ? 
             <Panel activity={selectedActivity} closePanel={closePanel}/>

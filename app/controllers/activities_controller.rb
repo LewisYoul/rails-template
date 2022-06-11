@@ -4,7 +4,7 @@ class ActivitiesController < ApplicationController
   def index
     respond_to do |format|
       format.json do
-        render json: current_user.activities.with_geometry
+        render json: current_user.activities.chronological.with_geometry
       end
     end
   end
@@ -15,9 +15,7 @@ class ActivitiesController < ApplicationController
         activity = current_user.activities.find_by(id: params[:id])
 
         if !activity.fetched?
-          client = Strava::Api::Client.new(access_token: current_user.access_token)
-
-          photos = client.activity_photos(activity.strava_id)
+          photos = strava_client.activity_photos(activity.strava_id)
 
           Activity.transaction do
             photos.each do |photo|
@@ -35,5 +33,53 @@ class ActivitiesController < ApplicationController
         render json: activity.attributes.merge(photos: activity.photos)
       end
     end
+  end
+
+  def refresh
+    last_activity = current_user.activities.chronological.first
+
+    strava_client.athlete_activities(after: last_activity.start_date, per_page: 100) do |strava_activity|
+      current_user.activities.find_or_create_by!(strava_id: strava_activity.id) do |activity|
+        activity.name = strava_activity.name
+        activity.activity_type = strava_activity.type
+        activity.distance = strava_activity.distance
+        activity.moving_time = strava_activity.moving_time
+        activity.elapsed_time = strava_activity.elapsed_time
+        activity.total_elevation_gain = strava_activity.total_elevation_gain
+        activity.strava_id = strava_activity.id
+        activity.start_date = strava_activity.start_date
+        activity.start_date_local = strava_activity.start_date_local
+        activity.timezone = strava_activity.timezone
+        activity.utc_offset = strava_activity.utc_offset
+        activity.location_country = strava_activity.location_country
+        activity.achievement_count = strava_activity.achievement_count
+        activity.kudos_count = strava_activity.kudos_count
+        activity.comment_count = strava_activity.comment_count
+        activity.athlete_count = strava_activity.athlete_count
+        activity.photo_count = strava_activity.photo_count
+        activity.summary_polyline = strava_activity.map.summary_polyline
+        activity.visibility = strava_activity.visibility
+        activity.start_latlng = strava_activity.start_latlng
+        activity.end_latlng = strava_activity.end_latlng
+        activity.average_speed = strava_activity.average_speed
+        activity.max_speed = strava_activity.max_speed
+        activity.average_cadence = strava_activity.average_cadence
+        activity.has_heartrate = strava_activity.has_heartrate
+        activity.average_heartrate = strava_activity.average_heartrate
+        activity.max_heartrate = strava_activity.max_heartrate
+        activity.elev_high = strava_activity.elev_high
+        activity.elev_low = strava_activity.elev_low
+        activity.external_id = strava_activity.external_id
+        activity.total_photo_count = strava_activity.total_photo_count
+      end
+    end
+
+    head :ok
+  end
+
+  private
+
+  def strava_client
+    StravaClient.new(current_user)
   end
 end
