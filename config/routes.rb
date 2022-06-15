@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   root to: "home#index", as: :unauthenticated_root
 
   resources :home, only: :index
+  resources :account, only: :index
   resources :map, only: :index
   resources :oauth, only: :index
   resources :session, only: :new
