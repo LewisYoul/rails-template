@@ -1,4 +1,4 @@
-import * as React from 'react'                         
+import * as React from 'react'
 import L from 'leaflet'        
 import Actviti from '../clients/Actviti';
 import Activity from '../models/Activity';
@@ -133,9 +133,9 @@ function Map() {
   )                   
 }                                                       
                                         
-// // Use it if you don't plan to use "remount"                
+// Use it if you don't plan to use "remount"                
 // document.addEventListener('DOMContentLoaded', () => {     
-//   ReactDOM.render(<Map />, document.getElementById('Map'))                  
+//   ReactDOM.render(<Map />, document.getElementById('map'))                  
 // })                                                    
                                                         
 export default Map
