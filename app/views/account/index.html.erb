@@ -24,9 +24,16 @@
       <h1 class="text-center">Yearly bill</h1>
       <p class="text-2xl font-extrabold text-center"><%= @subscription_presenter.yearly_cost_dollars %></p>
     </div>
-    <div class="rounded-md bg-gray-100 px-8 py-4">
-      <h1 class="text-center">Renews on</h1>
-      <p class="text-2xl font-extrabold text-center"><%= @subscription_presenter.renews_on %></p>
-    </div>
+    <% if current_user.subscription.cancel_at_period_end? %>
+      <div class="rounded-md bg-gray-100 px-8 py-4">
+        <h1 class="text-center">Expires</h1>
+        <p class="text-2xl font-extrabold text-center"><%= @subscription_presenter.expires_on %></p>
+      </div>
+    <% else %>
+      <div class="rounded-md bg-gray-100 px-8 py-4">
+        <h1 class="text-center">Renews</h1>
+        <p class="text-2xl font-extrabold text-center"><%= @subscription_presenter.renews_on %></p>
+      </div>
+    <% end %>
   </div>
 </main>

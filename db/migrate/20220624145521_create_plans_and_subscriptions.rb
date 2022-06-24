@@ -13,6 +13,7 @@ class CreatePlansAndSubscriptions < ActiveRecord::Migration[7.0]
       t.datetime :end_datetime
       t.boolean :cancel_at_period_end, null: false, default: false
       t.string :stripe_subscription_id
+      t.string :status, null: false
 
       t.timestamps
     end

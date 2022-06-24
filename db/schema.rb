@@ -77,6 +77,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_24_145521) do
     t.datetime "end_datetime"
     t.boolean "cancel_at_period_end", default: false, null: false
     t.string "stripe_subscription_id"
+    t.string "status", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["plan_id"], name: "index_subscriptions_on_plan_id"

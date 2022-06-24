@@ -16,7 +16,8 @@ module StripeServices
           cancel_at_period_end: false,
           start_datetime: start_datetime,
           end_datetime: end_datetime,
-          stripe_subscription_id: stripe_subscription_id
+          stripe_subscription_id: stripe_subscription_id,
+          status: 'active'
         )
       end
     end

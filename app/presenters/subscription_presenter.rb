@@ -22,10 +22,10 @@ class SubscriptionPresenter
   end
 
   def renew_confirmation_text
-    "Your subscription is currently due to expire on #{expires_on}. By clicking continue your subscription will be updated to renew on #{renews_on}. Do you want to continue?"
+    "Your subscription is currently due to expire on #{expires_on}. By clicking continue your subscription will be updated to renew on that date. Do you want to continue?"
   end
 
   def cancel_confirmation_text
-    "Your subscription is currently due to renew on #{renews_on}. By clicking continue your subscription will be updated to expire on #{expires_on}. Do you want to continue?"
+    "Your subscription is currently due to renew on #{renews_on}. By clicking continue your subscription will be updated to expire on that date. Do you want to continue?"
   end
 end

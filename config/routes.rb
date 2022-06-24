@@ -20,4 +20,7 @@ Rails.application.routes.draw do
     get :upgrade, on: :member
   end
   resources :subscriptions, only: :update
+  resources :webhooks do
+    post :stripe, on: :collection
+  end
 end
