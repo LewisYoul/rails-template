@@ -26,7 +26,7 @@ class OauthController < ApplicationController
           access_token: response.access_token,
           expires_at: response.expires_at,
           subscription_attributes: {
-            plan: 'free'
+            plan_id: Plan.find_by(level: 'free').id
           }
         )
 

@@ -12,8 +12,12 @@ Rails.application.routes.draw do
   resources :map, only: :index
   resources :oauth, only: :index
   resources :session, only: :new
-  resources :session, only: :new
   resources :activities, only: %i[index show] do
     get :refresh, on: :collection
   end
+  resources :plans do
+    get :success, on: :collection
+    get :upgrade, on: :member
+  end
+  resources :subscriptions, only: :update
 end

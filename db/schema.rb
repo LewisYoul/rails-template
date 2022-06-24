@@ -64,11 +64,22 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_24_145521) do
     t.index ["activity_id"], name: "index_photos_on_activity_id"
   end
 
+  create_table "plans", force: :cascade do |t|
+    t.string "level", null: false
+    t.string "stripe_price_id"
+    t.integer "yearly_cost_dollars", null: false
+  end
+
   create_table "subscriptions", force: :cascade do |t|
-    t.string "plan"
+    t.bigint "plan_id", null: false
     t.bigint "user_id", null: false
+    t.datetime "start_datetime"
+    t.datetime "end_datetime"
+    t.boolean "cancel_at_period_end", default: false, null: false
+    t.string "stripe_subscription_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["plan_id"], name: "index_subscriptions_on_plan_id"
     t.index ["user_id"], name: "index_subscriptions_on_user_id"
   end
 
@@ -81,10 +92,12 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_24_145521) do
     t.datetime "expires_at", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "stripe_customer_id"
     t.index ["strava_id"], name: "index_users_on_strava_id", unique: true
   end
 
   add_foreign_key "activities", "users"
   add_foreign_key "photos", "activities"
+  add_foreign_key "subscriptions", "plans"
   add_foreign_key "subscriptions", "users"
 end
