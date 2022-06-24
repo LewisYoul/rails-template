@@ -4,7 +4,7 @@ class ActivitiesController < ApplicationController
   def index
     respond_to do |format|
       format.json do
-        render json: current_user.activities.chronological.with_geometry
+        render json: current_user.plan_limited_activities
       end
     end
   end
@@ -12,7 +12,7 @@ class ActivitiesController < ApplicationController
   def show
     respond_to do |format|
       format.json do
-        activity = current_user.activities.find_by(id: params[:id])
+        activity = current_user.plan_limited_activities.find_by(id: params[:id])
 
         if !activity.fetched?
           photos = strava_client.activity_photos(activity.strava_id)
@@ -36,7 +36,7 @@ class ActivitiesController < ApplicationController
   end
 
   def refresh
-    last_activity = current_user.activities.chronological.first
+    last_activity = current_user.plan_limited_activities.chronological.first
 
     new_activities = strava_client.athlete_activities(after: last_activity.start_date, per_page: 100)
     

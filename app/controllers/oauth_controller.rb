@@ -24,7 +24,10 @@ class OauthController < ApplicationController
           last_name: athlete.lastname,
           refresh_token: response.refresh_token,
           access_token: response.access_token,
-          expires_at: response.expires_at
+          expires_at: response.expires_at,
+          subscription_attributes: {
+            plan: 'free'
+          }
         )
 
         client = Strava::Api::Client.new(access_token: user.access_token)

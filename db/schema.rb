@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_05_20_175205) do
+ActiveRecord::Schema[7.0].define(version: 2022_06_24_145521) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "plpgsql"
@@ -64,6 +64,14 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_20_175205) do
     t.index ["activity_id"], name: "index_photos_on_activity_id"
   end
 
+  create_table "subscriptions", force: :cascade do |t|
+    t.string "plan"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_subscriptions_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "first_name", null: false
     t.string "last_name", null: false
@@ -78,4 +86,5 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_20_175205) do
 
   add_foreign_key "activities", "users"
   add_foreign_key "photos", "activities"
+  add_foreign_key "subscriptions", "users"
 end
