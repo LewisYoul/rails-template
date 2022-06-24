@@ -22,7 +22,7 @@ class ActivitiesController < ApplicationController
               activity.photos.create!(
                 unique_id: photo.unique_id,
                 default_photo: photo.default_photo,
-                url: photo.urls['0']
+                url: photo.urls['1800']
               )
             end
 
@@ -38,7 +38,9 @@ class ActivitiesController < ApplicationController
   def refresh
     last_activity = current_user.activities.chronological.first
 
-    strava_client.athlete_activities(after: last_activity.start_date, per_page: 100) do |strava_activity|
+    new_activities = strava_client.athlete_activities(after: last_activity.start_date, per_page: 100)
+    
+    new_activities.each do |strava_activity|
       current_user.activities.find_or_create_by!(strava_id: strava_activity.id) do |activity|
         activity.name = strava_activity.name
         activity.activity_type = strava_activity.type
