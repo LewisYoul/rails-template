@@ -84,13 +84,20 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_24_145521) do
     t.index ["user_id"], name: "index_subscriptions_on_user_id"
   end
 
+  create_table "tokens", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "refresh_token", null: false
+    t.string "access_token", null: false
+    t.datetime "expires_at", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_tokens_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "first_name", null: false
     t.string "last_name", null: false
     t.string "strava_id", null: false
-    t.string "refresh_token", null: false
-    t.string "access_token", null: false
-    t.datetime "expires_at", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "stripe_customer_id"
@@ -101,4 +108,5 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_24_145521) do
   add_foreign_key "photos", "activities"
   add_foreign_key "subscriptions", "plans"
   add_foreign_key "subscriptions", "users"
+  add_foreign_key "tokens", "users"
 end

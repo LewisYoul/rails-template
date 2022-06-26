@@ -12,7 +12,7 @@ class OauthController < ApplicationController
       user = User.find_by(strava_id: athlete.id)
 
       if user
-        user.update!(
+        user.token.update!(
           refresh_token: response.refresh_token,
           access_token: response.access_token,
           expires_at: response.expires_at
@@ -22,9 +22,11 @@ class OauthController < ApplicationController
           strava_id: athlete.id,
           first_name: athlete.firstname,
           last_name: athlete.lastname,
-          refresh_token: response.refresh_token,
-          access_token: response.access_token,
-          expires_at: response.expires_at,
+          token_attributes: {
+            refresh_token: response.refresh_token,
+            access_token: response.access_token,
+            expires_at: response.expires_at
+          },
           subscription_attributes: {
             plan_id: Plan.find_by(level: 'free').id,
             status: 'active'
@@ -34,6 +36,9 @@ class OauthController < ApplicationController
 
       session[:user_id] = user.id
 
+      # first_login is used to determine whether we need to fetch
+      # the user's activities from strava the first time they hit the
+      # map page
       redirect_to authenticated_root_path(first_login: true)
     else
       redirect_to unauthenticated_root_path

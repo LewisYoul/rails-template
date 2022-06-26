@@ -39,7 +39,8 @@ class ActivitiesController < ApplicationController
     if current_user.activities.exists?
       render json: { error: 'You have already imported your activities' }, status: :bad_request
     else
-      client = Strava::Api::Client.new(access_token: current_user.access_token)
+      # needs extracting to strava client
+      client = Strava::Api::Client.new(access_token: current_user.token.access_token)
         
       activities = []
 

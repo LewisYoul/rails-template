@@ -23,11 +23,11 @@ class StravaClient
       )
     
       response = oauth_client.oauth_token(
-        refresh_token: @user.refresh_token,
+        refresh_token: @user.token.refresh_token,
         grant_type: 'refresh_token'
       )
 
-      @user.update!(
+      @user.token.update!(
         refresh_token: response.refresh_token,
         access_token: response.access_token,
         expires_at: response.expires_at
@@ -38,11 +38,11 @@ class StravaClient
   end
 
   def access_token_expired?
-    @user.expires_at < EXPIRY_TIME_WITH_BUFFER
+    @user.token.expires_at < EXPIRY_TIME_WITH_BUFFER
   end
 
-  # Don't memoize & reload user to ensure access_token is always up to date
+  # Don't memoize & reload user token to ensure access_token is always up to date
   def client
-    Strava::Api::Client.new(access_token: @user.reload.access_token)
+    Strava::Api::Client.new(access_token: @user.token.reload.access_token)
   end
 end
