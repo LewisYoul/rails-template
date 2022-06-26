@@ -18,17 +18,17 @@
       <% if current_user %>
         <div class="relative bg-white">
           <div class="flex justify-between items-center px-3 py-2 md:justify-start md:space-x-10">
-            <div class="-mr-2 -my-2 md:hidden">
-              <button type="button" class="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-purple-500" aria-expanded="false">
-                <span class="sr-only">Open menu</span>
-                <!-- Heroicon name: outline/menu -->
-                <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-                </svg>
-              </button>
-            </div>
-            <div class="hidden md:flex-1 md:flex md:items-center md:justify-between">
-              <nav class="flex space-x-10"></nav>
+            <div class="flex-1 flex items-center justify-between">
+              <div class="flex">
+                <div class="flex-shrink-0 flex items-center">
+                  <img class="block lg:hidden h-8 w-auto" src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg" alt="Workflow">
+                  <img class="hidden lg:block h-8 w-auto" src="https://tailwindui.com/img/logos/workflow-logo-indigo-600-mark-gray-800-text.svg" alt="Workflow">
+                </div>
+                <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
+                  <%= navbar_link_to('Activities', authenticated_root_path) %>
+                  <%= navbar_link_to('Account', account_index_path) %>
+                </div>
+              </div>
               <div class="flex items-center md:ml-12">
                 <% links = [{ icon: 'cog', title: 'Account Settings', href: account_index_path }, { icon: 'logout', title: 'Log Out', href: session_destroy_path }] %>
                 <span class="mr-2"><%= current_user.full_name %></span>
