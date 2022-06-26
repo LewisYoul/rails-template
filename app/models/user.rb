@@ -3,7 +3,11 @@ class User < ApplicationRecord
   has_one :subscription
   has_one :plan, through: :subscription
   has_many :activities
-  has_many :plan_limited_activities, -> (user) { with_geometry.chronological.limit(user.activities_limit) }, class_name: 'Activity'
+  has_many :plan_limited_activities, -> (user) do
+    return with_geometry.chronological if user.plan.paid?
+
+    user.activities.where(id: with_geometry.chronological.limit(user.plan.activities_limit).select(:id)).chronological
+  end, class_name: 'Activity'
 
   accepts_nested_attributes_for :token
   accepts_nested_attributes_for :subscription
@@ -12,9 +16,5 @@ class User < ApplicationRecord
 
   def full_name
     "#{first_name} #{last_name}"
-  end
-
-  def activities_limit
-    subscription.plan.activities_limit
   end
 end
