@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   resources :session, only: :new
   resources :activities, only: %i[index show] do
     get :refresh, on: :collection
+    get :import, on: :collection
   end
   resources :plans do
     get :success, on: :collection

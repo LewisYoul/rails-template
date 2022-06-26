@@ -1,6 +1,10 @@
 import axios from 'axios'
 
 const Actviti = {
+  importActivities: () => {
+    return axios.get("/activities/import.json")
+  },
+
   activities: () => {
     return axios.get("/activities.json")
   },

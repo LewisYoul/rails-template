@@ -3,7 +3,7 @@ import ActivityItem from './ActivityItem';
 import LoaderWithText from './LoaderWithText';
 
 export default function ActivityList(props) {
-  const { isLoading, activities, selectActivity, selectedActivity } = props;
+  const { isLoading, loadingMessage, activities, selectActivity, selectedActivity } = props;
   const [focussedActivity, setFocussedActivity] = React.useState();
   const [hoveredActivity, setHoveredActivity] = React.useState();
 console.log('act', activities)
@@ -39,7 +39,7 @@ console.log('act', activities)
   // }, [hoveredActivity])
 
   const content = () => {
-    if (isLoading) { return <LoaderWithText width={50} height={50} text={'Fetching your activities'} /> }
+    if (isLoading) { return <LoaderWithText width={50} height={50} text={loadingMessage} /> }
 
     return (
       <div className="relative shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">

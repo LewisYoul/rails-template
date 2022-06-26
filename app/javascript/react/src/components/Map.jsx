@@ -6,9 +6,12 @@ import ActivityList from './ActivityList';
 import Panel from './Panel';
 
 function Map() {
+  const initialLoadingMessage = 'Fetching your activities';
+  const importingFromStravaMessage = 'Importing your activities from Strava. This may take a moment...';
   const [activities, setActivities] = React.useState([])
   const [map, setMap] = React.useState()
   const [isLoading, setIsLoading] = React.useState(true)
+  const [loadingMessage, setLoadingMessage] = React.useState(initialLoadingMessage)
   const [selectedActivity, setSelectedActivity] = React.useState()
 
   React.useEffect(() => {
@@ -26,7 +29,14 @@ function Map() {
 
     setMap(newMap)
 
-    fetchActivities(newMap)
+    const searchParams = new URLSearchParams(window.location.search)
+
+    if (searchParams.get('first_login')) {
+      importActivities(newMap)
+    } else {
+      fetchActivities(newMap)
+    }
+
   }, [])
 
   React.useEffect(() => {
@@ -52,16 +62,31 @@ function Map() {
   }, [selectedActivity])
 
   const fetchActivities = (newMap) => {
+    setLoadingMessage(initialLoadingMessage)
+
     Actviti.activities()
       .then(res => {
-        console.log(res)
-
         const activityInstances = res.data.map((activity) => { return new Activity(activity, newMap, selectActivity) })
 
         setActivities(activityInstances)
         setIsLoading(false)
       })
       .catch(console.error)
+  }
+
+  const importActivities = (newMap) => {
+    setLoadingMessage(importingFromStravaMessage)
+
+    Actviti.importActivities()
+      .then(res => {
+        removeSearchParamsFromURL()
+        fetchActivities(newMap)
+      })
+      .catch(console.error)
+  }
+
+  const removeSearchParamsFromURL = () => {
+    window.history.pushState({}, document.title, "/");
   }
 
   const selectActivity = (activity) => {
@@ -81,14 +106,12 @@ function Map() {
   }
 
   const refreshActivities = () => {
+    setLoadingMessage(importingFromStravaMessage)
     setIsLoading(true)
     closePanel()
 
     Actviti.refreshActivities()
-      .then(() => {
-        console.log('refreshed')
-        fetchActivities(map)
-      })
+      .then(() => fetchActivities(map))
       .catch(console.error)
   }
 
@@ -108,6 +131,7 @@ function Map() {
   const activityList = () => {
     return (
       <ActivityList
+        loadingMessage={loadingMessage}
         isLoading={isLoading}
         activities={activities}
         selectActivity={selectActivity}
