@@ -7,7 +7,7 @@ class OauthController < ApplicationController
       )
 
       response = client.oauth_token(code: params[:code])
-      athlete = response['athlete']
+      athlete = response.athlete
 
       user = User.find_by(strava_id: athlete.id)
 
@@ -17,6 +17,10 @@ class OauthController < ApplicationController
           access_token: response.access_token,
           expires_at: response.expires_at
         )
+
+        session[:user_id] = user.id
+
+        redirect_to authenticated_root_path
       else
         user = User.create!(
           strava_id: athlete.id,
@@ -32,14 +36,14 @@ class OauthController < ApplicationController
             status: 'active'
           }
         )
+        
+        session[:user_id] = user.id
+
+        # first_login is used to determine whether we need to fetch
+        # the user's activities from strava the first time they hit the
+        # map page
+        redirect_to authenticated_root_path(first_login: true)
       end
-
-      session[:user_id] = user.id
-
-      # first_login is used to determine whether we need to fetch
-      # the user's activities from strava the first time they hit the
-      # map page
-      redirect_to authenticated_root_path(first_login: true)
     else
       redirect_to unauthenticated_root_path
     end

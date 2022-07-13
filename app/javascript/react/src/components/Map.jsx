@@ -36,7 +36,6 @@ function Map() {
     } else {
       fetchActivities(newMap)
     }
-
   }, [])
 
   React.useEffect(() => {

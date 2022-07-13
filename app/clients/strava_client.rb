@@ -5,8 +5,8 @@ class StravaClient
     @user = user
   end
 
-  def athlete_activities(*args)
-    with_token_refresh { client.athlete_activities(*args) }
+  def athlete_activities(*args, &block)
+    with_token_refresh { client.athlete_activities(*args, &block) }
   end
 
   def activity_photos(activity_strava_id)

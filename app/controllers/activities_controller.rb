@@ -39,15 +39,12 @@ class ActivitiesController < ApplicationController
     if current_user.activities.exists?
       render json: { error: 'You have already imported your activities' }, status: :bad_request
     else
-      # needs extracting to strava client
-      client = Strava::Api::Client.new(access_token: current_user.token.access_token)
-        
       activities = []
 
       # There is a bug in this gem that means doing
       # activities = client.athlete_activities(per_page: 100) would only
       # return a maximum of 100 activities
-      client.athlete_activities(per_page: 100) { |activity| activities << activity }
+      strava_client.athlete_activities(per_page: 100) { |activity| activities << activity }
 
       Activity.transaction do
         activities.each do |activity|
