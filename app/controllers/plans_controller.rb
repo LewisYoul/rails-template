@@ -5,8 +5,8 @@ class PlansController < ApplicationController
     @plan = Plan.find(params[:id])
 
     session = Stripe::Checkout::Session.create(
-      success_url: 'https://7cd6-2a00-23c7-63a9-1c01-4da4-f287-d858-359.ngrok.io/plans/success?session_id={CHECKOUT_SESSION_ID}',
-      cancel_url: 'https://7cd6-2a00-23c7-63a9-1c01-4da4-f287-d858-359.ngrok.io/account',
+      success_url: 'https://f8a5-2a00-23c4-6289-8601-c51-9cf7-3474-abe3.ngrok.io/plans/success?session_id={CHECKOUT_SESSION_ID}',
+      cancel_url: 'https://f8a5-2a00-23c4-6289-8601-c51-9cf7-3474-abe3.ngrok.io/account',
       mode: 'subscription',
       metadata: { user_id: current_user.id, plan_id: @plan.id },
       line_items: [{ quantity: 1, price: @plan.stripe_price_id }]

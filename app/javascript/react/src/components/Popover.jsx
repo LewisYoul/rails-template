@@ -1,22 +1,5 @@
 import * as React from 'react'
-
-function clickOutside(ref, whenClickedOutsideOf) {
-  React.useEffect(() => {
-    const handleOutsideClick = (event) => {
-      if (ref.current && !ref.current.contains(event.target)) {
-        console.log("You clicked outside of me!");
-        whenClickedOutsideOf()
-      }
-    }
-
-    document.addEventListener("mousedown", handleOutsideClick);
-
-    return () => {
-      // Unbind the event listener on clean up
-      document.removeEventListener("mousedown", handleOutsideClick);
-    };
-  }, [ref])
-}
+import clickOutside from '../utils/clickOutside'
 
 function Popover(props) {
   const links = JSON.parse(props.links)
