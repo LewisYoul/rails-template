@@ -137,12 +137,22 @@ function Map() {
   const filtersButton = () => {
     if (isLoading) return null
 
+    let filtersText = "Filters"
+    const filtersCount = Object.keys(filters).length
+
+    if (filtersCount > 0) {
+      filtersText += ` (${filtersCount})`
+    }
+
     return (
       <button onClick={showFilterModal} className="shadow-md absolute m-4 z-500 bottom-0 left-0 whitespace-nowrap inline-flex items-center justify-center px-2 py-1 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-white hover:bg-gray-100 text-purple-600">
+        {/* <div className="w-5 h-5 bg-purple-500 rounded-full absolute -top-2 -right-2">
+
+        </div> */}
         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
         </svg>
-        <span className="ml-1">Filters</span>
+        <span className="ml-1">{filtersText}</span>
       </button>
     )
   }

@@ -9,9 +9,9 @@ const ActivityFilters = (props) => {
   clickOutside(modalRef, onClose)
 
   const applyFilters = () => {
-    const filters = {
-      name: name
-    }
+    let filters = {}
+
+    if (name && name !== '') { filters['name'] = name } 
 
     onApply(filters)
   }
