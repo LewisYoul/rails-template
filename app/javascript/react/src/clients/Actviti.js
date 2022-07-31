@@ -5,8 +5,9 @@ const Actviti = {
     return axios.get("/activities/import.json")
   },
 
-  activities: () => {
-    return axios.get("/activities.json")
+  activities: (params) => {
+    console.log('p', params)
+    return axios.get("/activities.json", { params })
   },
 
   activity: (activityId) => {

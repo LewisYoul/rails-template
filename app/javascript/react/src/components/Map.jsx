@@ -4,7 +4,7 @@ import Actviti from '../clients/Actviti';
 import Activity from '../models/Activity';
 import ActivityList from './ActivityList';
 import Panel from './Panel';
-import clickOutside from '../utils/clickOutside';
+import ActivityFilters from './ActivityFilters';
 
 function Map() {
   const initialLoadingMessage = 'Fetching your activities';
@@ -16,9 +16,6 @@ function Map() {
   const [filters, setFilters] = React.useState({})
   const [loadingMessage, setLoadingMessage] = React.useState(initialLoadingMessage)
   const [selectedActivity, setSelectedActivity] = React.useState()
-  const modalRef = React.useRef(null)
-
-  clickOutside(modalRef, () => { setShowFilters(false) })
 
   React.useEffect(() => {
     const newMap = L.map('map').setView([51.505, -0.09], 13);
@@ -47,7 +44,6 @@ function Map() {
   React.useEffect(() => {
     if (activities.length == 0) { return }
 
-    activities.forEach(activity => activity.removeFromMap())
     activities.forEach(activity => activity.addToMap())
     const fg = L.featureGroup(activities.map(activity => activity.layer))
     map?.flyToBounds(fg.getBounds(), { duration: 2 })
@@ -66,12 +62,13 @@ function Map() {
     map?.invalidateSize()
   }, [selectedActivity])
 
-  const fetchActivities = (newMap) => {
+  const fetchActivities = (newMap, params = {}) => {
     setLoadingMessage(initialLoadingMessage)
 
-    Actviti.activities()
+    Actviti.activities(params)
       .then(res => {
         const activityInstances = res.data.map((activity) => { return new Activity(activity, newMap, selectActivity) })
+        activities.forEach(activity => activity.removeFromMap())
 
         setActivities(activityInstances)
         setIsLoading(false)
@@ -116,16 +113,12 @@ function Map() {
     closePanel()
 
     Actviti.refreshActivities()
-      .then(() => fetchActivities(map))
+      .then(() => fetchActivities(map, filters))
       .catch(console.error)
   }
 
   const showFilterModal = () => {
     setShowFilters(true)
-  }
-
-  const hideFilterModal = () => {
-    setShowFilters(false)
   }
 
   const refreshButton = () => {
@@ -166,28 +159,23 @@ function Map() {
     )
   }
 
+  const applyFiltersAndCloseModal = (newFilters) => {
+    console.log('new filters', newFilters)
+    setFilters(newFilters)
+    setIsLoading(true)
+    fetchActivities(map, newFilters)
+    setShowFilters(false)
+  }
+
   const filtersModal = () => {
     if (!showFilters) { return null }
 
     return (
-      <div className="relative z-600" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-        <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
-
-        <div className="fixed z-10 inset-0 overflow-y-auto">
-          <div className="flex items-end sm:items-center justify-center min-h-full p-4 text-center sm:p-0">
-            <div ref={modalRef} className="relative bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-sm sm:w-full sm:p-6">
-              <div className="w-full">
-                <label for="name">Name</label>
-                <input onChange={(e) => { setFilterValue('name', e.target.value) }} type="text" name="name" id="name" className="shadow-sm border focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md px-2 py-2"></input>
-              </div>
-              <div className="mt-5 flex justify-between">
-                <button type="button" className="py-2 text-base font-medium underline sm:text-sm">Clear all</button>
-                <button type="button" className="rounded-md border border-transparent shadow-sm px-4 py-2 bg-purple-600 text-base font-medium text-white hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 sm:text-sm">Apply</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <ActivityFilters
+        initialFilters={filters}
+        onApply={applyFiltersAndCloseModal}
+        onClose={() => { setShowFilters(false) }}
+      />
     )
   }
                             

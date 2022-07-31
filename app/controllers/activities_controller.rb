@@ -4,7 +4,9 @@ class ActivitiesController < ApplicationController
   def index
     respond_to do |format|
       format.json do
-        render json: current_user.plan_limited_activities
+        activities = ActivityServices::ActivityFilterer.new(current_user.plan_limited_activities, params).call
+
+        render json: activities
       end
     end
   end
