@@ -4,7 +4,7 @@ import Actviti from '../clients/Actviti';
 import Activity from '../models/Activity';
 import ActivityList from './ActivityList';
 import Panel from './Panel';
-import ActivityFilters from './ActivityFilters';
+import { debounce } from 'debounce'
 
 function Map() {
   const initialLoadingMessage = 'Fetching your activities';
@@ -157,6 +157,26 @@ function Map() {
     )
   }
 
+  const filtersBar = () => {
+    return(
+      <input onChange={applySearch} className="shadow-md absolute m-4 z-500 bottom-0 left-0 whitespace-nowrap inline-flex items-center justify-center px-2 py-1 border border-transparent rounded-md shadow-sm text-base font-medium bg-white hover:bg-gray-100"></input>
+    )
+  }
+
+  const applySearch = debounce((event) => {
+    const searchTerm = event.target.value
+    let filters = {}
+
+    if (searchTerm !== '') {
+      filters['name'] = searchTerm
+    }
+
+    setFilters(filters)
+    setIsLoading(true)
+    fetchActivities(map, filters)
+    setShowFilters(false)
+  }, 400)
+
   const activityList = () => {
     return (
       <ActivityList
@@ -168,34 +188,13 @@ function Map() {
       />
     )
   }
-
-  const applyFiltersAndCloseModal = (newFilters) => {
-    console.log('new filters', newFilters)
-    setFilters(newFilters)
-    setIsLoading(true)
-    fetchActivities(map, newFilters)
-    setShowFilters(false)
-  }
-
-  const filtersModal = () => {
-    if (!showFilters) { return null }
-
-    return (
-      <ActivityFilters
-        initialFilters={filters}
-        onApply={applyFiltersAndCloseModal}
-        onClose={() => { setShowFilters(false) }}
-      />
-    )
-  }
                             
   return (
       <div className="w-full flex flex-col justify-end">
-        {filtersModal()}
         <div className="w-full h-full flex">
           <div className="h-full w-full flex-1" id="map">
             {refreshButton()}
-            {filtersButton()}
+            {filtersBar()}
           </div>
           {selectedActivity ? 
             <Panel activity={selectedActivity} closePanel={closePanel}/>
