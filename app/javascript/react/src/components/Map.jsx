@@ -5,6 +5,7 @@ import Activity from '../models/Activity';
 import ActivityList from './ActivityList';
 import Panel from './Panel';
 import { debounce } from 'debounce'
+import MultiSelect from './MultiSelect';
 
 function Map() {
   const initialLoadingMessage = 'Fetching your activities';
@@ -159,7 +160,26 @@ function Map() {
 
   const filtersBar = () => {
     return(
-      <input onChange={applySearch} className="shadow-md absolute m-4 z-500 bottom-0 left-0 whitespace-nowrap inline-flex items-center justify-center px-2 py-1 border border-transparent rounded-md shadow-sm text-base font-medium bg-white hover:bg-gray-100"></input>
+      <div className="absolute m-4 z-500 bottom-0 left-0 flex">
+        <input onChange={applySearch} className="shadow-md whitespace-nowrap inline-flex items-center rounded-md justify-center px-2 py-1 border border-transparent shadow-sm text-base font-medium bg-white hover:bg-gray-100"></input>
+        <MultiSelect
+          className="flex items-center bg-white p-2 rounded-md ml-2 shadow-md relative"
+          triggerContent={<span>Type</span>}
+          options={[
+            { value: 'Ride', label: 'Ride'},
+            { value: 'Walk', label: 'Walk'},
+            { value: 'Hike', label: 'Hike'},
+            { value: 'Swim', label: 'Swim'},
+            { value: 'Ski', label: 'Ski'},
+          ]}
+        />
+        <div className="flex items-center bg-white p-2 rounded-md ml-2 shadow-md">
+          <span>Date</span>
+        </div>
+        <div className="flex items-center bg-white p-2 rounded-md ml-2 shadow-md">
+          <span>Distance</span>
+        </div>
+      </div>
     )
   }
 
