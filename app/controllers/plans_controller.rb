@@ -5,8 +5,8 @@ class PlansController < ApplicationController
     @plan = Plan.find(params[:id])
 
     session = Stripe::Checkout::Session.create(
-      success_url: "https://#{base_env_url}/plans/success?session_id={CHECKOUT_SESSION_ID}",
-      cancel_url: "https://#{base_env_url}/account",
+      success_url: "#{base_env_url}/plans/success?session_id={CHECKOUT_SESSION_ID}",
+      cancel_url: "#{base_env_url}/account",
       mode: 'subscription',
       metadata: { user_id: current_user.id, plan_id: @plan.id },
       line_items: [{ quantity: 1, price: @plan.stripe_price_id }]

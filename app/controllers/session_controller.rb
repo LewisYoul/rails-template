@@ -7,7 +7,7 @@ class SessionController < ApplicationController
     )
 
     redirect_url = client.authorize_url(
-      redirect_uri: "https://#{base_env_url}/oauth",
+      redirect_uri: "#{base_env_url}/oauth",
       approval_prompt: 'auto',
       response_type: 'code',
       scope: 'activity:read',
