@@ -7,7 +7,7 @@ class SessionController < ApplicationController
     )
 
     redirect_url = client.authorize_url(
-      redirect_uri: 'http://f8a5-2a00-23c4-6289-8601-c51-9cf7-3474-abe3.ngrok.io/oauth',
+      redirect_uri: "https://#{base_env_url}/oauth",
       approval_prompt: 'auto',
       response_type: 'code',
       scope: 'activity:read',

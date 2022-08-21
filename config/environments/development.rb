@@ -1,7 +1,7 @@
 require "active_support/core_ext/integer/time"
 
 Rails.application.configure do
-  config.hosts << "f8a5-2a00-23c4-6289-8601-c51-9cf7-3474-abe3.ngrok.io"
+  config.hosts << base_env_url
   # Settings specified here will take precedence over those in config/application.rb.
 
   # In the development environment your application's code is reloaded any time
