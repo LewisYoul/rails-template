@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React, { useState, useEffect } from 'react'
 import L from 'leaflet'        
 import Actviti from '../clients/Actviti';
 import Activity from '../models/Activity';
@@ -10,15 +10,16 @@ import MultiSelect from './MultiSelect';
 function Map() {
   const initialLoadingMessage = 'Fetching your activities';
   const importingFromStravaMessage = 'Importing your activities from Strava. This may take a moment...';
-  const [activities, setActivities] = React.useState([])
-  const [map, setMap] = React.useState()
-  const [isLoading, setIsLoading] = React.useState(true)
-  const [showFilters, setShowFilters] = React.useState(false)
-  const [filters, setFilters] = React.useState({})
-  const [loadingMessage, setLoadingMessage] = React.useState(initialLoadingMessage)
-  const [selectedActivity, setSelectedActivity] = React.useState()
+  const [activities, setActivities] = useState([])
+  const [map, setMap] = useState()
+  const [isLoading, setIsLoading] = useState(true)
+  const [showFilters, setShowFilters] = useState(false)
+  const [filters, setFilters] = useState({})
+  const [loadingMessage, setLoadingMessage] = useState(initialLoadingMessage)
+  const [selectedActivity, setSelectedActivity] = useState()
 
-  React.useEffect(() => {
+  useEffect(() => {
+    console.log('run')
     const newMap = L.map('map').setView([51.505, -0.09], 13);
     const accessToken = 'pk.eyJ1IjoibGV3aXN5b3VsIiwiYSI6ImNqYzM3a3lndjBhOXQyd24zZnVleGh3c2kifQ.qVH2-BA02t3p62tG72-DZA';
 
@@ -42,7 +43,7 @@ function Map() {
     }
   }, [])
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (activities.length == 0) { return }
 
     activities.forEach(activity => activity.addToMap())
@@ -51,7 +52,7 @@ function Map() {
 
   }, [activities])
 
-  React.useEffect(() => {
+  useEffect(() => {
     const nonSelectedActivities = activities.filter((activity) => {
       return activity !== selectedActivity      
     })
@@ -68,6 +69,7 @@ function Map() {
 
     Actviti.activities(params)
       .then(res => {
+        console.log('map', newMap)
         const activityInstances = res.data.map((activity) => { return new Activity(activity, newMap, selectActivity) })
         activities.forEach(activity => activity.removeFromMap())
 
@@ -122,13 +124,29 @@ function Map() {
     setShowFilters(true)
   }
 
+  const applyTypeFilters = (newFilters) => {
+    let typesToFilter = []
+
+    newFilters.forEach(filter => {
+      if (filter.isChecked) { typesToFilter.push(filter.value) }
+    })
+
+    let filtersDup = { ...filters }
+    filtersDup.activity_types = typesToFilter
+
+    fetchActivities(map, filtersDup)
+    setFilters(filtersDup)
+    setIsLoading(true)
+    setShowFilters(false)
+  }
+
   const refreshButton = () => {
     if (isLoading) return null
 
     return (
       <button onClick={refreshActivities} className="shadow-md absolute m-4 z-500 top-0 right-0 whitespace-nowrap inline-flex items-center justify-center px-2 py-1 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-white hover:bg-gray-100 text-purple-600">
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
         </svg>
         <span className="ml-1">Refresh Activities</span>
       </button>
@@ -150,8 +168,8 @@ function Map() {
         {/* <div className="w-5 h-5 bg-purple-500 rounded-full absolute -top-2 -right-2">
 
         </div> */}
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
         </svg>
         <span className="ml-1">{filtersText}</span>
       </button>
@@ -159,31 +177,31 @@ function Map() {
   }
 
   const filtersBar = () => {
+    const options = ['AlpineSki', 'BackcountrySki', 'Canoeing', 'Crossfit', 'EBikeRide', 'Elliptical', 'EMountainBikeRide', 'Golf', 'GravelRide', 'Handcycle', 'Hike', 'IceSkate', 'InlineSkate', 'Kayaking', 'Kitesurf', 'MountainBikeRide', 'NordicSki', 'Ride', 'RockClimbing', 'RollerSki', 'Rowing', 'Run', 'Sail', 'Skateboard', 'Snowboard', 'Snowshoe', 'Soccer', 'StairStepper', 'StandUpPaddling', 'Surfing', 'Swim', 'TrailRun', 'Velomobile', 'VirtualRide', 'VirtualRun', 'Walk', 'WeightTraining', 'Wheelchair', 'Windsurf', 'Workout', 'Yoga'].sort()
+      .map(option => { return { value: option, label: option, isChecked: true } })
+
     return(
       <div className="absolute m-4 z-500 bottom-0 left-0 flex">
         <input onChange={applySearch} className="shadow-md whitespace-nowrap inline-flex items-center rounded-md justify-center px-2 py-1 border border-transparent shadow-sm text-base font-medium bg-white hover:bg-gray-100"></input>
         <MultiSelect
+          key={1}
+          onChange={applyTypeFilters}
           className="flex items-center bg-white p-2 rounded-md ml-2 shadow-md relative"
           triggerContent={<span>Type</span>}
-          options={[
-            { value: 'Ride', label: 'Ride'},
-            { value: 'Walk', label: 'Walk'},
-            { value: 'Hike', label: 'Hike'},
-            { value: 'Swim', label: 'Swim'},
-            { value: 'Ski', label: 'Ski'},
-          ]}
+          options={options}
         />
-        <div className="flex items-center bg-white p-2 rounded-md ml-2 shadow-md">
+        {/* <div className="flex items-center bg-white p-2 rounded-md ml-2 shadow-md">
           <span>Date</span>
         </div>
         <div className="flex items-center bg-white p-2 rounded-md ml-2 shadow-md">
           <span>Distance</span>
-        </div>
+        </div> */}
       </div>
     )
   }
 
   const applySearch = debounce((event) => {
+    console.log('map', map)
     const searchTerm = event.target.value
     let filters = {}
 

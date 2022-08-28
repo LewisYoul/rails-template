@@ -1,7 +1,7 @@
-import * as React from 'react'
+import { useEffect } from 'react'
 
 const clickOutside = (ref, whenClickedOutsideOf) => {
-  React.useEffect(() => {
+  useEffect(() => {
     const handleOutsideClick = (event) => {
       if (ref.current && !ref.current.contains(event.target)) {
         console.log("You clicked outside of me!");

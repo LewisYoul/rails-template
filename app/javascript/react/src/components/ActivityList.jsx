@@ -6,7 +6,6 @@ export default function ActivityList(props) {
   const { isLoading, loadingMessage, activities, selectActivity, selectedActivity } = props;
   const [focussedActivity, setFocussedActivity] = React.useState();
   const [hoveredActivity, setHoveredActivity] = React.useState();
-console.log('act', activities)
   // useEffect(() => {
   //   let featureCollection = {
   //     "type": 'FeatureCollection',
