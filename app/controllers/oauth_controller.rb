@@ -18,7 +18,7 @@ class OauthController < ApplicationController
           expires_at: response.expires_at
         )
 
-        session[:user_id] = user.id
+        log_in(user)
 
         redirect_to authenticated_root_path
       else
@@ -37,7 +37,7 @@ class OauthController < ApplicationController
           }
         )
         
-        session[:user_id] = user.id
+        log_in(user)
 
         # first_login is used to determine whether we need to fetch
         # the user's activities from strava the first time they hit the

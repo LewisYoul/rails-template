@@ -17,8 +17,8 @@ class SessionController < ApplicationController
   end
 
   def destroy
-    session[:user_id] = nil
-
+    forget
+    
     redirect_to unauthenticated_root_path
   end
 end

@@ -17,4 +17,8 @@ class User < ApplicationRecord
   def full_name
     "#{first_name} #{last_name}"
   end
+
+  def self.new_token
+    SecureRandom.urlsafe_base64
+  end
 end

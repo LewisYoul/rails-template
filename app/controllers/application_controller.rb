@@ -1,9 +1,7 @@
 class ApplicationController < ActionController::Base
-  helper_method :current_user
+  include SessionsHelper
 
-  def current_user
-    @current_user ||= session[:user_id] ? User.find(session[:user_id]) : nil
-  end
+  helper_method :current_user
 
   def authenticate_user
     return if current_user
