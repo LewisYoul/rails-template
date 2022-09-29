@@ -10,7 +10,7 @@ class SessionController < ApplicationController
       redirect_uri: "#{base_env_url}/oauth",
       approval_prompt: 'auto',
       response_type: 'code',
-      scope: 'activity:read',
+      scope: 'activity:read_all',
     )
 
     redirect_to redirect_url, allow_other_host: true
