@@ -6,6 +6,7 @@ import ActivityList from './ActivityList';
 import Panel from './Panel';
 import { debounce } from 'debounce'
 import MultiSelect from './MultiSelect';
+import DateFilter from './DateFilter';
 
 function Map() {
   const initialLoadingMessage = 'Fetching your activities';
@@ -190,6 +191,7 @@ function Map() {
           triggerContent={<span>Type</span>}
           options={options}
         />
+        <DateFilter />
         {/* <div className="flex items-center bg-white p-2 rounded-md ml-2 shadow-md">
           <span>Date</span>
         </div>

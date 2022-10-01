@@ -7,12 +7,9 @@ function MultiSelect(props) {
   const popoverRef = useRef(null)
   const [isOpen, setIsOpen] = useState(false)
   const [stateOptions, setStateOptions] = useState(options)
+  const [searchTerm, setSearchTerm] = useState('')
   const firstUpdate = useRef(true);
 
-  useEffect(() => {
-    console.log('L', L.DomEvent)
-    
-  }, [])
   //  this needs doing so onchange is only triggered when the options change
   useEffect(() => {
     if (firstUpdate.current) {
@@ -48,10 +45,12 @@ function MultiSelect(props) {
 
   const clearOpts = () => {
     console.log('111')
-    let modded = stateOptions.map(option => { 
+    let modded = options.map(option => { 
       option.isChecked = false
       return option
     })
+
+    setSearchTerm('')
 
     console.log('od', modded)
 
@@ -70,15 +69,35 @@ function MultiSelect(props) {
     setStateOptions(modded)
   }
 
+  const handleFilter = (event) => {
+    const searchValue = event.target.value
+
+    setSearchTerm(searchValue)
+
+    let stateOptionsForDisplay = options.filter(option => {
+      return option.label.toLowerCase().includes(searchValue)
+    })
+    console.log('opts', stateOptionsForDisplay)
+
+    setStateOptions(stateOptionsForDisplay)
+  }
+
   const popoverContent = () => {
     if (!isOpen) { return null }
 
     return (
       <div ref={popoverRef} className="bg-white absolute left-0 bottom-10 w-48 z-600 shadow-md rounded-md px-2 py-2">
-        <div id="popped" className="overflow-y-scroll h-48">
+        <div className="relative">
+          <input className="w-full border-b border-gray-400 py-1 pl-1" type="text" value={searchTerm} onChange={handleFilter}></input>
+          <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-1">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4">
+              <path fill-rule="evenodd" d="M10.5 3.75a6.75 6.75 0 100 13.5 6.75 6.75 0 000-13.5zM2.25 10.5a8.25 8.25 0 1114.59 5.28l4.69 4.69a.75.75 0 11-1.06 1.06l-4.69-4.69A8.25 8.25 0 012.25 10.5z" clip-rule="evenodd" />
+            </svg>
+          </div>
+        </div>
+        <div id="popped" className="overflow-y-scroll h-48 mt-1 px-1">
           {
             stateOptions.map((option) => {
-              console.log('opt', option)
               return (
                 <div key={option.label} className="hover:text-gray-600 flex items-center">
                   <input onChange={(e) => { toggleFilter(option, e) }} type="checkbox" id={option.label} name={option.label} checked={option.isChecked} defaultChecked={option.isChecked} value="Bike"></input>
