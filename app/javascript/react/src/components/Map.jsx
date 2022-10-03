@@ -20,7 +20,6 @@ function Map() {
   const [selectedActivity, setSelectedActivity] = useState()
 
   useEffect(() => {
-    console.log('run')
     const newMap = L.map('map').setView([51.505, -0.09], 13);
     const accessToken = 'pk.eyJ1IjoibGV3aXN5b3VsIiwiYSI6ImNqYzM3a3lndjBhOXQyd24zZnVleGh3c2kifQ.qVH2-BA02t3p62tG72-DZA';
 
@@ -70,7 +69,6 @@ function Map() {
 
     Actviti.activities(params)
       .then(res => {
-        console.log('map', newMap)
         const activityInstances = res.data.map((activity) => { return new Activity(activity, newMap, selectActivity) })
         activities.forEach(activity => activity.removeFromMap())
 
@@ -154,29 +152,6 @@ function Map() {
     )
   }
 
-  const filtersButton = () => {
-    if (isLoading) return null
-
-    let filtersText = "Filters"
-    const filtersCount = Object.keys(filters).length
-
-    if (filtersCount > 0) {
-      filtersText += ` (${filtersCount})`
-    }
-
-    return (
-      <button onClick={showFilterModal} className="shadow-md absolute m-4 z-500 bottom-0 left-0 whitespace-nowrap inline-flex items-center justify-center px-2 py-1 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-white hover:bg-gray-100 text-purple-600">
-        {/* <div className="w-5 h-5 bg-purple-500 rounded-full absolute -top-2 -right-2">
-
-        </div> */}
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
-        </svg>
-        <span className="ml-1">{filtersText}</span>
-      </button>
-    )
-  }
-
   const filtersBar = () => {
     const options = ['AlpineSki', 'BackcountrySki', 'Canoeing', 'Crossfit', 'EBikeRide', 'Elliptical', 'EMountainBikeRide', 'Golf', 'GravelRide', 'Handcycle', 'Hike', 'IceSkate', 'InlineSkate', 'Kayaking', 'Kitesurf', 'MountainBikeRide', 'NordicSki', 'Ride', 'RockClimbing', 'RollerSki', 'Rowing', 'Run', 'Sail', 'Skateboard', 'Snowboard', 'Snowshoe', 'Soccer', 'StairStepper', 'StandUpPaddling', 'Surfing', 'Swim', 'TrailRun', 'Velomobile', 'VirtualRide', 'VirtualRun', 'Walk', 'WeightTraining', 'Wheelchair', 'Windsurf', 'Workout', 'Yoga'].sort()
       .map(option => { return { value: option, label: option, isChecked: true } })
@@ -191,7 +166,7 @@ function Map() {
           triggerContent={<span>Type</span>}
           options={options}
         />
-        <DateFilter />
+        <DateFilter onClose={applyDateFilters} />
         {/* <div className="flex items-center bg-white p-2 rounded-md ml-2 shadow-md">
           <span>Date</span>
         </div>
@@ -202,6 +177,23 @@ function Map() {
     )
   }
 
+  const applyDateFilters = (dateFilters) => {
+    const startDate = dateFilters[0]
+    const endDate = dateFilters[1]
+    console.log('got filters', dateFilters)
+
+    let newFilters = Object.assign({}, filters)
+
+    newFilters['start_date'] = startDate
+    newFilters['end_date'] = endDate
+
+    setFilters(newFilters)
+    setIsLoading(true)
+    fetchActivities(map, newFilters)
+    setShowFilters(false)
+  }
+
+  // todo this is overwriting any existing filters
   const applySearch = debounce((event) => {
     console.log('map', map)
     const searchTerm = event.target.value

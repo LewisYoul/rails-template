@@ -1,9 +1,20 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import clickOutside from '../utils/clickOutside'
 
 function Filter(props) {
+  const { onClose } = props;
   const popoverRef = useRef(null)
   const [isOpen, setIsOpen] = useState(false)
+  const firstUpdate = useRef(true);
+
+  useEffect(() => {
+    if (firstUpdate.current) {
+      firstUpdate.current = false;
+      return;
+    }
+
+    if (!isOpen) { onClose() }
+  }, [isOpen])
 
   clickOutside(popoverRef, () => {
     setIsOpen(false)

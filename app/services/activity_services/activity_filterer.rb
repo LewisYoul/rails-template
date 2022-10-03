@@ -6,15 +6,25 @@ module ActivityServices
     end
 
     def call
-      @activities = @activities.where("name ILIKE ?", "%#{name_param}%") if name_param
+      @activities = @activities.where("name ILIKE ?", "%#{name}%") if name
       @activities = @activities.where(activity_type: activity_types) if activity_types.any?
+      @activities = @activities.where("DATE_TRUNC('day', start_date) >= ?", start_date) if start_date
+      @activities = @activities.where("DATE_TRUNC('day', start_date) <= ?", end_date) if end_date
       
       @activities
     end
 
     private
 
-    def name_param
+    def start_date
+      @start_date ||= @params[:start_date].presence
+    end
+
+    def end_date
+      @end_date ||= @params[:end_date].presence
+    end
+
+    def name
       @name ||= @params[:name] && !@params[:name].empty? ? @params[:name] : nil
     end
 
