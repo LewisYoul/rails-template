@@ -30,8 +30,16 @@ function DateFilter(props) {
     setEndDate('')
   }
 
+  const displayLabel = () => {
+    if (!startDate && !endDate) { return 'Date' }
+    if (startDate && !endDate) { return `> ${startDate}` }
+    if (endDate && !startDate) { return `< ${endDate}` }
+
+    return `${startDate} - ${endDate}`
+  }
+
   return(
-    <Filter onClose={() => onClose([startDate, endDate])} triggerContent={<span>Date</span>}>
+    <Filter onClose={() => onClose([startDate, endDate])} triggerContent={<span>{displayLabel()}</span>}>
       <div className="flex justify-between"><span>From</span><input type="date" value={startDate} onChange={(event) => { stageDateSelection('start', event.target.value) }}></input></div>
       <div className="flex justify-between"><span>To</span><input type="date" value={endDate} onChange={(event) => { stageDateSelection('end', event.target.value) }}></input></div>
 

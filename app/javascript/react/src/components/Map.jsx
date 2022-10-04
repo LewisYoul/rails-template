@@ -9,13 +9,14 @@ import MultiSelect from './MultiSelect';
 import DateFilter from './DateFilter';
 
 function Map() {
+  const ACTIVITY_TYPES = ['AlpineSki', 'BackcountrySki', 'Canoeing', 'Crossfit', 'EBikeRide', 'Elliptical', 'EMountainBikeRide', 'Golf', 'GravelRide', 'Handcycle', 'Hike', 'IceSkate', 'InlineSkate', 'Kayaking', 'Kitesurf', 'MountainBikeRide', 'NordicSki', 'Ride', 'RockClimbing', 'RollerSki', 'Rowing', 'Run', 'Sail', 'Skateboard', 'Snowboard', 'Snowshoe', 'Soccer', 'StairStepper', 'StandUpPaddling', 'Surfing', 'Swim', 'TrailRun', 'Velomobile', 'VirtualRide', 'VirtualRun', 'Walk', 'WeightTraining', 'Wheelchair', 'Windsurf', 'Workout', 'Yoga'].sort();
   const initialLoadingMessage = 'Fetching your activities';
   const importingFromStravaMessage = 'Importing your activities from Strava. This may take a moment...';
   const [activities, setActivities] = useState([])
   const [map, setMap] = useState()
   const [isLoading, setIsLoading] = useState(true)
   const [showFilters, setShowFilters] = useState(false)
-  const [filters, setFilters] = useState({})
+  const [filters, setFilters] = useState({ activity_types: ACTIVITY_TYPES })
   const [loadingMessage, setLoadingMessage] = useState(initialLoadingMessage)
   const [selectedActivity, setSelectedActivity] = useState()
 
@@ -39,7 +40,7 @@ function Map() {
     if (searchParams.get('first_login')) {
       importActivities(newMap)
     } else {
-      fetchActivities(newMap)
+      fetchActivities(newMap, filters)
     }
   }, [])
 
@@ -119,10 +120,6 @@ function Map() {
       .catch(console.error)
   }
 
-  const showFilterModal = () => {
-    setShowFilters(true)
-  }
-
   const applyTypeFilters = (newFilters) => {
     let typesToFilter = []
 
@@ -153,8 +150,7 @@ function Map() {
   }
 
   const filtersBar = () => {
-    const options = ['AlpineSki', 'BackcountrySki', 'Canoeing', 'Crossfit', 'EBikeRide', 'Elliptical', 'EMountainBikeRide', 'Golf', 'GravelRide', 'Handcycle', 'Hike', 'IceSkate', 'InlineSkate', 'Kayaking', 'Kitesurf', 'MountainBikeRide', 'NordicSki', 'Ride', 'RockClimbing', 'RollerSki', 'Rowing', 'Run', 'Sail', 'Skateboard', 'Snowboard', 'Snowshoe', 'Soccer', 'StairStepper', 'StandUpPaddling', 'Surfing', 'Swim', 'TrailRun', 'Velomobile', 'VirtualRide', 'VirtualRun', 'Walk', 'WeightTraining', 'Wheelchair', 'Windsurf', 'Workout', 'Yoga'].sort()
-      .map(option => { return { value: option, label: option, isChecked: true } })
+    const options = ACTIVITY_TYPES.map(option => { return { value: option, label: option, isChecked: true } })
 
     return(
       <div className="absolute m-4 z-500 bottom-0 left-0 flex">
@@ -163,7 +159,7 @@ function Map() {
           key={1}
           onChange={applyTypeFilters}
           className="flex items-center bg-white p-2 rounded-md ml-2 shadow-md relative"
-          triggerContent={<span>Type</span>}
+          triggerContent={<span>Type ({filters.activity_types.length})</span>}
           options={options}
         />
         <DateFilter onClose={applyDateFilters} />
