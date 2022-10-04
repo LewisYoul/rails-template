@@ -16,7 +16,7 @@ function Map() {
   const [map, setMap] = useState()
   const [isLoading, setIsLoading] = useState(true)
   const [showFilters, setShowFilters] = useState(false)
-  const [filters, setFilters] = useState({ activity_types: ACTIVITY_TYPES })
+  const [filters, setFilters] = useState({})
   const [loadingMessage, setLoadingMessage] = useState(initialLoadingMessage)
   const [selectedActivity, setSelectedActivity] = useState()
 
@@ -149,8 +149,18 @@ function Map() {
     )
   }
 
+  const typesDisplayLabel = () => {
+    if (!filters.activity_types) { return '' }
+ 
+    const typesCount = filters.activity_types.length;
+
+    if (typesCount === 0) { return '' }
+
+    return ` (${typesCount})`
+  }
+
   const filtersBar = () => {
-    const options = ACTIVITY_TYPES.map(option => { return { value: option, label: option, isChecked: true } })
+    const options = ACTIVITY_TYPES.map(option => { return { value: option, label: option, isChecked: false } })
 
     return(
       <div className="absolute m-4 z-500 bottom-0 left-0 flex">
@@ -159,7 +169,7 @@ function Map() {
           key={1}
           onChange={applyTypeFilters}
           className="flex items-center bg-white p-2 rounded-md ml-2 shadow-md relative"
-          triggerContent={<span>Type ({filters.activity_types.length})</span>}
+          triggerContent={<span>Type{typesDisplayLabel()}</span>}
           options={options}
         />
         <DateFilter onClose={applyDateFilters} />
@@ -189,19 +199,19 @@ function Map() {
     setShowFilters(false)
   }
 
-  // todo this is overwriting any existing filters
   const applySearch = debounce((event) => {
-    console.log('map', map)
     const searchTerm = event.target.value
-    let filters = {}
+    let newFilters = Object.assign({}, filters)
 
-    if (searchTerm !== '') {
-      filters['name'] = searchTerm
+    if (searchTerm == '') {
+      newFilters['name'] = undefined
+    } else {
+      newFilters['name'] = searchTerm
     }
 
-    setFilters(filters)
+    setFilters(newFilters)
     setIsLoading(true)
-    fetchActivities(map, filters)
+    fetchActivities(map, newFilters)
     setShowFilters(false)
   }, 400)
 

@@ -32,8 +32,8 @@ function DateFilter(props) {
 
   const displayLabel = () => {
     if (!startDate && !endDate) { return 'Date' }
-    if (startDate && !endDate) { return `> ${startDate}` }
-    if (endDate && !startDate) { return `< ${endDate}` }
+    if (startDate && !endDate) { return `>= ${startDate}` }
+    if (endDate && !startDate) { return `<= ${endDate}` }
 
     return `${startDate} - ${endDate}`
   }
