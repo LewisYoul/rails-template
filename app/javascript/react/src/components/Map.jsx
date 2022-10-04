@@ -149,6 +149,16 @@ function Map() {
     )
   }
 
+  const clearFilters = () => {
+    if (Object.keys(filters).length === 0) { return }
+
+    document.getElementById('searchbar').value = ''
+    fetchActivities(map, {})
+    setFilters({})
+    setIsLoading(true)
+    setShowFilters(false)
+  }
+
   const typesDisplayLabel = () => {
     if (!filters.activity_types) { return '' }
  
@@ -164,7 +174,7 @@ function Map() {
 
     return(
       <div className="absolute m-4 z-500 bottom-0 left-0 flex">
-        <input onChange={applySearch} className="shadow-md whitespace-nowrap inline-flex items-center rounded-md justify-center px-2 py-1 border border-transparent shadow-sm text-base font-medium bg-white hover:bg-gray-100"></input>
+        <input id="searchbar" onChange={applySearch} className="shadow-md whitespace-nowrap inline-flex items-center rounded-md justify-center px-2 py-1 border border-transparent shadow-sm text-base font-medium bg-white hover:bg-gray-100"></input>
         <MultiSelect
           key={1}
           onChange={applyTypeFilters}
@@ -173,6 +183,9 @@ function Map() {
           options={options}
         />
         <DateFilter onClose={applyDateFilters} />
+        <button onClick={clearFilters} className="flex items-center bg-gray-200 p-2 rounded-md ml-2 shadow-md">
+          Clear All
+        </button>
         {/* <div className="flex items-center bg-white p-2 rounded-md ml-2 shadow-md">
           <span>Date</span>
         </div>
