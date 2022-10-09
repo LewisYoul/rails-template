@@ -15,13 +15,14 @@ function Map() {
   const [activities, setActivities] = useState([])
   const [map, setMap] = useState()
   const [isLoading, setIsLoading] = useState(true)
+  // const [searchTerm, setSearchTerm] = useState('')
   const [showFilters, setShowFilters] = useState(false)
   const [filters, setFilters] = useState({})
   const [loadingMessage, setLoadingMessage] = useState(initialLoadingMessage)
   const [selectedActivity, setSelectedActivity] = useState()
 
   useEffect(() => {
-    const newMap = L.map('map').setView([51.505, -0.09], 13);
+    const newMap = L.map('map', { attributionControl: false }).setView([51.505, -0.09], 13);
     const accessToken = 'pk.eyJ1IjoibGV3aXN5b3VsIiwiYSI6ImNqYzM3a3lndjBhOXQyd24zZnVleGh3c2kifQ.qVH2-BA02t3p62tG72-DZA';
 
     L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
@@ -140,7 +141,7 @@ function Map() {
     if (isLoading) return null
 
     return (
-      <button onClick={refreshActivities} className="shadow-md absolute m-4 z-500 top-0 right-0 whitespace-nowrap inline-flex items-center justify-center px-2 py-1 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-white hover:bg-gray-100 text-purple-600">
+      <button onClick={refreshActivities} className="shadow-md absolute mt-4 mr-8 z-500 top-0 right-0 whitespace-nowrap inline-flex items-center justify-center px-2 py-1 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-white hover:bg-gray-100 text-purple-600">
         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
           <path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
         </svg>
@@ -173,7 +174,7 @@ function Map() {
     const options = ACTIVITY_TYPES.map(option => { return { value: option, label: option, isChecked: false } })
 
     return(
-      <div className="absolute m-4 z-500 bottom-0 left-0 flex">
+      <div className="absolute ml-4 mb-8 z-500 bottom-0 left-0 flex">
         <input id="searchbar" onChange={applySearch} className="shadow-md whitespace-nowrap inline-flex items-center rounded-md justify-center px-2 py-1 border border-transparent shadow-sm text-base font-medium bg-white hover:bg-gray-100"></input>
         <MultiSelect
           key={1}
@@ -242,7 +243,7 @@ function Map() {
                             
   return (
       <div className="w-full flex flex-col justify-end">
-        <div className="w-full h-full flex">
+        <div className="w-full h-full flex bg-pink-300">
           <div className="h-full w-full flex-1" id="map">
             {refreshButton()}
             {filtersBar()}
@@ -251,7 +252,7 @@ function Map() {
             <Panel activity={selectedActivity} closePanel={closePanel}/>
           : null}
         </div>
-        <div id="listContainer" className="overflow-auto h-96 max-h-96">
+        <div id="listContainer" className="rounded-t-xl -mt-4 z-500 overflow-auto h-96 max-h-96">
           {activityList()}
         </div>
       </div>

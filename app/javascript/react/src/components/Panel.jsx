@@ -118,7 +118,7 @@ export default function Panel(props) {
   }
 
   return(
-    <div className="flex-none hidden md:block w-96 px-6 py-6 bg-white overflow-auto">
+    <div className="drop-shadow-lg flex-none hidden md:block w-96 px-6 py-6 bg-white overflow-auto rounded-l-xl z-500 -ml-4">
       {content()}
     </div>
   )

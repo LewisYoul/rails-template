@@ -41,15 +41,15 @@ export default function ActivityList(props) {
     if (isLoading) { return <LoaderWithText width={50} height={50} text={loadingMessage} /> }
 
     return (
-      <div className="relative shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
-        <table className="relative min-w-full">
-          <thead className="sticky top-0 bg-gray-50">
+      <div className="relative ring-1 ring-black ring-opacity-5 md:rounded-lg">
+        <table className="min-w-full table-fixed">
+          <thead className="sticky top-0 bg-white">
             <tr>
-              <th scope="col" className="sticky top-0 whitespace-nowrap py-2 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">Name</th>
-              <th scope="col" className="sticky top-0 whitespace-nowrap px-2 py-2 text-left text-sm font-semibold text-gray-900">Date</th>
-              <th scope="col" className="sticky top-0 whitespace-nowrap px-2 py-2 text-left text-sm font-semibold text-gray-900">Type</th>
-              <th scope="col" className="sticky top-0 whitespace-nowrap px-2 py-2 text-left text-sm font-semibold text-gray-900">Dist (km)</th>
-              <th scope="col" className="sticky top-0 whitespace-nowrap px-2 py-2 text-left text-sm font-semibold text-gray-900">Elev (m)</th>
+              <th scope="col" className="sticky top-0 py-2 pl-4 pr-3 text-left text-sm font-medium text-gray-400 sm:pl-6 w-1/3">NAME</th>
+              <th scope="col" className="sticky top-0 px-2 py-2 text-left text-sm font-medium text-gray-400">DATE</th>
+              <th scope="col" className="sticky top-0 px-2 py-2 text-center text-sm font-medium text-gray-400">TYPE</th>
+              <th scope="col" className="sticky top-0 px-2 py-2 text-right text-sm font-medium text-gray-400">DIST (km)</th>
+              <th scope="col" className="sticky top-0 px-2 py-2 pr-4 text-right text-sm font-medium text-gray-400">ELEV (m)</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200 bg-white">
