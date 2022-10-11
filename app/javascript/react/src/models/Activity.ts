@@ -43,10 +43,7 @@ export default class Activity {
   }
 
   startDateLong() {
-    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
-    let date = new Date(this.activity.start_date)
-
-    return date.toLocaleDateString("en-GB", options as any)
+    return moment(this.activity.start_date).format('MMM. D, YYYY')
   }
 
   totalElevationGain() {

@@ -17,10 +17,6 @@ function MultiSelect(props) {
       return;
     }
 
-    if (document.getElementById('popped')) {
-      L.DomEvent.disableScrollPropagation(document.getElementById('popped'))
-    }
-
     if (!isOpen) { onChange(stateOptions) }
   }, [isOpen])
 

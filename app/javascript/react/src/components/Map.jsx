@@ -34,6 +34,9 @@ function Map() {
       accessToken: accessToken
     }).addTo(newMap);
 
+    L.DomEvent.disableClickPropagation(document.getElementById('filters'))
+    L.DomEvent.disableScrollPropagation(document.getElementById('filters'))
+
     setMap(newMap)
 
     const searchParams = new URLSearchParams(window.location.search)
@@ -174,7 +177,7 @@ function Map() {
     const options = ACTIVITY_TYPES.map(option => { return { value: option, label: option, isChecked: false } })
 
     return(
-      <div className="absolute ml-4 mb-8 z-500 bottom-0 left-0 flex">
+      <div className="absolute ml-4 mb-8 z-500 bottom-0 left-0 flex" id="filters">
         <input id="searchbar" onChange={applySearch} className="shadow-md whitespace-nowrap inline-flex items-center rounded-md justify-center px-2 py-1 border border-transparent shadow-sm text-base font-medium bg-white hover:bg-gray-100"></input>
         <MultiSelect
           key={1}
