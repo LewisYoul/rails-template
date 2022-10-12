@@ -1,174 +1,468 @@
-
-<!-- This example requires Tailwind CSS v2.0+ -->
+<!--
+  This example requires some changes to your config:
+  
+  ```
+  // tailwind.config.js
+  module.exports = {
+    // ...
+    plugins: [
+      // ...
+      require('@tailwindcss/forms'),
+    ],
+  }
+  ```
+-->
 <div class="bg-white">
   <header>
-    <div class="relative bg-white">
-      <div class="flex justify-between items-center max-w-7xl mx-auto px-4 py-6 sm:px-6 md:justify-start md:space-x-10 lg:px-8">
-        <div class="flex justify-start lg:w-0 lg:flex-1">
-          <a href="#">
-            <span class="sr-only">Workflow</span>
-            <img class="h-8 w-auto sm:h-10" src="https://tailwindui.com/img/logos/workflow-mark-purple-600.svg" alt="">
-          </a>
-        </div>
-        <div class="-mr-2 -my-2 md:hidden">
-          <button type="button" class="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-purple-500" aria-expanded="false">
-            <span class="sr-only">Open menu</span>
-            <!-- Heroicon name: outline/menu -->
-            <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" aria-hidden="true">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-          </button>
-        </div>
-
-        <div class="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
-          <%= link_to 'Log In', new_session_path, class: "ml-8 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-purple-700 hover:bg-purple-800" %>
-        </div>
-      </div>
-
-      <!--
-        Mobile menu, show/hide based on mobile menu state.
-
-        Entering: "duration-200 ease-out"
-          From: "opacity-0 scale-95"
-          To: "opacity-100 scale-100"
-        Leaving: "duration-100 ease-in"
-          From: "opacity-100 scale-100"
-          To: "opacity-0 scale-95"
-      -->
-      <div class="absolute z-30 top-0 inset-x-0 p-2 transition transform origin-top-right hidden">
-        <div class="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 bg-white divide-y-2 divide-gray-50">
-          <div class="pt-5 pb-6 px-5">
-            <div class="flex items-center justify-between">
-              <div>
-                <img class="h-8 w-auto" src="https://tailwindui.com/img/logos/workflow-mark-purple-600.svg" alt="Workflow">
-              </div>
-              <div class="-mr-2">
-                <button type="button" class="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-purple-500">
-                  <span class="sr-only">Close menu</span>
-                  <!-- Heroicon name: outline/x -->
-                  <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" aria-hidden="true">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                </button>
-              </div>
-            </div>
-            <div class="mt-6">
-              <nav class="grid grid-cols-1 gap-7">
-                <a href="#" class="-m-3 p-3 flex items-center rounded-lg hover:bg-gray-50">
-                  <div class="flex-shrink-0 flex items-center justify-center h-10 w-10 rounded-md bg-purple-600 text-white">
-                    <!-- Heroicon name: outline/inbox -->
-                    <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" aria-hidden="true">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
-                    </svg>
-                  </div>
-                  <div class="ml-4 text-base font-medium text-gray-900">Inbox</div>
-                </a>
-
-                <a href="#" class="-m-3 p-3 flex items-center rounded-lg hover:bg-gray-50">
-                  <div class="flex-shrink-0 flex items-center justify-center h-10 w-10 rounded-md bg-purple-600 text-white">
-                    <!-- Heroicon name: outline/annotation -->
-                    <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" aria-hidden="true">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
-                    </svg>
-                  </div>
-                  <div class="ml-4 text-base font-medium text-gray-900">Messaging</div>
-                </a>
-
-                <a href="#" class="-m-3 p-3 flex items-center rounded-lg hover:bg-gray-50">
-                  <div class="flex-shrink-0 flex items-center justify-center h-10 w-10 rounded-md bg-purple-600 text-white">
-                    <!-- Heroicon name: outline/chat-alt-2 -->
-                    <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" aria-hidden="true">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z" />
-                    </svg>
-                  </div>
-                  <div class="ml-4 text-base font-medium text-gray-900">Live Chat</div>
-                </a>
-
-                <a href="#" class="-m-3 p-3 flex items-center rounded-lg hover:bg-gray-50">
-                  <div class="flex-shrink-0 flex items-center justify-center h-10 w-10 rounded-md bg-purple-600 text-white">
-                    <!-- Heroicon name: outline/question-mark-circle -->
-                    <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" aria-hidden="true">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                  </div>
-                  <div class="ml-4 text-base font-medium text-gray-900">Knowledge Base</div>
-                </a>
-              </nav>
-            </div>
-          </div>
-          <div class="py-6 px-5">
-            <div class="grid grid-cols-2 gap-4">
-              <a href="#" class="text-base font-medium text-gray-900 hover:text-gray-700"> Pricing </a>
-
-              <a href="#" class="text-base font-medium text-gray-900 hover:text-gray-700"> Partners </a>
-
-              <a href="#" class="text-base font-medium text-gray-900 hover:text-gray-700"> Company </a>
-            </div>
-            <div class="mt-6">
-              <a href="#" class="w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-purple-600 hover:bg-purple-700"> Sign up </a>
-              <p class="mt-6 text-center text-base font-medium text-gray-500">
-                Existing customer?
-                <a href="#" class="text-gray-900"> Sign in </a>
-              </p>
-            </div>
-          </div>
+    <div class="relative overflow-hidden bg-gray-50">
+      <div class="hidden sm:absolute sm:inset-y-0 sm:block sm:h-full sm:w-full" aria-hidden="true">
+        <div class="relative mx-auto h-full max-w-7xl">
+          <svg class="absolute right-full translate-y-1/4 translate-x-1/4 transform lg:translate-x-1/2" width="404" height="784" fill="none" viewBox="0 0 404 784">
+            <defs>
+              <pattern id="f210dbf6-a58d-4871-961e-36d5016a0f49" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+                <rect x="0" y="0" width="4" height="4" class="text-gray-200" fill="currentColor" />
+              </pattern>
+            </defs>
+            <rect width="404" height="784" fill="url(#f210dbf6-a58d-4871-961e-36d5016a0f49)" />
+          </svg>
+          <svg class="absolute left-full -translate-y-3/4 -translate-x-1/4 transform md:-translate-y-1/2 lg:-translate-x-1/2" width="404" height="784" fill="none" viewBox="0 0 404 784">
+            <defs>
+              <pattern id="5d0dd344-b041-4d26-bec4-8d33ea57ec9b" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+                <rect x="0" y="0" width="4" height="4" class="text-gray-200" fill="currentColor" />
+              </pattern>
+            </defs>
+            <rect width="404" height="784" fill="url(#5d0dd344-b041-4d26-bec4-8d33ea57ec9b)" />
+          </svg>
         </div>
       </div>
-    </div>
-  </header>
 
-  <main>
-    <div>
-      <!-- Hero card -->
-      <div class="relative">
-        <div class="absolute inset-x-0 bottom-0 h-1/2 bg-gray-100"></div>
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-          <div class="relative shadow-xl sm:rounded-2xl sm:overflow-hidden">
-            <div class="absolute inset-0">
-              <img class="h-full w-full object-cover" src="hero.png" alt="People working on laptops">
-              <%# <div class="absolute inset-0 bg-purple-100 mix-blend-multiply"></div> %>
-            </div>
-            <div class="relative px-4 py-16 sm:px-6 sm:py-24 lg:py-32 lg:px-8">
-              <div class="text-center text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl flex justify-center">
-                <div class="bg-white px-12 py-4 rounded-lg">
-                  <p class="inline-block text-gray-900">Keep track of your</p><br>
-                  <p class="inline-block text-purple-700">Strava activities</p>
+      <div class="relative pt-6 pb-16 sm:pb-24">
+        <div>
+          <div class="mx-auto max-w-7xl px-4 sm:px-6">
+            <nav class="relative flex items-center justify-between sm:h-10 md:justify-center" aria-label="Global">
+              <div class="flex flex-1 items-center md:absolute md:inset-y-0 md:left-0">
+                <div class="flex w-full items-center justify-between md:w-auto">
+                  <a href="#">
+                    <span class="sr-only">Your Company</span>
+                    <img class="h-8 w-auto sm:h-10" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" alt="">
+                  </a>
+                  <div class="-mr-2 flex items-center md:hidden">
+                    <button type="button" class="inline-flex items-center justify-center rounded-md bg-gray-50 p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500" aria-expanded="false">
+                      <span class="sr-only">Open main menu</span>
+                      <!-- Heroicon name: outline/bars-3 -->
+                      <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                      </svg>
+                    </button>
+                  </div>
                 </div>
               </div>
-              <p class="mt-6 max-w-lg mx-auto text-center text-xl text-gray-900 sm:max-w-3xl">Find, filter and group all of your Strava activities in one place. Never forget where a ride happened.</p>
-              <div class="mt-10 max-w-sm mx-auto sm:max-w-none sm:flex sm:justify-center">
-                <%= link_to 'Get Started', new_session_path, class: "flex items-center justify-center px-4 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-purple-700 bg-white hover:bg-purple-50 sm:px-8" %>
+              <div class="hidden md:flex md:space-x-10">
+                <a href="#features" class="font-medium text-gray-500 hover:text-gray-900">Features</a>
+                <a href="#pricing" class="font-medium text-gray-500 hover:text-gray-900">Pricing</a>
               </div>
+              <div class="hidden md:absolute md:inset-y-0 md:right-0 md:flex md:items-center md:justify-end">
+                <span class="inline-flex rounded-md shadow">
+                  <%= link_to 'Log In', new_session_path, class: "inline-flex items-center rounded-md border border-transparent bg-white px-4 py-2 text-base font-medium text-indigo-600 hover:bg-gray-50" %>
+                </span>
+              </div>
+            </nav>
+          </div>
+
+          <!--
+            Mobile menu, show/hide based on menu open state.
+
+            Entering: "duration-150 ease-out"
+              From: "opacity-0 scale-95"
+              To: "opacity-100 scale-100"
+            Leaving: "duration-100 ease-in"
+              From: "opacity-100 scale-100"
+              To: "opacity-0 scale-95"
+          -->
+          <div class="absolute inset-x-0 top-0 z-10 origin-top-right transform p-2 transition md:hidden">
+            <div class="overflow-hidden rounded-lg bg-white shadow-md ring-1 ring-black ring-opacity-5">
+              <div class="flex items-center justify-between px-5 pt-4">
+                <div>
+                  <img class="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" alt="">
+                </div>
+                <div class="-mr-2">
+                  <button type="button" class="inline-flex items-center justify-center rounded-md bg-white p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
+                    <span class="sr-only">Close menu</span>
+                    <!-- Heroicon name: outline/x-mark -->
+                    <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+              <div class="px-2 pt-2 pb-3">
+                <a href="#" class="block rounded-md px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900">Pricing</a>
+
+                <a href="#" class="block rounded-md px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900">About</a>
+
+                <a href="#" class="block rounded-md px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900">Marketplace</a>
+
+                <a href="#" class="block rounded-md px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900">Company</a>
+              </div>
+              <a href="#" class="block w-full bg-gray-50 px-5 py-3 text-center font-medium text-indigo-600 hover:bg-gray-100">Log in</a>
+            </div>
+          </div>
+        </div>
+
+        <main class="mx-auto mt-16 max-w-7xl px-4 sm:mt-24">
+          <div class="text-center">
+            <h1 class="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl md:text-6xl">
+              <span class="block xl:inline">Keep track of your</span>
+              <span class="block text-indigo-600 xl:inline">Strava activities</span>
+            </h1>
+            <p class="mx-auto mt-3 max-w-md text-base text-gray-500 sm:text-lg md:mt-5 md:max-w-3xl md:text-xl">Find, filter and group all of your Strava activities in one place. Never forget where something happened.</p>
+            <div class="mx-auto mt-5 max-w-md sm:flex sm:justify-center md:mt-8">
+              <%= link_to new_session_path do %>
+                <img class="h-full w-full object-cover" src="strava_orange/btn_strava_connectwith_orange.svg" alt="Strava orange">
+              <% end %>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <div class="relative bg-white">
+  <main>
+    <!-- Alternating Feature Sections -->
+    <div id="features" class="relative overflow-hidden pt-16 pb-32">
+      <div aria-hidden="true" class="absolute inset-x-0 top-0 h-48 bg-gradient-to-b from-gray-100"></div>
+      <div class="relative">
+        <div class="lg:mx-auto lg:grid lg:max-w-7xl lg:grid-flow-col-dense lg:grid-cols-2 lg:gap-24 lg:px-8">
+          <div class="mx-auto max-w-xl px-4 sm:px-6 lg:mx-0 lg:max-w-none lg:py-32 lg:px-0">
+            <div>
+              <div>
+                <span class="flex h-12 w-12 items-center justify-center rounded-md bg-gradient-to-r from-purple-600 to-indigo-600">
+                  <!-- Heroicon name: outline/inbox -->
+                  <svg class="h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
+                  </svg>
+                </span>
+              </div>
+              <div class="mt-6">
+                <h2 class="text-3xl font-bold tracking-tight text-gray-900">All of your activities in one place</h2>
+                <p class="mt-4 text-lg text-gray-500">Automatically sync your Strava activities into Actviti and view and compare metrics across your portfolio. Never lose an activity again and keep track of them with our simple, intuitive user interface.</p>
+                <div class="mt-6">
+                  <%= link_to 'Get started', new_session_path, class: "inline-flex rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700" %>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="mt-12 sm:mt-16 lg:mt-0">
+            <div class="-mr-48 pl-4 sm:pl-6 md:-mr-16 lg:relative lg:m-0 lg:h-full lg:px-0">
+              <img class="w-full rounded-xl shadow-xl ring-1 ring-black ring-opacity-5 lg:absolute lg:left-0 lg:h-full lg:w-auto lg:max-w-none" src="hero.png" alt="Inbox user interface">
             </div>
           </div>
         </div>
       </div>
-
-      <!-- Logo cloud -->
-      <div class="bg-gray-100">
-        <div class="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:px-8">
-          <p class="text-center text-sm font-semibold uppercase text-gray-500 tracking-wide"></p>
-          <div class="mt-6 grid grid-cols-2 gap-8 md:grid-cols-6 lg:grid-cols-5">
-            <div class="col-span-1 flex justify-center md:col-span-2 lg:col-span-1">
-              <%# <img class="h-12" src="https://tailwindui.com/img/logos/tuple-logo-gray-400.svg" alt="Tuple"> %>
+      <div class="mt-24">
+        <div class="lg:mx-auto lg:grid lg:max-w-7xl lg:grid-flow-col-dense lg:grid-cols-2 lg:gap-24 lg:px-8">
+          <div class="mx-auto max-w-xl px-4 sm:px-6 lg:col-start-2 lg:mx-0 lg:max-w-none lg:py-32 lg:px-0">
+            <div>
+              <div>
+                <span class="flex h-12 w-12 items-center justify-center rounded-md bg-gradient-to-r from-purple-600 to-indigo-600">
+                  <!-- Heroicon name: outline/sparkles -->
+                  <svg class="h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75" />
+                  </svg>
+                </span>
+              </div>
+              <div class="mt-6">
+                <h2 class="text-3xl font-bold tracking-tight text-gray-900">Intelligent filtering & grouping</h2>
+                <p class="mt-4 text-lg text-gray-500">Never lose an activity again! Use our custom filters to find activities by name, date, activity type and location. Group similar activities to easily retrieve them later.</p>
+                <div class="mt-6">
+                  <%= link_to 'Get started', new_session_path, class: "inline-flex rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700" %>
+                </div>
+              </div>
             </div>
-            <div class="col-span-1 flex justify-center md:col-span-2 lg:col-span-1">
-              <%# <img class="h-12" src="https://tailwindui.com/img/logos/mirage-logo-gray-400.svg" alt="Mirage"> %>
-            </div>
-            <div class="col-span-1 flex justify-center md:col-span-2 lg:col-span-1">
-              <%# <img class="h-12" src="https://tailwindui.com/img/logos/statickit-logo-gray-400.svg" alt="StaticKit"> %>
-            </div>
-            <div class="col-span-1 flex justify-center md:col-span-2 md:col-start-2 lg:col-span-1">
-              <%# <img class="h-12" src="https://tailwindui.com/img/logos/transistor-logo-gray-400.svg" alt="Transistor"> %>
-            </div>
-            <div class="col-span-2 flex justify-center md:col-span-2 md:col-start-4 lg:col-span-1">
-              <%# <img class="h-12" src="https://tailwindui.com/img/logos/workcation-logo-gray-400.svg" alt="Workcation"> %>
+          </div>
+          <div class="mt-12 sm:mt-16 lg:col-start-1 lg:mt-0">
+            <div class="-ml-48 pr-4 sm:pr-6 md:-ml-16 lg:relative lg:m-0 lg:h-full lg:px-0">
+              <img class="w-full rounded-xl shadow-xl ring-1 ring-black ring-opacity-5 lg:absolute lg:right-0 lg:h-full lg:w-auto lg:max-w-none" src="hero.png" alt="Customer profile user interface">
             </div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- More main page content here... -->
+    <!-- Gradient Feature Section -->
+    <div class="bg-gradient-to-r from-purple-800 to-indigo-700">
+      <div class="mx-auto max-w-4xl px-4 py-16 sm:px-6 sm:pt-20 sm:pb-24 lg:max-w-7xl lg:px-8 lg:pt-24">
+        <h2 class="text-3xl font-bold tracking-tight text-white">Built with simplicity in mind</h2>
+        <p class="mt-4 max-w-3xl text-lg text-purple-200">We provide a clean and user friendly interface that lets you take control.</p>
+        <div class="mt-12 grid grid-cols-1 gap-x-6 gap-y-12 sm:grid-cols-2 lg:mt-16 lg:grid-cols-3 lg:gap-x-8 lg:gap-y-16">
+
+          <div>
+            <div>
+              <span class="flex h-12 w-12 items-center justify-center rounded-md bg-white bg-opacity-10">
+                <svg class="h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 6.75V15m6-6v8.25m.503 3.498l4.875-2.437c.381-.19.622-.58.622-1.006V4.82c0-.836-.88-1.38-1.628-1.006l-3.869 1.934c-.317.159-.69.159-1.006 0L9.503 3.252a1.125 1.125 0 00-1.006 0L3.622 5.689C3.24 5.88 3 6.27 3 6.695V19.18c0 .836.88 1.38 1.628 1.006l3.869-1.934c.317-.159.69-.159 1.006 0l4.994 2.497c.317.158.69.158 1.006 0z" />
+                </svg>
+              </span>
+            </div>
+            <div class="mt-6">
+              <h3 class="text-lg font-medium text-white">Everything On One Map</h3>
+              <p class="mt-2 text-base text-purple-200">See all of your activities on one map, filter them as you see fit.</p>
+            </div>
+          </div>
+
+          <div>
+            <div>
+              <span class="flex h-12 w-12 items-center justify-center rounded-md bg-white bg-opacity-10">
+                <svg class="h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
+                </svg>
+              </span>
+            </div>
+            <div class="mt-6">
+              <h3 class="text-lg font-medium text-white">Location Based Search</h3>
+              <p class="mt-2 text-base text-purple-200">Find your activities by moving the map around. Combine this will additional filters for powerful sorting (coming soon).</p>
+            </div>
+          </div>
+
+          <div>
+            <div>
+              <span class="flex h-12 w-12 items-center justify-center rounded-md bg-white bg-opacity-10">
+                <svg class="h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9.568 3H5.25A2.25 2.25 0 003 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 005.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 009.568 3z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M6 6h.008v.008H6V6z" />
+                </svg>
+              </span>
+            </div>
+            <div class="mt-6">
+              <h3 class="text-lg font-medium text-white">Group Activities</h3>
+              <p class="mt-2 text-base text-purple-200">Add related activities to groups so they can be found and added to later (coming soon).</p>
+            </div>
+          </div>
+
+          <div>
+            <div>
+              <span class="flex h-12 w-12 items-center justify-center rounded-md bg-white bg-opacity-10">
+                <svg class="h-6 w-6 text-white"  xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" />
+                </svg>
+              </span>
+            </div>
+            <div class="mt-6">
+              <h3 class="text-lg font-medium text-white">Insightful Dashboard</h3>
+              <p class="mt-2 text-base text-purple-200">Visualise your daily-yearly performance with our customisable dashboard (coming soon).</p>
+            </div>
+          </div>
+
+          <div>
+            <div>
+              <span class="flex h-12 w-12 items-center justify-center rounded-md bg-white bg-opacity-10">
+                <svg class="h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
+                </svg>
+              </span>
+            </div>
+            <div class="mt-6">
+              <h3 class="text-lg font-medium text-white">Diarised Groups</h3>
+              <p class="mt-2 text-base text-purple-200">Publish your groups as a journal. Choose to make these public or private (coming soon).</p>
+            </div>
+          </div>
+
+          <div>
+            <div>
+              <span class="flex h-12 w-12 items-center justify-center rounded-md bg-white bg-opacity-10">
+                <!-- Heroicon name: outline/document-chart-bar -->
+                <svg class="h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25M9 16.5v.75m3-3v3M15 12v5.25m-4.5-15H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+                </svg>
+              </span>
+            </div>
+            <div class="mt-6">
+              <h3 class="text-lg font-medium text-white">No Social</h3>
+              <p class="mt-2 text-base text-purple-200">Actviti is entirely private. Only publish things you want to be seen (coming soon).</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-white">
+      <div id="pricing" class="pt-12 sm:pt-16 lg:pt-24">
+        <div class="mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
+          <div class="mx-auto max-w-3xl space-y-2 lg:max-w-none">
+            <p class="text-3xl font-bold tracking-tight text-gray-900">A plan that's right for you</p>
+            <p class="mt-4 text-lg text-gray-500">Pick a plan that suits your needs.</p>
+          </div>
+        </div>
+      </div>
+      <div class="mt-8 pb-12 sm:mt-12 sm:pb-16 lg:mt-16 lg:pb-24">
+        <div class="relative">
+          <div class="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div class="mx-auto max-w-md space-y-4 lg:grid lg:max-w-5xl lg:grid-cols-2 lg:gap-5 lg:space-y-0">
+              <div class="flex flex-col overflow-hidden rounded-lg border border-gray-200 shadow-sm">
+                <div class="bg-white px-6 py-8 sm:p-10 sm:pb-6">
+                  <div>
+                    <h3 class="inline-flex rounded-full bg-indigo-100 px-4 py-1 text-base font-semibold text-indigo-600" id="tier-standard">Free</h3>
+                  </div>
+                  <div class="mt-4 flex items-baseline text-6xl font-bold tracking-tight">
+                    $0
+                    <span class="ml-1 text-2xl font-medium tracking-normal text-gray-500">/yr</span>
+                  </div>
+                  <p class="mt-5 text-lg text-gray-500">Access your most recent activities. Intelligent filtering and grouping.</p>
+                </div>
+                <div class="flex flex-1 flex-col justify-between space-y-6 bg-gray-50 px-6 pt-6 pb-8 sm:p-10 sm:pt-6">
+                  <ul role="list" class="space-y-4">
+                    <li class="flex items-start">
+                      <div class="flex-shrink-0">
+                        <!-- Heroicon name: outline/check -->
+                        <svg class="h-6 w-6 text-green-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                        </svg>
+                      </div>
+                      <p class="ml-3 text-base text-gray-700">Access your 30 most recent activities.</p>
+                    </li>
+
+                    <li class="flex items-start">
+                      <div class="flex-shrink-0">
+                        <!-- Heroicon name: outline/check -->
+                        <svg class="h-6 w-6 text-green-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                        </svg>
+                      </div>
+                      <p class="ml-3 text-base text-gray-700">Summary dashboard</p>
+                    </li>
+
+                    <li class="flex items-start">
+                      <div class="flex-shrink-0">
+                        <!-- Heroicon name: outline/check -->
+                        <svg class="h-6 w-6 text-green-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                        </svg>
+                      </div>
+                      <p class="ml-3 text-base text-gray-700">Up to 5 activity groups</p>
+                    </li>
+
+                    <li class="flex items-start">
+                      <div class="flex-shrink-0">
+                        <!-- Heroicon name: outline/check -->
+                        <svg class="h-6 w-6 text-green-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                        </svg>
+                      </div>
+                      <p class="ml-3 text-base text-gray-700">Filter activities by name, date and group</p>
+                    </li>
+                  </ul>
+                  <div class="rounded-md shadow">
+                    <%= link_to 'Get started', new_session_path, class: "flex items-center justify-center rounded-md border border-transparent bg-gray-800 px-5 py-3 text-base font-medium text-white hover:bg-gray-900" %>
+                  </div>
+                </div>
+              </div>
+
+              <div class="flex flex-col overflow-hidden rounded-lg border border-gray-200 shadow-sm">
+                <div class="bg-white px-6 py-8 sm:p-10 sm:pb-6">
+                  <div>
+                    <h3 class="inline-flex rounded-full bg-indigo-100 px-4 py-1 text-base font-semibold text-indigo-600" id="tier-standard">Pro</h3>
+                  </div>
+                  <div class="mt-4 flex items-baseline text-6xl font-bold tracking-tight">
+                    $10
+                    <span class="ml-1 text-2xl font-medium tracking-normal text-gray-500">/yr</span>
+                  </div>
+                  <p class="mt-5 text-lg text-gray-500">Access all of your most recent activities. Unlimited groups. Filter by location.</p>
+                </div>
+                <div class="flex flex-1 flex-col justify-between space-y-6 bg-gray-50 px-6 pt-6 pb-8 sm:p-10 sm:pt-6">
+                  <ul role="list" class="space-y-4">
+                    <li class="flex items-start">
+                      <div class="flex-shrink-0">
+                        <!-- Heroicon name: outline/check -->
+                        <svg class="h-6 w-6 text-green-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                        </svg>
+                      </div>
+                      <p class="ml-3 text-base text-gray-700">Access all of your activities</p>
+                    </li>
+
+                    <li class="flex items-start">
+                      <div class="flex-shrink-0">
+                        <!-- Heroicon name: outline/check -->
+                        <svg class="h-6 w-6 text-green-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                        </svg>
+                      </div>
+                      <p class="ml-3 text-base text-gray-700">Customisable dashboard</p>
+                    </li>
+
+                    <li class="flex items-start">
+                      <div class="flex-shrink-0">
+                        <!-- Heroicon name: outline/check -->
+                        <svg class="h-6 w-6 text-green-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                        </svg>
+                      </div>
+                      <p class="ml-3 text-base text-gray-700">Unlimited groups</p>
+                    </li>
+
+                    <li class="flex items-start">
+                      <div class="flex-shrink-0">
+                        <!-- Heroicon name: outline/check -->
+                        <svg class="h-6 w-6 text-green-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                        </svg>
+                      </div>
+                      <p class="ml-3 text-base text-gray-700">Filter activities by location</p>
+                    </li>
+                  </ul>
+                  <div class="rounded-md shadow">
+                    <%= link_to 'Get started', new_session_path, class: "flex items-center justify-center rounded-md border border-transparent bg-gray-800 px-5 py-3 text-base font-medium text-white hover:bg-gray-900" %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </main>
+
+  <footer class="bg-white">
+    <div class="mx-auto max-w-7xl overflow-hidden py-12 px-4 sm:px-6 lg:px-8">
+      <nav class="-mx-5 -my-2 flex flex-wrap justify-center" aria-label="Footer">
+        <div class="px-5 py-2">
+          <a href="#" class="text-base text-gray-500 hover:text-gray-900">About</a>
+        </div>
+
+        <div class="px-5 py-2">
+          <a href="#" class="text-base text-gray-500 hover:text-gray-900">Blog</a>
+        </div>
+
+        <div class="px-5 py-2">
+          <a href="#" class="text-base text-gray-500 hover:text-gray-900">Contact</a>
+        </div>
+      </nav>
+      <div class="mt-8 flex justify-center space-x-6">
+        <a href="#" class="text-gray-400 hover:text-gray-500">
+          <span class="sr-only">Facebook</span>
+          <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd" />
+          </svg>
+        </a>
+
+        <a href="#" class="text-gray-400 hover:text-gray-500">
+          <span class="sr-only">Instagram</span>
+          <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path fill-rule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z" clip-rule="evenodd" />
+          </svg>
+        </a>
+
+        <a href="#" class="text-gray-400 hover:text-gray-500">
+          <span class="sr-only">Twitter</span>
+          <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84" />
+          </svg>
+        </a>
+      </div>
+
+      <p class="mt-8 text-center text-base text-gray-400">&copy; <%= Date.today.strftime('%Y') %> Actviti, Inc. All rights reserved.</p>
+    </div>
+  </footer>
 </div>
