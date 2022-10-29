@@ -15,7 +15,6 @@ function Map() {
   const [activities, setActivities] = useState([])
   const [map, setMap] = useState()
   const [isLoading, setIsLoading] = useState(true)
-  // const [searchTerm, setSearchTerm] = useState('')
   const [showFilters, setShowFilters] = useState(false)
   const [filters, setFilters] = useState({})
   const [loadingMessage, setLoadingMessage] = useState(initialLoadingMessage)
@@ -137,7 +136,6 @@ function Map() {
     fetchActivities(map, filtersDup)
     setFilters(filtersDup)
     setIsLoading(true)
-    setShowFilters(false)
   }
 
   const refreshButton = () => {
@@ -160,7 +158,6 @@ function Map() {
     fetchActivities(map, {})
     setFilters({})
     setIsLoading(true)
-    setShowFilters(false)
   }
 
   const typesDisplayLabel = () => {
@@ -171,6 +168,14 @@ function Map() {
     if (typesCount === 0) { return '' }
 
     return ` (${typesCount})`
+  }
+
+  const dateDisplayLabel = () => {
+    if (!filters['start_date'] && !filters['end_date']) { return 'Date' }
+    if (filters['start_date'] && !filters['end_date']) { return `>= ${filters['start_date']}` }
+    if (filters['end_date'] && !filters['start_date']) { return `<= ${filters['end_date']}` }
+
+    return `${filters['start_date']} - ${filters['end_date']}`
   }
 
   const filtersBar = () => {
@@ -186,14 +191,11 @@ function Map() {
           triggerContent={<span>Type{typesDisplayLabel()}</span>}
           options={options}
         />
-        <DateFilter onClose={applyDateFilters} />
+        <DateFilter startDate={filters['start_date']} endDate={filters['end_date']} displayText={dateDisplayLabel()} onClose={applyDateFilters} />
         <button onClick={clearFilters} className="flex items-center bg-gray-200 p-2 rounded-md ml-2 shadow-md">
           Clear All
         </button>
-        {/* <div className="flex items-center bg-white p-2 rounded-md ml-2 shadow-md">
-          <span>Date</span>
-        </div>
-        <div className="flex items-center bg-white p-2 rounded-md ml-2 shadow-md">
+        {/*<div className="flex items-center bg-white p-2 rounded-md ml-2 shadow-md">
           <span>Distance</span>
         </div> */}
       </div>
@@ -203,7 +205,6 @@ function Map() {
   const applyDateFilters = (dateFilters) => {
     const startDate = dateFilters[0]
     const endDate = dateFilters[1]
-    console.log('got filters', dateFilters)
 
     let newFilters = Object.assign({}, filters)
 
@@ -213,7 +214,6 @@ function Map() {
     setFilters(newFilters)
     setIsLoading(true)
     fetchActivities(map, newFilters)
-    setShowFilters(false)
   }
 
   const applySearch = debounce((event) => {
@@ -229,7 +229,6 @@ function Map() {
     setFilters(newFilters)
     setIsLoading(true)
     fetchActivities(map, newFilters)
-    setShowFilters(false)
   }, 400)
 
   const activityList = () => {

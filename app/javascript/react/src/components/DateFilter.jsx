@@ -3,9 +3,14 @@ import moment from 'moment';
 import Filter from './Filter'
 
 function DateFilter(props) {
-  const { onClose } = props;
-  const [startDate, setStartDate] = useState('');
-  const [endDate, setEndDate] = useState('');
+  const { startDate, endDate, displayText, onClose } = props;
+  const [localStartDate, setLocalStartDate] = useState(startDate);
+  const [localEndDate, setLocalEndDate] = useState(endDate);
+
+  useEffect(() => {
+    setLocalStartDate(startDate)
+    setLocalEndDate(endDate)
+  }, [startDate, endDate])
 
   const stageDateSelection = (dateType, date) => {
     if (dateType === 'start') {
@@ -14,34 +19,25 @@ function DateFilter(props) {
         // TODO: pop a toast to explain that start must be <= end
       }
       
-      setStartDate(date)
+      setLocalStartDate(date)
     } else if (dateType === 'end') {
       if (startDate && moment(date).isBefore(startDate)) {
         return
         // TODO: pop a toast to explain that start must be <= end
       }
 
-      setEndDate(date)
+      setLocalEndDate(date)
     }
   }
 
   const clearDates = () => {
-    setStartDate('')
-    setEndDate('')
-  }
-
-  const displayLabel = () => {
-    if (!startDate && !endDate) { return 'Date' }
-    if (startDate && !endDate) { return `>= ${startDate}` }
-    if (endDate && !startDate) { return `<= ${endDate}` }
-
-    return `${startDate} - ${endDate}`
+    onClose([null, null])
   }
 
   return(
-    <Filter onClose={() => onClose([startDate, endDate])} triggerContent={<span>{displayLabel()}</span>}>
-      <div className="flex justify-between"><span>From</span><input type="date" value={startDate} onChange={(event) => { stageDateSelection('start', event.target.value) }}></input></div>
-      <div className="flex justify-between"><span>To</span><input type="date" value={endDate} onChange={(event) => { stageDateSelection('end', event.target.value) }}></input></div>
+    <Filter onClose={() => onClose([localStartDate, localEndDate])} triggerContent={<span>{displayText}</span>}>
+      <div className="flex justify-between"><span>From</span><input type="date" value={localStartDate} onChange={(event) => { stageDateSelection('start', event.target.value) }}></input></div>
+      <div className="flex justify-between"><span>To</span><input type="date" value={localEndDate} onChange={(event) => { stageDateSelection('end', event.target.value) }}></input></div>
 
       <div className="mt-2 flex justify-between">
         <button className="hover:underline" onClick={clearDates}>Clear</button>
