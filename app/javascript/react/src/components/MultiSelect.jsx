@@ -112,8 +112,8 @@ function MultiSelect(props) {
   }
 
   return (
-    <div className={className} onClick={togglePopover}>
-      <div className="flex items-center">
+    <div className={className}>
+      <div className="flex items-center p-2 cursor-pointer" onClick={togglePopover}>
         <button>
           {props.triggerContent}
         </button>
