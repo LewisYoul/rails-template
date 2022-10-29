@@ -46,7 +46,7 @@ export default function Panel(props) {
         <div>
           <div className="flex items-start justify-between">
             <div>
-              <Badge className={`${activity.bgColorClass()} ${activity.textColorClass()}`}>{activity.type()}</Badge>
+              {activity.icon()}
               <span className="ml-2 text-sm text-gray-700">{activity.startDateLong()}</span>
             </div>
             <div className="ml-3 flex h-7 items-center">
