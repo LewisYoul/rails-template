@@ -28,10 +28,10 @@ export default function Panel(props) {
     if (!hasPhotos()) { return }
 
     return (
-      <div className="divide-x-4 divide-white mr-4 bg-gray-200 w-full h-40 overflow-x-auto flex bg-black">
+      <div className="mr-4 bg-white w-full h-40 overflow-x-auto flex">
         {fetchedActivity.photos.map((photo) => {
           return (
-            <img className="flex-none object-cover w-40 h-40 hover:opacity-90" src={photo.url.replace('-48x64.', '-576x768.').replace('-64x48.', '-768x576.')}></img>
+            <img className="flex-none object-cover w-40 h-40 hover:opacity-90" src={photo.url}></img>
           )
         })}
       </div>

@@ -10,7 +10,7 @@ class StravaClient
   end
 
   def activity_photos(activity_strava_id)
-    with_token_refresh { client.activity_photos(activity_strava_id) }
+    with_token_refresh { client.activity_photos(activity_strava_id, { id: activity_strava_id, photo_sources: true, size: 2048 }) }
   end
 
   private

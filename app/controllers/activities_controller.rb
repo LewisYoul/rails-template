@@ -24,7 +24,7 @@ class ActivitiesController < ApplicationController
               activity.photos.create!(
                 unique_id: photo.unique_id,
                 default_photo: photo.default_photo,
-                url: photo.urls['1800']
+                url: photo.urls['2048']
               )
             end
 
