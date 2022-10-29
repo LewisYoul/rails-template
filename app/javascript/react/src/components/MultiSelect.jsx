@@ -73,6 +73,12 @@ function MultiSelect(props) {
     let stateOptionsForDisplay = options.filter(option => {
       return option.label.toLowerCase().includes(searchValue)
     })
+
+    stateOptionsForDisplay = stateOptionsForDisplay.map(option => {
+      option.isChecked = stateOptions.find(stateOption => stateOption.label === option.label)?.isChecked || false
+
+      return option
+    })
     console.log('opts', stateOptionsForDisplay)
 
     setStateOptions(stateOptionsForDisplay)
