@@ -35,8 +35,8 @@ function Filter(props) {
   }
 
   return (
-    <div className="flex items-center bg-white p-2 rounded-md ml-2 shadow-md relative">
-      <div className="flex items-center" onClick={togglePopover}>
+    <div className="flex items-center bg-white p-2 rounded-md ml-2 shadow-md relative cursor-pointer" onClick={togglePopover}>
+      <div className="flex items-center">
         <button>
           {props.triggerContent}
         </button>

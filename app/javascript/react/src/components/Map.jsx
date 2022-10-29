@@ -187,7 +187,7 @@ function Map() {
         <MultiSelect
           key={1}
           onChange={applyTypeFilters}
-          className="flex items-center bg-white p-2 rounded-md ml-2 shadow-md relative"
+          className="flex items-center bg-white rounded-md p-2 ml-2 shadow-md relative cursor-pointer"
           triggerContent={<span>Type{typesDisplayLabel()}</span>}
           options={options}
         />
