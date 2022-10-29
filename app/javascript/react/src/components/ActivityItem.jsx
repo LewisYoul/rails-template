@@ -18,8 +18,8 @@ export default function ActivityItem(props) {
     <tr id={activity.id} className={classes()} onClick={selectActivity}>
       <td className="py-1.5 pl-4 pr-3 text-sm text-gray-900 sm:pl-6 w-1/3">{activity.name()}</td>
       <td className="px-2 py-1.5 text-sm text-gray-900">{activity.startDateLong()}</td>
-      <td className="px-2 py-1.5 text-sm text-gray-900 text-center">
-        <Badge className={`${activity.bgColorClass()} ${activity.textColorClass()}`}>{activity.type()}</Badge>
+      <td className="px-2 py-1.5 text-xl text-gray-900 text-center">
+        {activity.icon() || activity.activity.activity_type}
       </td>
       <td className="px-2 py-1.5 text-sm text-right text-gray-900">{activity.distance()}</td>
       <td className="px-2 pr-4 py-1.5 text-sm text-right text-gray-900">{activity.totalElevationGain()}</td>

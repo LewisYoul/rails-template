@@ -23,6 +23,49 @@ export default class Activity {
     })
   }
 
+  emojis = {
+    alpineski: "⛷️",
+    backcountryski: "🌲⛷️",
+    canoeing: "🚣🏿‍♀️",
+    crossfit: "👟🏋️",
+    ebikeride: "⚡🚲",
+    elliptical: "👟🚲",
+    emountainbikeride: "⚡🚵",
+    golf: "🏌️",
+    gravelride: "🪨🚲",
+    handcycle: "✋🚲",
+    hike: "🥾",
+    iceskate: "⛸️",
+    inlineskate: "🛼",
+    kayaking: "🛶",
+    kitesurf: "🪁🏄",
+    mountainbikeride: "🚵",
+    nordicski: "🇳🇴⛷️",
+    ride: "🚲",
+    rockclimbing: "🧗",
+    rollerski: "🛼⛷️",
+    rowing: "🚣",
+    run: "👟",
+    sail: "⛵",
+    skateboard: "🛹",
+    snowboard: "🏂",
+    snowshoe: "❄️🥾",
+    soccer: "⚽",
+    stairstepper: "🪜",
+    standuppaddling: "🧍🛶",
+    swim: "🏊",
+    trailrun: "🌲👟",
+    velomobile: "🚲🚗",
+    virtualride: "🖥️🚲",
+    virtualrun: "🖥️👟",
+    walk: "👞",
+    weighttraining: "🏋️",
+    wheelchair: "🦽",
+    windsurf: "🌬️🏄",
+    workout: "🎽",
+    yoga: "🧘"
+  }
+
   boundingBox() {
     return turf.bbox(this.asGeoJSON() as any)
   }
@@ -32,7 +75,7 @@ export default class Activity {
   }
 
   icon() {
-    return `${this.activity.type.toLowerCase()}.svg`
+    return this.emojis[this.activity.activity_type.toLowerCase()]
   }
 
   startDateShort() {
