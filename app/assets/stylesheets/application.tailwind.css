@@ -15,3 +15,11 @@ body {
 .z-600 {
   z-index: 600;
 }
+
+.strava-orange {
+  color: #fc4c02;
+}
+
+.decoration-strava {
+  text-decoration-color: #fc4c02;
+}
