@@ -6,5 +6,10 @@ module.exports = {
     './app/javascript/**/*.js',
     './app/javascript/**/*.ts',
     './app/javascript/**/*.jsx'
-  ]
+  ],
+  theme: {
+    fontFamily: {
+      'sans': ['Lato']
+    }
+  }
 }
