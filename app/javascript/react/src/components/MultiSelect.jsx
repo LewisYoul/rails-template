@@ -12,6 +12,13 @@ function MultiSelect(props) {
 
   //  this needs doing so onchange is only triggered when the options change
   useEffect(() => {
+    const typePopoverEl = document.getElementById('typePopover');
+
+    if (typePopoverEl) {
+      L.DomEvent.disableClickPropagation(typePopoverEl)
+      L.DomEvent.disableScrollPropagation(typePopoverEl)
+    }
+
     if (firstUpdate.current) {
       firstUpdate.current = false;
       return;
@@ -88,7 +95,7 @@ function MultiSelect(props) {
     if (!isOpen) { return null }
 
     return (
-      <div ref={popoverRef} className="bg-white absolute left-0 bottom-10 w-48 z-600 shadow-md rounded-md px-2 py-2">
+      <div id="typePopover" ref={popoverRef} className="bg-white absolute left-0 bottom-10 w-48 z-600 shadow-md rounded-md px-2 py-2">
         <div className="relative">
           <input className="w-full border-b border-gray-400 py-1 pl-1" type="text" value={searchTerm} onChange={handleFilter}></input>
           <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-1">

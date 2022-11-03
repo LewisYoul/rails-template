@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react'
 import clickOutside from '../utils/clickOutside'
+import L from 'leaflet'
 
 function Filter(props) {
   const { onApply, onClear } = props;
@@ -7,14 +8,14 @@ function Filter(props) {
   const [isOpen, setIsOpen] = useState(false)
   const firstUpdate = useRef(true);
 
-  // useEffect(() => {
-  //   if (firstUpdate.current) {
-  //     firstUpdate.current = false;
-  //     return;
-  //   }
+  useEffect(() => {
+    const datePopoverEl = document.getElementById('datePopover')
 
-  //   // if (!isOpen) { onClose() }
-  // }, [isOpen])
+    if (!datePopoverEl) { return }
+
+    L.DomEvent.disableClickPropagation(datePopoverEl)
+    L.DomEvent.disableScrollPropagation(datePopoverEl)
+  }, [isOpen])
 
   clickOutside(popoverRef, () => {
     setIsOpen(false)
@@ -33,7 +34,7 @@ function Filter(props) {
     if (!isOpen) { return null }
 
     return (
-      <div ref={popoverRef} className="bg-white absolute left-0 bottom-10 w-48 z-600 shadow-md rounded-md px-2 py-2">
+      <div id="datePopover" ref={popoverRef} className="bg-white absolute left-0 bottom-10 w-48 z-600 shadow-md rounded-md px-2 py-2">
         <div>{props.children}</div>
         
         <div className="mt-2 flex justify-between">
@@ -45,7 +46,7 @@ function Filter(props) {
   }
 
   return (
-    <div className="flex items-center bg-white rounded-md ml-2 shadow-md relative">
+    <div id="dateFilter" className="flex items-center bg-white rounded-md ml-2 shadow-md relative">
       <div className="flex items-center p-2 cursor-pointer" onClick={togglePopover}>
         <button>
           {props.triggerContent}

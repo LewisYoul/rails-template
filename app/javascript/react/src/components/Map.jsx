@@ -33,8 +33,9 @@ function Map() {
       accessToken: accessToken
     }).addTo(newMap);
 
-    L.DomEvent.disableClickPropagation(document.getElementById('filters'))
-    L.DomEvent.disableScrollPropagation(document.getElementById('filters'))
+
+    // L.DomEvent.disableClickPropagation(document.getElementById('typeFilter'))
+    // L.DomEvent.disableScrollPropagation(document.getElementById('typeFilter'))
 
     setMap(newMap)
 
