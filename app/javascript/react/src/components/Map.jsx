@@ -191,6 +191,9 @@ function Map() {
           className="flex items-center bg-white rounded-md ml-2 shadow-md relative"
           triggerContent={<span>Type{typesDisplayLabel()}</span>}
           options={options}
+          selectedOptions={(filters.activity_types || []).map((label) => {
+            return options.find((opt) => { return opt.label === label})
+          })}
         />
         <DateFilter startDate={filters['start_date'] || ''} endDate={filters['end_date'] || ''} displayText={dateDisplayLabel()} onApply={applyDateFilters} />
         <button onClick={clearFilters} className="flex items-center bg-gray-200 p-2 rounded-md ml-2 shadow-md">

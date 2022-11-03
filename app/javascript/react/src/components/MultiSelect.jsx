@@ -3,7 +3,7 @@ import clickOutside from '../utils/clickOutside'
 import L from 'leaflet'    
 
 function MultiSelect(props) {
-  const { options, onChange, className } = props
+  const { options, selectedOptions, onChange, className } = props
   const popoverRef = useRef(null)
   const [isOpen, setIsOpen] = useState(false)
   const [stateOptions, setStateOptions] = useState(options)
@@ -19,13 +19,17 @@ function MultiSelect(props) {
       L.DomEvent.disableScrollPropagation(typePopoverEl)
     }
 
-    if (firstUpdate.current) {
-      firstUpdate.current = false;
-      return;
-    }
-
-    if (!isOpen) { onChange(stateOptions) }
+    // if (firstUpdate.current) {
+    //   firstUpdate.current = false;
+    //   return;
+    // }
+    console.log('im', isOpen)
+    // if (!isOpen) { onChange(stateOptions) }
   }, [isOpen])
+
+  useEffect(() => {
+    console.log('sel', selectedOptions)
+  }, [selectedOptions])
 
   clickOutside(popoverRef, () => {
     setIsOpen(false)
@@ -91,6 +95,11 @@ function MultiSelect(props) {
     setStateOptions(stateOptionsForDisplay)
   }
 
+  const applyFilters = () => {
+    setIsOpen(false)
+    onChange(stateOptions)
+  }
+
   const popoverContent = () => {
     if (!isOpen) { return null }
 
@@ -117,8 +126,11 @@ function MultiSelect(props) {
           }
         </div>
         <div className="mt-2 flex justify-between">
-          <button className="hover:underline" onClick={clearOpts}>Clear</button>
-          <button className="hover:underline" onClick={selectAll}>All</button>
+            <button className="hover:underline font-medium" onClick={selectAll}>All</button>
+          <div>
+            <button className="hover:underline" onClick={clearOpts}>Clear</button>
+            <button className="ml-2 hover:underline font-medium" onClick={applyFilters}>Apply</button>
+          </div>
         </div>
       </div>
     )
