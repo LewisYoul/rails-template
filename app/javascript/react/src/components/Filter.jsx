@@ -2,19 +2,19 @@ import React, { useState, useRef, useEffect } from 'react'
 import clickOutside from '../utils/clickOutside'
 
 function Filter(props) {
-  const { onClose } = props;
+  const { onApply, onClear } = props;
   const popoverRef = useRef(null)
   const [isOpen, setIsOpen] = useState(false)
   const firstUpdate = useRef(true);
 
-  useEffect(() => {
-    if (firstUpdate.current) {
-      firstUpdate.current = false;
-      return;
-    }
+  // useEffect(() => {
+  //   if (firstUpdate.current) {
+  //     firstUpdate.current = false;
+  //     return;
+  //   }
 
-    if (!isOpen) { onClose() }
-  }, [isOpen])
+  //   // if (!isOpen) { onClose() }
+  // }, [isOpen])
 
   clickOutside(popoverRef, () => {
     setIsOpen(false)
@@ -24,12 +24,22 @@ function Filter(props) {
     setIsOpen(!isOpen)
   }
 
+  const applyFilters = () => {
+    setIsOpen(false)
+    onApply()
+  }
+
   const popoverContent = () => {
     if (!isOpen) { return null }
 
     return (
       <div ref={popoverRef} className="bg-white absolute left-0 bottom-10 w-48 z-600 shadow-md rounded-md px-2 py-2">
         <div>{props.children}</div>
+        
+        <div className="mt-2 flex justify-between">
+          <button className="hover:underline" onClick={onClear}>Clear</button>
+          <button className="hover:underline font-medium" onClick={applyFilters}>Apply</button>
+        </div>
       </div>
     )
   }
