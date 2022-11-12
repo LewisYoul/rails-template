@@ -29,6 +29,16 @@ function MultiSelect(props) {
 
   useEffect(() => {
     console.log('sel', selectedOptions)
+
+    let stateOpts = options.map(opt => opt)
+
+    stateOpts.map((opt) => {
+      opt.isChecked = selectedOptions.find((o) => { return o.label === opt.label})
+
+      opt
+    })
+
+    setStateOptions(stateOpts)
   }, [selectedOptions])
 
   clickOutside(popoverRef, () => {
@@ -81,21 +91,28 @@ function MultiSelect(props) {
 
     setSearchTerm(searchValue)
 
-    let stateOptionsForDisplay = options.filter(option => {
-      return option.label.toLowerCase().includes(searchValue)
-    })
-
-    stateOptionsForDisplay = stateOptionsForDisplay.map(option => {
-      option.isChecked = stateOptions.find(stateOption => stateOption.label === option.label)?.isChecked || false
+    let stateOptionsForDisplay = options.map(option => {
+      if (option.label.toLowerCase().includes(searchValue)) {
+        option.hidden = false
+      } else {
+        option.hidden = true
+      }
 
       return option
     })
+
+    // stateOptionsForDisplay = stateOptionsForDisplay.map(option => {
+    //   option.isChecked = stateOptions.find(stateOption => stateOption.label === option.label)?.isChecked || false
+
+    //   return option
+    // })
     console.log('opts', stateOptionsForDisplay)
 
     setStateOptions(stateOptionsForDisplay)
   }
 
   const applyFilters = () => {
+    setSearchTerm('')
     setIsOpen(false)
     onChange(stateOptions)
   }
@@ -117,8 +134,8 @@ function MultiSelect(props) {
           {
             stateOptions.map((option) => {
               return (
-                <div key={option.label} className="hover:text-gray-600 flex items-center">
-                  <input onChange={(e) => { toggleFilter(option, e) }} type="checkbox" id={option.label} name={option.label} checked={option.isChecked} defaultChecked={option.isChecked} value="Bike"></input>
+                <div key={option.label} className={`hover:text-gray-600 flex items-center ${option.hidden ? 'hidden' : ''}`}>
+                  <input onChange={(e) => { toggleFilter(option, e) }} type="checkbox" id={option.label} name={option.label} checked={option.isChecked} value="Bike"></input>
                   <label htmlFor={option.label} className="w-full ml-1 cursor-pointer">{option.label}</label>
                 </div>
               )
