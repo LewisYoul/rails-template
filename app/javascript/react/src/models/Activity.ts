@@ -66,6 +66,13 @@ export default class Activity {
     yoga: "🧘"
   }
 
+  update(activity: any) {
+    this.activity = activity;
+    this.removeFromMap()
+    this.layer = L.geoJSON(this.geoJSON())
+    this.addToMap()
+  }
+
   boundingBox() {
     return turf.bbox(this.summaryGeoJSON() as any)
   }

@@ -64,7 +64,9 @@ function Map() {
 
     nonSelectedActivities.forEach((activity) => { activity.sendToBackground() })
 
-    if (selectedActivity) { selectedActivity.flyTo() }
+    if (selectedActivity) {
+      selectedActivity.flyTo()
+    }
 
     map?.invalidateSize()
   }, [selectedActivity])
@@ -103,9 +105,21 @@ function Map() {
       if (selectedActivity === activity) {
         setSelectedActivity(undefined);
       } else {
-        setSelectedActivity(activity);
+        Actviti.activity(activity.id)
+          .then(res => {
+            activity.update(res.data)
+            setSelectedActivity(activity);
+          })
+          .catch(console.error)
       }
     } else {
+      Actviti.activity(activity.id)
+        .then(res => {
+          activity.update(res.data)
+          setSelectedActivity(activity);
+        })
+        .catch(console.error)
+
       setSelectedActivity(activity);
     }
   }

@@ -10,18 +10,14 @@ export default function Panel(props) {
   const [requiresLoad, setRequiresLoad] = React.useState(true);
 
   React.useEffect(() => {
-    setIsLoading(true)
-
-    Actviti.activity(activity.id)
-      .then(res => {
-        setIsLoading(false)
-        setFetchedActivity(res.data)
-      })
-      .catch(console.error)
+    setIsLoading(false)
+    console.log('sel ac', activity)
   }, [activity])
 
   const hasPhotos = () => {
-    return fetchedActivity?.photos.length > 0
+    console.log("activity", activity)
+    console.log("activity.activity", activity.activity)
+    return activity.activity.photos?.length > 0
   }
 
   const photosEl = () => {
@@ -29,7 +25,7 @@ export default function Panel(props) {
 
     return (
       <div className="mr-4 bg-white w-full h-40 overflow-x-auto flex">
-        {fetchedActivity.photos.map((photo) => {
+        {activity.activity.photos.map((photo) => {
           return (
             <img className="flex-none object-cover w-40 h-40 hover:opacity-90" src={photo.url}></img>
           )
@@ -39,7 +35,7 @@ export default function Panel(props) {
   }
 
   const content = () => {
-    if (isLoading || (activity?.id !== fetchedActivity?.id)) {
+    if (isLoading || (activity?.id !== activity?.id)) {
       return <LoaderWithText text='Fetching your activity' width={50} height={50} /> 
     } else {
       return (
