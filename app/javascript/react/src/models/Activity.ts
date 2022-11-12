@@ -12,7 +12,7 @@ export default class Activity {
   constructor(activity: any, map: any, selectActivity: Function) {
     this.activity = activity;
     this.map = map;
-    this.layer = L.geoJSON(this.asGeoJSON())
+    this.layer = L.geoJSON(this.summaryGeoJSON())
     this.id = activity.id
 
     this.layer.on({
@@ -67,7 +67,7 @@ export default class Activity {
   }
 
   boundingBox() {
-    return turf.bbox(this.asGeoJSON() as any)
+    return turf.bbox(this.summaryGeoJSON() as any)
   }
 
   coordinates() {
@@ -181,8 +181,14 @@ export default class Activity {
 
   }
 
-  asGeoJSON() {
+  summaryGeoJSON() {
     return polyline.toGeoJSON(this.activity.summary_polyline)
+  }
+
+  geoJSON() {
+    if (!this.activity.polyline) { return undefined }
+
+    return polyline.toGeoJSON(this.activity.polyline)
   }
 
   googlePolyline() {
@@ -191,7 +197,6 @@ export default class Activity {
 
   addToMap() {
     this.layer.addTo(this.map)
-    this.sendToBackground()
   }
 
   removeFromMap() {
@@ -199,6 +204,11 @@ export default class Activity {
   }
 
   sendToBackground() {
+    this.removeFromMap()
+
+    this.layer = L.geoJSON(this.summaryGeoJSON())
+    this.addToMap()
+
     this.layer.setStyle({
       weight: 3,
       color: '#6B20A8',
@@ -207,6 +217,13 @@ export default class Activity {
   }
 
   bringToForeground() {
+    this.removeFromMap()
+    // Use the more accurate polyline if it exists. This || can be removed 
+    // once we change it so that the activity is always requested before loading
+    // the side panel
+    this.layer = L.geoJSON(this.geoJSON() || this.summaryGeoJSON())
+    this.addToMap()
+
     this.layer.setStyle({
       weight: 3,
       color: '#FC4C01',
