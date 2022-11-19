@@ -29,7 +29,7 @@ module ActivityServices
     end
 
     def activity_types
-      @activity_types ||= @params[:activity_types] || []
+      @activity_types ||= Array.wrap(@params[:activity_types]).compact.reject(&:blank?)
     end
   end
 end

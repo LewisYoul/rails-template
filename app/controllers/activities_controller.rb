@@ -1,13 +1,42 @@
 class ActivitiesController < ApplicationController
   before_action :authenticate_user
+
+  def select
+    respond_to do |format|
+      format.turbo_stream do
+        @activity = current_user.plan_limited_activities.find_by(id: params[:id])
+
+        if !@activity.polyline
+          strava_activity = strava_client.activity(@activity.strava_id)
+          photos = strava_client.activity_photos(@activity.strava_id)
+
+          Activity.transaction do
+            photos.each do |strava_photo|
+              @activity.photos.find_or_create_by!(unique_id: strava_photo.unique_id) do |photo|
+                photo.default_photo = strava_photo.default_photo
+                photo.url = strava_photo.urls['2048']
+              end
+            end
+
+            @activity.update!(polyline: strava_activity.map.polyline)
+          end
+        end
+      end
+    end
+  end
+
+  def deselect
+    respond_to do |format|
+      format.turbo_stream
+    end
+  end
   
   def index
     respond_to do |format|
-      format.json do
-        activities = ActivityServices::ActivityFilterer.new(current_user.plan_limited_activities, params).call
+      @activities = ActivityServices::ActivityFilterer.new(current_user.plan_limited_activities, params).call
 
-        render json: activities
-      end
+      format.turbo_stream
+      format.html
     end
   end
 
@@ -38,56 +67,60 @@ class ActivitiesController < ApplicationController
   end
 
   def import
-    if current_user.activities.exists?
-      render json: { error: 'You have already imported your activities' }, status: :bad_request
-    else
-      activities = []
+    respond_to do |format|
+      format.html do
+        if current_user.activities.exists?
+          render json: { error: 'You have already imported your activities' }, status: :bad_request
+        else
+          activities = []
 
-      # There is a bug in this gem that means doing
-      # activities = client.athlete_activities(per_page: 100) would only
-      # return a maximum of 100 activities
-      strava_client.athlete_activities(per_page: 100) { |activity| activities << activity }
+          # There is a bug in this gem that means doing
+          # activities = client.athlete_activities(per_page: 100) would only
+          # return a maximum of 100 activities
+          strava_client.athlete_activities(per_page: 100) { |activity| activities << activity }
 
-      Activity.transaction do
-        activities.each do |activity|
-          Activity.create!(
-            user: current_user,
-            name: activity.name,
-            activity_type: activity.type,
-            distance: activity.distance,
-            moving_time: activity.moving_time,
-            elapsed_time: activity.elapsed_time,
-            total_elevation_gain: activity.total_elevation_gain,
-            strava_id: activity.id,
-            start_date: activity.start_date,
-            start_date_local: activity.start_date_local,
-            timezone: activity.timezone,
-            utc_offset: activity.utc_offset,
-            location_country: activity.location_country,
-            achievement_count: activity.achievement_count,
-            kudos_count: activity.kudos_count,
-            comment_count: activity.comment_count,
-            athlete_count: activity.athlete_count,
-            photo_count: activity.photo_count,
-            summary_polyline: activity.map.summary_polyline,
-            visibility: activity.visibility,
-            start_latlng: activity.start_latlng,
-            end_latlng: activity.end_latlng,
-            average_speed: activity.average_speed,
-            max_speed: activity.max_speed,
-            average_cadence: activity.average_cadence,
-            has_heartrate: activity.has_heartrate,
-            average_heartrate: activity.average_heartrate,
-            max_heartrate: activity.max_heartrate,
-            elev_high: activity.elev_high,
-            elev_low: activity.elev_low,
-            external_id: activity.external_id,
-            total_photo_count: activity.total_photo_count
-          )
+          Activity.transaction do
+            activities.each do |activity|
+              Activity.create!(
+                user: current_user,
+                name: activity.name,
+                activity_type: activity.type,
+                distance: activity.distance,
+                moving_time: activity.moving_time,
+                elapsed_time: activity.elapsed_time,
+                total_elevation_gain: activity.total_elevation_gain,
+                strava_id: activity.id,
+                start_date: activity.start_date,
+                start_date_local: activity.start_date_local,
+                timezone: activity.timezone,
+                utc_offset: activity.utc_offset,
+                location_country: activity.location_country,
+                achievement_count: activity.achievement_count,
+                kudos_count: activity.kudos_count,
+                comment_count: activity.comment_count,
+                athlete_count: activity.athlete_count,
+                photo_count: activity.photo_count,
+                summary_polyline: activity.map.summary_polyline,
+                visibility: activity.visibility,
+                start_latlng: activity.start_latlng,
+                end_latlng: activity.end_latlng,
+                average_speed: activity.average_speed,
+                max_speed: activity.max_speed,
+                average_cadence: activity.average_cadence,
+                has_heartrate: activity.has_heartrate,
+                average_heartrate: activity.average_heartrate,
+                max_heartrate: activity.max_heartrate,
+                elev_high: activity.elev_high,
+                elev_low: activity.elev_low,
+                external_id: activity.external_id,
+                total_photo_count: activity.total_photo_count
+              )
+            end
+          end
         end
       end
 
-      head :ok
+      redirect_to activities_path(format: :html)
     end
 
   end

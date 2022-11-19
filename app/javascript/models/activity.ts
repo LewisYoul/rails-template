@@ -1,3 +1,4 @@
+
 import polyline from "@mapbox/polyline";
 import turf from 'turf'
 import L from "leaflet";
@@ -9,18 +10,12 @@ export default class Activity {
   map: any;
   layer: any;
   id: string;
-  constructor(activity: any, map: any, selectActivity: Function) {
+  constructor(activity: any, map: any) {
     this.activity = activity;
     this.map = map;
     this.layer = L.geoJSON(this.summaryGeoJSON())
+    this.layer.properties = { id: activity.id }
     this.id = activity.id
-
-    this.layer.on({
-      click: () => { 
-        console.log(this.layer.toGeoJSON())
-        selectActivity(this)
-       }
-    })
   }
 
   emojis = {
@@ -189,7 +184,12 @@ export default class Activity {
   }
 
   summaryGeoJSON() {
-    return polyline.toGeoJSON(this.activity.summary_polyline)
+    let geojson = polyline.toGeoJSON(this.activity.summary_polyline)
+    geojson.properties = {}
+    geojson.properties.id = this.activity.id
+    geojson.bbox = turf.bbox(geojson)
+    
+    return geojson
   }
 
   geoJSON() {

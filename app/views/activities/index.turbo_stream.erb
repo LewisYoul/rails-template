@@ -1,0 +1,11 @@
+<%= turbo_stream.replace 'activities' do %>
+  <%= render "activities/table" %>
+<% end %>
+
+<%= turbo_stream.replace 'panel' do %>
+  <%= turbo_frame_tag "panel" %>
+<% end %>
+
+<%= turbo_stream.replace "selected_activity" do %>
+  <%= turbo_frame_tag "selected_activity" %>
+<% end %>

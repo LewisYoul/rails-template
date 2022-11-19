@@ -3,6 +3,12 @@
 // ./bin/rails generate stimulus controllerName
 
 import { application } from "./application"
+import MapController from "./map_controller"
+import FiltersController from "./filters_controller"
+import FilterableListController from "./filterable_list_controller"
+import PopoverController from "./popover_controller"
 
-import HelloController from "./hello_controller"
-application.register("hello", HelloController)
+application.register("map", MapController)
+application.register("filters", FiltersController)
+application.register("filterableList", FilterableListController)
+application.register("popover", PopoverController)

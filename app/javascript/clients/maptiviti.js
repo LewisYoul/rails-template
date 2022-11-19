@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const Actviti = {
+const Maptiviti = {
   importActivities: () => {
     return axios.get("/activities/import.json")
   },
@@ -19,4 +19,4 @@ const Actviti = {
   }
 }
 
-export default Actviti
+export default Maptiviti
