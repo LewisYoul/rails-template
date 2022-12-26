@@ -1,6 +1,6 @@
 import { Controller } from "@hotwired/stimulus"
 import { debounce } from 'debounce'
-
+import Litepicker from "litepicker"
 export default class extends Controller {
   static targets = ['search', 'searchButton', 'checkbox']
 
@@ -12,6 +12,37 @@ export default class extends Controller {
       activity_types: []
     }
     console.log('filters controller')
+
+    this.picker = new Litepicker({
+      element: document.getElementById('datepicker'),
+      singleMode: false,
+      numberOfMonths: 2,
+      numberOfColumns: 2,
+      resetButton: true,
+      position: 'top left',
+      setup: (picker) => {
+        picker.on('selected', (from, to) => {
+          const fromString = from.dateInstance.toLocaleDateString(from.lang)
+          // some action
+          console.log(from, to)
+          if (from) {
+            this.filters.start_date = fromString
+          }
+
+          const toString = to.dateInstance.toLocaleDateString(to.lang)
+
+          if (to) {
+            this.filters.end_date = toString
+          }
+
+          document.getElementById('datepicker').innerText = `${fromString} - ${toString}`
+          this.applyFilters()
+        });
+
+        picker.on('clear:selection', () => {
+        });
+      },
+    })
   }
 
   checkboxChanged() {
@@ -53,6 +84,8 @@ export default class extends Controller {
     this.searchTarget.value = ''
     this.searchButtonTarget.href = `/activities`
     this.searchButtonTarget.click()
+    this.picker.clearSelection()
+    document.getElementById('datepicker').innerText = "Date"
   }
 
   buildParams(data) {
