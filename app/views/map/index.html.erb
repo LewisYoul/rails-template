@@ -77,7 +77,7 @@
     </div>
     <%= turbo_frame_tag "panel" %>
   </div>
-  <div class="z-50 relative overflow-auto h-96 max-h-96 bg-green-500">
+  <div class="z-50 relative overflow-auto h-96 max-h-96">
     <% if params[:first_login] %>
       <turbo-frame id="activities" src="/activities/import">
         <div class="flex flex-col justify-center h-full text-center">
