@@ -1,13 +1,13 @@
 <%= turbo_frame_tag 'activities' do %>
   <table class="min-w-full table-fixed" data-map-target="table" data-activities="<%= @activities.to_json %>">
-    <thead class="sticky top-0 bg-white">
+    <thead class="sticky top-0 bg-white border-b">
       <tr>
         <th scope="col" class="sticky top-0 py-2 pl-4 pr-3 text-left text-sm font-medium text-gray-400 sm:pl-6 w-1/3">NAME</th>
         <th scope="col" class="sticky top-0 px-2 py-2 text-left text-sm font-medium text-gray-400">DATE</th>
-        <th scope="col" class="sticky top-0 px-2 py-2 text-center text-sm font-medium text-gray-400">TYPE</th>
-        <th scope="col" class="sticky top-0 px-2 py-2 text-right text-sm font-medium text-gray-400">DIST (km)</th>
-        <th scope="col" class="sticky top-0 px-2 py-2 pr-4 text-right text-sm font-medium text-gray-400">ELEV (m)</th>
-        <th scope="col" class="sticky top-0 px-2 py-2 pr-4 text-right text-sm font-medium text-gray-400 hidden"></th>
+        <th scope="col" class="sticky top-0 px-2 py-2 text-left text-sm font-medium text-gray-400">TYPE</th>
+        <th scope="col" class="sticky top-0 px-2 py-2 text-left text-sm font-medium text-gray-400">DIST (km)</th>
+        <th scope="col" class="sticky top-0 px-2 py-2 pr-4 text-left text-sm font-medium text-gray-400">ELEV (m)</th>
+        <th scope="col" class="sticky top-0 px-2 py-2 pr-4 text-left text-sm font-medium text-gray-400 hidden"></th>
       </tr>
     </thead>
     <tbody class="divide-y divide-gray-200 bg-white">
@@ -15,9 +15,9 @@
         <tr data-map-target="tableRow" data-action="click->map#toggleActivity" data-activity-id="<%= activity.id %>" class="cursor-pointer odd:bg-gray-50 hover:bg-purple-100">
           <td class="py-1.5 pl-4 pr-3 text-sm text-gray-900 sm:pl-6 w-1/3"><%= activity.name %></td>
           <td class="px-2 py-1.5 text-sm text-gray-900"><%= activity.start_date.strftime('%d/%m/%Y') %></td>
-          <td class="px-2 text-sm text-gray-900 text-center"><%= activity.activity_type %></td>
-          <td class="px-2 py-1.5 text-sm text-right text-gray-900"></td>
-          <td class="px-2 pr-4 py-1.5 text-sm text-right text-gray-900"></td>
+          <td class="px-2 text-sm text-gray-900 text-left"><%= activity.activity_type %></td>
+          <td class="px-2 py-1.5 text-sm text-left text-gray-900"><%= (activity.distance / 1000).round(2) %></td>
+          <td class="px-2 pr-4 py-1.5 text-sm text-left text-gray-900"><%= activity.total_elevation_gain %></td>
           <td class="hidden">
             <%= button_to('', { controller: :activities, action: :select, id: activity.id }, { id: "select_activity_row_#{activity.id}", data: { turbo: true }, method: :put }) %>
           </td>

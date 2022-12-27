@@ -2,15 +2,23 @@ import { Controller } from "@hotwired/stimulus"
 import { debounce } from 'debounce'
 import Litepicker from "litepicker"
 export default class extends Controller {
-  static targets = ['search', 'searchButton', 'checkbox']
+  static targets = ['search', 'searchButton', 'checkbox', 'pagination', 'nextPageButton', 'previousPageButton']
 
-  static values = {}
+  static values = {
+    previousPage: Number,
+    page: Number,
+    nextPage: Number,
+    perPage: Number
+  }
 
-  connect() {
+  initialize() {
     this.filters = {
       name: '',
       activity_types: []
     }
+  }
+
+  connect() {
     console.log('filters controller')
 
     this.picker = new Litepicker({
@@ -43,6 +51,37 @@ export default class extends Controller {
         });
       },
     })
+  }
+
+  selectPerPage(e) {
+    console.log(e.target.value)
+
+    const perPage = Number(e.target.value)
+
+    this.filters.per_page = perPage
+    this.filters.page = 1
+    this.applyFilters()
+  }
+
+  paginationTargetConnected(el) {
+    this.previousPageValue = Number(el.dataset.previousPage)
+    this.pageValue = Number(el.dataset.page)
+    this.nextPageValue = Number(el.dataset.nextPage)
+    this.perPageValue = Number(el.dataset.perPage)
+
+    if (this.hasPreviousPageButtonTarget) {
+      const prevPageParams = this.buildParams(Object.assign({}, this.filters, { page: this.previousPageValue, per_page: this.perPageValue }))
+      this.previousPageButtonTarget.href = `/activities?${prevPageParams}`
+    }
+
+    if (this.hasNextPageButtonTarget) {
+      const nextPageParams = this.buildParams(Object.assign({}, this.filters, { page: this.nextPageValue, per_page: this.perPageValue }))
+      this.nextPageButtonTarget.href = `/activities?${nextPageParams}`
+    }
+  }
+
+  pageValueChanged() {
+    console.log('page val', this.pageValue)
   }
 
   checkboxChanged() {
@@ -80,9 +119,10 @@ export default class extends Controller {
   }
 
   clearFilters() {
-    this.filters = {}
+    this.filters = { page: 1, per_page: this.perPageValue }
     this.searchTarget.value = ''
-    this.searchButtonTarget.href = `/activities`
+    const params = this.buildParams(this.filters)
+    this.searchButtonTarget.href = `/activities?${params}`
     this.searchButtonTarget.click()
     this.picker.clearSelection()
     document.getElementById('datepicker').innerText = "Date"
@@ -90,7 +130,7 @@ export default class extends Controller {
 
   buildParams(data) {
     const params = new URLSearchParams()
-
+    console.log('data', data)
     Object.entries(data).forEach(([key, value]) => {
       if (Array.isArray(value)) {
           value.forEach(value => params.append(`${key}[]`, value.toString()))

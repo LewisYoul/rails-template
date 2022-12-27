@@ -2,6 +2,10 @@
   <%= render "activities/table" %>
 <% end %>
 
+<%= turbo_stream.replace 'pagination' do %>
+  <%= render "activities/pagination" %>
+<% end %>
+
 <%= turbo_stream.replace 'panel' do %>
   <%= turbo_frame_tag "panel" %>
 <% end %>

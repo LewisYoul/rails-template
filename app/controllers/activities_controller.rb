@@ -33,7 +33,16 @@ class ActivitiesController < ApplicationController
   
   def index
     respond_to do |format|
-      @activities = ActivityServices::ActivityFilterer.new(current_user.plan_limited_activities, params).call
+      @previous_page = params[:page].to_i - 1
+      @page = params[:page].to_i
+      @next_page = params[:page].to_i + 1
+      @filter_result = ActivityServices::ActivityFilterer.new(current_user.plan_limited_activities, params).call
+      
+      @per_page = @filter_result.per_page
+      @activities = @filter_result.activities
+      @total_count = @filter_result.total_count
+      @from = @filter_result.from
+      @to = @filter_result.to
 
       format.turbo_stream
       format.html

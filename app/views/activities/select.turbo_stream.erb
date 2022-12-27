@@ -10,7 +10,7 @@
 
 <%= turbo_stream.replace "panel" do %>
   <%= turbo_frame_tag "panel" do%>
-    <div class="flex-none md:block px-6 py-6 bg-white z-500 -ml-4" data-map-target="panel">
+    <div class="flex-none md:block px-6 py-6 bg-white z-500" data-map-target="panel">
       <div class="w-96 max-w-96">
         <div>
           <div class="flex items-start justify-between">
@@ -66,23 +66,23 @@
               <tbody class="bg-white">
                 <tr>
                   <td class="whitespace-nowrap pr-3 text-sm font-light">Elapsed Time</td>
-                  <td class="whitespace-nowrap px-2 text-sm font-medium text-gray-900">{activity.elapsedTime()}</td>
+                  <td class="whitespace-nowrap px-2 text-sm font-medium text-gray-900"><%= (@activity.elapsed_time.to_f / 60 / 60).round(2) %> <span class="text-xs font-light">hours</span></td>
                 </tr>
                 <tr>
                   <td class="whitespace-nowrap pr-3 text-sm font-light">Max Speed</td>
-                  <td class="whitespace-nowrap px-2 text-sm font-medium text-gray-900">{activity.maxSpeed()} <span class="text-xs font-light">km/hr</span></td>
+                  <td class="whitespace-nowrap px-2 text-sm font-medium text-gray-900"><%= @activity.max_speed.round(2) %> <span class="text-xs font-light">km/hr</span></td>
                 </tr>
                 <tr>
                   <td class="whitespace-nowrap pr-3 text-sm font-light">Average Speed</td>
-                  <td class="whitespace-nowrap px-2 text-sm font-medium text-gray-900">{activity.averageSpeed()} <span class="text-xs font-light">km/hr</span></td>
+                  <td class="whitespace-nowrap px-2 text-sm font-medium text-gray-900"><%= @activity.average_speed.round(2) %><span class="text-xs font-light">km/hr</span></td>
                 </tr>
                 <tr>
                   <td class="whitespace-nowrap pr-3 text-sm font-light">Max Heartrate</td>
-                  <td class="whitespace-nowrap px-2 text-sm font-medium text-gray-900">{activity.maxHeartrate()} <span class="text-xs font-light">bpm</span></td>
+                  <td class="whitespace-nowrap px-2 text-sm font-medium text-gray-900"><%= @activity.max_heartrate %> <span class="text-xs font-light">bpm</span></td>
                 </tr>
                 <tr>
                   <td class="whitespace-nowrap pr-3 text-sm font-light">Average Heartrate</td>
-                  <td class="whitespace-nowrap px-2 text-sm font-medium text-gray-900">{activity.averageHeartrate()} <span class="text-xs font-light">bpm</span></td>
+                  <td class="whitespace-nowrap px-2 text-sm font-medium text-gray-900"><%= @activity.average_heartrate %> <span class="text-xs font-light">bpm</span></td>
                 </tr>
               </tbody>
             </table>
