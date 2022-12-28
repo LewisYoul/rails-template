@@ -3,8 +3,8 @@ Rails.application.routes.draw do
   get 'map/index'
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
-  # Defines the root path route ("/")
-  root to: "map#index", as: :authenticated_root, constraints: RootConstraint.new
+  # Defines the root path 
+  get 'map', to: "map#index", as: :authenticated_root
   root to: "home#index", as: :unauthenticated_root
 
   resources :home, only: :index

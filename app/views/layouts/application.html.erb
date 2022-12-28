@@ -98,7 +98,7 @@
                   <%= link_to 'Upgrade to Pro', upgrade_plan_path(Plan.find_by(level: 'pro')), class: "mr-2 inline-flex items-center px-2 py-1 border border-transparent shadow-sm text-sm leading-4 font-medium rounded-md text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500" %>
                 <% end %>
 
-                <popover-component links="<%= links.to_json %>" />
+                <%= link_to 'Log Out', session_destroy_path %>
               </div>
             </div>
           </div>
