@@ -6,7 +6,7 @@ class User < ApplicationRecord
   has_many :plan_limited_activities, -> (user) do
     return with_geometry.chronological if user.plan.paid?
 
-    user.activities.where('created_at::date = ?', user.created_at.to_date).limit(user.plan.activities_limit).chronological
+    with_geometry.where(id: with_geometry.where('created_at::date = ?', user.created_at.to_date).chronological.limit(user.plan.activities_limit).select(:id)).chronological
   end, class_name: 'Activity'
 
   accepts_nested_attributes_for :token

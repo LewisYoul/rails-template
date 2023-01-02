@@ -78,9 +78,7 @@ class ActivitiesController < ApplicationController
   def import
     respond_to do |format|
       format.html do
-        if current_user.activities.exists?
-          render json: { error: 'You have already imported your activities' }, status: :bad_request
-        else
+        if !current_user.activities.exists?
           activities = []
 
           # There is a bug in this gem that means doing
@@ -127,11 +125,10 @@ class ActivitiesController < ApplicationController
             end
           end
         end
+
+        redirect_to activities_path(format: :html)
       end
-
-      redirect_to activities_path(format: :html)
     end
-
   end
 
   def refresh

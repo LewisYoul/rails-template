@@ -51,7 +51,7 @@ module ActivityServices
       attr_reader :activities, :total_count, :per_page
 
       def initialize(activities, total_count, page, per_page)
-        @activities = activities
+        @activities = activities.load
         @activities_count = activities.size
         @total_count = total_count
         @page = page
@@ -71,7 +71,7 @@ module ActivityServices
       end
 
       def next_page?
-        @activities_count == @per_page
+        (@activities_count == @per_page) && ((@activities_count * @page) < @total_count)
       end
     end
   end
