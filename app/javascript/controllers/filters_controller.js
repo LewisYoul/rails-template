@@ -2,7 +2,15 @@ import { Controller } from "@hotwired/stimulus"
 import { debounce } from 'debounce'
 import Litepicker from "litepicker"
 export default class extends Controller {
-  static targets = ['search', 'searchButton', 'checkbox', 'pagination', 'nextPageButton', 'previousPageButton']
+  static targets = [
+    'search',
+    'searchButton',
+    'typeButton',
+    'checkbox',
+    'pagination',
+    'nextPageButton',
+    'previousPageButton'
+  ]
 
   static values = {
     previousPage: Number,
@@ -94,6 +102,14 @@ export default class extends Controller {
     })
 
     this.filters.activity_types = activityTypes
+
+    const selectedTypesCount = activityTypes.length
+
+    if (selectedTypesCount > 0) {
+      this.typeButtonTarget.innerText = `Type (${selectedTypesCount})`
+    } else {
+      this.typeButtonTarget.innerText = 'Type'
+    }
   }
 
   search = debounce((event) => {

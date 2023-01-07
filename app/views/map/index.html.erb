@@ -15,7 +15,7 @@
       </button>
 
       <div class="absolute ml-4 mb-4 z-500 bottom-0 left-0 flex" id="filters">
-        <input id="searchbar" data-filters-target="search" data-action="input->filters#search" class="shadow-md whitespace-nowrap inline-flex items-center rounded-md justify-center px-2 py-1 border border-transparent shadow-sm text-base font-medium bg-white hover:bg-gray-100"></input>
+        <input id="searchbar" data-filters-target="search" data-action="input->filters#search" class="shadow-md whitespace-nowrap inline-flex items-center rounded-md justify-center px-2 py-1 border border-transparent shadow-sm bg-white hover:bg-gray-100 focus:outline-none"></input>
         <%# <MultiSelect
           key={1}
           onChange={applyTypeFilters}
@@ -32,7 +32,7 @@
             data-popover-target="trigger"
             class="flex items-center p-2 cursor-pointer"
           >
-            <button>
+            <button data-filters-target="typeButton">
               Type
             </button>
           </div>
