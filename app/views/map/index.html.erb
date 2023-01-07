@@ -2,7 +2,7 @@
   <meta name="turbo-cache-control" content="no-cache">
 <% end %>
 
-<div class="flex flex-col flex-grow" data-controller="map filters">
+<div class="flex flex-col flex-grow" id="filters" data-controller="map filters">
   <%= turbo_frame_tag "selected_activity" %>
 
   <div class="flex h-2/3 z-40">
@@ -66,8 +66,24 @@
             </div>
           </div>
         </div>
+
         <button id="datepicker" class="ml-1 rounded-md shadow-md py-2 px-2 cursor-pointer bg-white">Date</button>
-        <%# <DateFilter startDate={filters['start_date'] || ''} endDate={filters['end_date'] || ''} displayText={dateDisplayLabel()} onApply={applyDateFilters} /> %>
+
+        <div data-controller="popover" class="flex items-center bg-white rounded-md ml-2 shadow-md relative">
+          <div
+            data-action="click->popover#toggle"
+            data-popover-target="trigger"
+            class="flex items-center p-2 cursor-pointer"
+          >
+            <button data-filters-target="typeButton">
+              Distance
+            </button>
+          </div>
+          <div data-popover-target="popover" class="hidden bg-white absolute left-0 bottom-10 z-600 shadow-md rounded-md px-2 py-2 w-48">
+            <%= render partial: 'shared/range_slider', locals: { label: 'Distance (km)', min: 0, max: 80 } %>
+          </div>
+        </div>
+
         <%= button_tag 'Clear All', type: 'button', data: { action: 'click->filters#clearFilters' }, class: "flex items-center bg-gray-200 p-2 rounded-md ml-2 shadow-md" %>
         <%# {/*<div class="flex items-center bg-white p-2 rounded-md ml-2 shadow-md">
           <span>Distance</span>

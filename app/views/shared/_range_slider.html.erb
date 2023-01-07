@@ -1,0 +1,16 @@
+<div
+  data-rangeSlider-filters-outlet="#filters"
+  data-controller="rangeSlider"
+  data-rangeSlider-min-value="<%= min %>"
+  data-rangeSlider-max-value="<%= max %>"
+  >
+  <div class="flex justify-center">
+    <label for="distance"><%= label %></label>
+  </div>
+  <hr class="my-1">
+  <div class="flex justify-between mb-1">
+    <span data-rangeSlider-target="min"><%= min %></span>
+    <span data-rangeSlider-target="max">><%= max %></span>
+  </div>
+  <div id="slider" ></div>
+</div>

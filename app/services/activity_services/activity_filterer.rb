@@ -13,6 +13,10 @@ module ActivityServices
       @activities = @activities.where(activity_type: activity_types) if activity_types.any?
       @activities = @activities.where("DATE_TRUNC('day', start_date) >= ?", start_date) if start_date
       @activities = @activities.where("DATE_TRUNC('day', start_date) <= ?", end_date) if end_date
+      @activities = @activities.where("distance > ?", min_distance) if min_distance
+      if max_distance && max_distance < 80000
+        @activities = @activities.where("distance < ?", max_distance) if max_distance
+      end
       
       Result.new(@activities.offset(offset).limit(per_page), @activities.count, page, per_page)
     end
@@ -45,6 +49,14 @@ module ActivityServices
 
     def activity_types
       @activity_types ||= Array.wrap(@params[:activity_types]).compact.reject(&:blank?)
+    end
+
+    def min_distance
+      @min_distance ||= @params[:min_distance].present? ? @params[:min_distance].to_i * 1000 : nil
+    end
+
+    def max_distance
+      @max_distance ||= @params[:max_distance].present? ? @params[:max_distance].to_i * 1000 : nil
     end
 
     class Result

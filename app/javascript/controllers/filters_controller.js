@@ -157,4 +157,14 @@ export default class extends Controller {
 
     return params.toString()
   }
+
+  updateFilters(newFilters) {
+    console.log(newFilters)
+    let updatedFilters = Object.assign({}, this.filters)
+    updatedFilters = Object.assign(updatedFilters, newFilters)
+
+    this.filters = updatedFilters
+    console.log('uf', updatedFilters)
+    this.applyFilters()
+  }
 }
