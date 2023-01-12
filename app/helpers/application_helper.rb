@@ -8,4 +8,21 @@ module ApplicationHelper
 
     current_page?(path) ? content_tag(:span, text, class: classes) : link_to(text, path, class: classes)
   end
+
+  def seconds_in_words(time_in_seconds)
+    hours = time_in_seconds / 3600
+
+    if hours.zero?
+      minutes = time_in_seconds / 60
+      seconds = (time_in_seconds % 60)
+
+      "#{minutes}m #{seconds}s"
+    else
+      minutes = (time_in_seconds % 3600) / 60
+
+      return "#{hours} h" if minutes.zero?
+
+      "#{hours}h #{minutes}m"
+    end
+  end
 end

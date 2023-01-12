@@ -80,7 +80,22 @@
             </button>
           </div>
           <div data-popover-target="popover" class="hidden bg-white absolute left-0 bottom-10 z-600 shadow-md rounded-md px-2 py-2 w-48">
-            <%= render partial: 'shared/range_slider', locals: { label: 'Distance (km)', min: 0, max: 80 } %>
+            <%= render partial: 'shared/range_slider', locals: { label: 'Distance (km)', min: 0, max: 80, min_name: 'min_distance', max_name: 'max_distance', step: 2 } %>
+          </div>
+        </div>
+
+        <div data-controller="popover" class="flex items-center bg-white rounded-md ml-2 shadow-md relative">
+          <div
+            data-action="click->popover#toggle"
+            data-popover-target="trigger"
+            class="flex items-center p-2 cursor-pointer"
+          >
+            <button data-filters-target="typeButton">
+              Duration
+            </button>
+          </div>
+          <div data-popover-target="popover" class="hidden bg-white absolute left-0 bottom-10 z-600 shadow-md rounded-md px-2 py-2 w-48">
+            <%= render partial: 'shared/range_slider', locals: { label: 'Duration (hours)', min: 0, max: 6, min_name: 'min_duration', max_name: 'max_duration', step: 1 } %>
           </div>
         </div>
 

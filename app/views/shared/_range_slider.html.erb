@@ -3,6 +3,9 @@
   data-controller="rangeSlider"
   data-rangeSlider-min-value="<%= min %>"
   data-rangeSlider-max-value="<%= max %>"
+  data-rangeSlider-min-name-value="<%= min_name %>"
+  data-rangeSlider-max-name-value="<%= max_name %>"
+  data-rangeSlider-step-value="<%= step %>"
   >
   <div class="flex justify-center">
     <label for="distance"><%= label %></label>
@@ -12,5 +15,5 @@
     <span data-rangeSlider-target="min"><%= min %></span>
     <span data-rangeSlider-target="max">><%= max %></span>
   </div>
-  <div id="slider" ></div>
+  <div data-rangeSlider-target="slider" ></div>
 </div>

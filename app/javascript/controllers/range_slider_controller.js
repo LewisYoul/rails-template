@@ -5,17 +5,20 @@ import wNumb from "wnumb";
 export default class extends Controller {
   static outlets = [ "filters" ]
 
-  static targets = ['min', 'max']
+  static targets = ['min', 'max', 'slider']
 
   static values = {
     min: Number,
-    max: Number
+    max: Number,
+    minName: String,
+    maxName: String,
+    step: Number
   }
 
   connect() {
     this.filterOutlet = this.filtersOutlets[0]
 
-    const slider = document.getElementById('slider');
+    const slider = this.sliderTarget;
 
     noUiSlider.create(slider, {
       start: [this.minValue, this.maxValue],
@@ -24,16 +27,14 @@ export default class extends Controller {
           'min': this.minValue,
           'max': this.maxValue
         },
-        step: 2,
+        step: this.stepValue,
         behaviour: 'tap-drag',
-        format: wNumb({
-          decimals: 0
-        }),
+        format: wNumb({ decimals: 0 }),
       });
 
       slider.noUiSlider.on('slide', (values) => {
         const [min, max] = values
-        
+
         this.minTarget.innerHTML = min
         this.maxTarget.innerHTML = Number(max) === this.maxValue ? `> ${max}` : max
       })
@@ -41,7 +42,12 @@ export default class extends Controller {
       slider.noUiSlider.on('change', (values) => {
         const [min, max] = values
 
-        this.filterOutlet.updateFilters({ min_distance: min, max_distance: max })
+        let filters = {}
+
+        filters[this.minNameValue] = min
+        filters[this.maxNameValue] = max
+
+        this.filterOutlet.updateFilters(filters)
       })
     }
     

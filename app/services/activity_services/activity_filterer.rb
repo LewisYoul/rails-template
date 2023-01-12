@@ -14,9 +14,9 @@ module ActivityServices
       @activities = @activities.where("DATE_TRUNC('day', start_date) >= ?", start_date) if start_date
       @activities = @activities.where("DATE_TRUNC('day', start_date) <= ?", end_date) if end_date
       @activities = @activities.where("distance > ?", min_distance) if min_distance
-      if max_distance && max_distance < 80000
-        @activities = @activities.where("distance < ?", max_distance) if max_distance
-      end
+      @activities = @activities.where("distance < ?", max_distance) if max_distance if max_distance && max_distance < 80000
+      @activities = @activities.where("moving_time > ?", min_duration) if min_duration
+      @activities = @activities.where("moving_time < ?", max_duration) if max_duration if max_duration && max_duration < 21600
       
       Result.new(@activities.offset(offset).limit(per_page), @activities.count, page, per_page)
     end
@@ -52,11 +52,23 @@ module ActivityServices
     end
 
     def min_distance
+      # convert km to m
       @min_distance ||= @params[:min_distance].present? ? @params[:min_distance].to_i * 1000 : nil
     end
 
     def max_distance
+      # convert km to m
       @max_distance ||= @params[:max_distance].present? ? @params[:max_distance].to_i * 1000 : nil
+    end
+
+    def min_duration
+      # convert hrs to seconds
+      @min_duration ||= @params[:min_duration].present? ? @params[:min_duration].to_i * 60 * 60 : nil
+    end
+
+    def max_duration
+      # convert hrs to seconds
+      @max_duration ||= @params[:max_duration].present? ? @params[:max_duration].to_i * 60 * 60 : nil
     end
 
     class Result

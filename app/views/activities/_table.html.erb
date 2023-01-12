@@ -7,7 +7,7 @@
           <th scope="col" class="sticky top-0 px-2 py-2 text-left text-sm font-medium text-gray-400">DATE</th>
           <th scope="col" class="sticky top-0 px-2 py-2 text-left text-sm font-medium text-gray-400">TYPE</th>
           <th scope="col" class="sticky top-0 px-2 py-2 text-left text-sm font-medium text-gray-400">DIST (km)</th>
-          <th scope="col" class="sticky top-0 px-2 py-2 pr-4 text-left text-sm font-medium text-gray-400">ELEV (m)</th>
+          <th scope="col" class="sticky top-0 px-2 py-2 pr-4 text-left text-sm font-medium text-gray-400">TIME</th>
           <th scope="col" class="sticky top-0 px-2 py-2 pr-4 text-left text-sm font-medium text-gray-400 hidden"></th>
         </tr>
       </thead>
@@ -18,7 +18,7 @@
             <td class="px-2 py-1.5 text-sm text-gray-900"><%= activity.start_date.strftime('%d/%m/%Y') %></td>
             <td class="px-2 text-sm text-gray-900 text-left"><%= activity.activity_type %></td>
             <td class="px-2 py-1.5 text-sm text-left text-gray-900"><%= (activity.distance / 1000).round(2) %></td>
-            <td class="px-2 pr-4 py-1.5 text-sm text-left text-gray-900"><%= activity.total_elevation_gain %></td>
+            <td class="px-2 pr-4 py-1.5 text-sm text-left text-gray-900"><%= seconds_in_words(activity.moving_time) %></td>
             <td class="hidden">
               <%= button_to('', { controller: :activities, action: :select, id: activity.id }, { id: "select_activity_row_#{activity.id}", data: { turbo: true }, method: :put }) %>
             </td>
