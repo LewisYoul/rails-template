@@ -12,7 +12,21 @@ export default class extends Controller {
   }
 
   toggle() {
-    console.log('tig')
-    this.popoverTarget.classList.toggle('hidden')
+    if (this.popoverTarget.classList.contains('hidden')) {
+      this.popoverTarget.classList.remove('hidden')
+    } else {
+      this.popoverTarget.classList.add('hidden')
+    }
+  }
+  
+  close(e) {
+    const contains = this.element.contains(e.target)
+
+    // isTrusted tells us whether it was a user initiated click or not
+    // We are programatically clicking the search button so we don't want that
+    // click to close the popover.
+    if (!contains && e.isTrusted) {
+      this.popoverTarget.classList.add('hidden')
+    }
   }
 }

@@ -18,9 +18,7 @@ export default class extends Controller {
   connect() {
     this.filterOutlet = this.filtersOutlets[0]
 
-    this.slider = this.sliderTarget;
-
-    noUiSlider.create(this.slider, {
+    noUiSlider.create(this.sliderTarget, {
       start: [this.minValue, this.maxValue],
       connect: true,
       range: {
@@ -32,14 +30,14 @@ export default class extends Controller {
       format: wNumb({ decimals: 0 }),
     });
 
-    this.slider.noUiSlider.on('slide', (values) => {
+    this.sliderTarget.noUiSlider.on('slide', (values) => {
       const [min, max] = values
 
       this.minTarget.innerHTML = min
       this.maxTarget.innerHTML = Number(max) === this.maxValue ? `> ${max}` : max
     })
     
-    this.slider.noUiSlider.on('change', (values) => {
+    this.sliderTarget.noUiSlider.on('change', (values) => {
       const [min, max] = values
 
       let filters = {}
@@ -49,20 +47,17 @@ export default class extends Controller {
 
       this.filterOutlet.updateFilters(filters)
     })
+
+    this.sliderTarget.addEventListener('click', (e) => {
+      console.log('ch')
+      e.stopPropagation()
+    })
   }
 
   reset() {
-    this.slider.noUiSlider.reset()
+    this.sliderTarget.noUiSlider.reset()
 
     this.minTarget.innerHTML = this.minValue
     this.maxTarget.innerHTML = this.maxValue
-  }
-    
-  onSlide(e) {
-    console.log(e.target.value)
-  }
-  
-  onChange(e) {
-    console.log(e.target.value)
   }
 }
