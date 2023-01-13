@@ -9,7 +9,8 @@ export default class extends Controller {
     'checkbox',
     'pagination',
     'nextPageButton',
-    'previousPageButton'
+    'previousPageButton',
+    'filter'
   ]
 
   static values = {
@@ -142,6 +143,12 @@ export default class extends Controller {
     this.searchButtonTarget.click()
     this.picker.clearSelection()
     document.getElementById('datepicker').innerText = "Date"
+
+    this.filterTargets.forEach(filterTarget => {
+      const event = new CustomEvent('resetFilters')
+
+      filterTarget.dispatchEvent(event)
+    })
   }
 
   buildParams(data) {

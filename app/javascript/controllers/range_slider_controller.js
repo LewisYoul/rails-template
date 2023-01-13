@@ -18,38 +18,45 @@ export default class extends Controller {
   connect() {
     this.filterOutlet = this.filtersOutlets[0]
 
-    const slider = this.sliderTarget;
+    this.slider = this.sliderTarget;
 
-    noUiSlider.create(slider, {
+    noUiSlider.create(this.slider, {
       start: [this.minValue, this.maxValue],
-        connect: true,
-        range: {
-          'min': this.minValue,
-          'max': this.maxValue
-        },
-        step: this.stepValue,
-        behaviour: 'tap-drag',
-        format: wNumb({ decimals: 0 }),
-      });
+      connect: true,
+      range: {
+        'min': this.minValue,
+        'max': this.maxValue
+      },
+      step: this.stepValue,
+      behaviour: 'tap-drag',
+      format: wNumb({ decimals: 0 }),
+    });
 
-      slider.noUiSlider.on('slide', (values) => {
-        const [min, max] = values
+    this.slider.noUiSlider.on('slide', (values) => {
+      const [min, max] = values
 
-        this.minTarget.innerHTML = min
-        this.maxTarget.innerHTML = Number(max) === this.maxValue ? `> ${max}` : max
-      })
-      
-      slider.noUiSlider.on('change', (values) => {
-        const [min, max] = values
+      this.minTarget.innerHTML = min
+      this.maxTarget.innerHTML = Number(max) === this.maxValue ? `> ${max}` : max
+    })
+    
+    this.slider.noUiSlider.on('change', (values) => {
+      const [min, max] = values
 
-        let filters = {}
+      let filters = {}
 
-        filters[this.minNameValue] = min
-        filters[this.maxNameValue] = max
+      filters[this.minNameValue] = min
+      filters[this.maxNameValue] = max
 
-        this.filterOutlet.updateFilters(filters)
-      })
-    }
+      this.filterOutlet.updateFilters(filters)
+    })
+  }
+
+  reset() {
+    this.slider.noUiSlider.reset()
+
+    this.minTarget.innerHTML = this.minValue
+    this.maxTarget.innerHTML = this.maxValue
+  }
     
   onSlide(e) {
     console.log(e.target.value)
