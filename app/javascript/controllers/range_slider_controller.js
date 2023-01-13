@@ -34,8 +34,7 @@ export default class extends Controller {
     this.sliderTarget.noUiSlider.on('slide', (values) => {
       const [min, max] = values
 
-      this.minTarget.innerHTML = Number(min)
-      this.maxTarget.innerHTML = Number(max) === this.maxValue ? `> ${this.maxValue}` : Number(max)
+      this.setSliderValues(min, max)
     })
     
     this.sliderTarget.noUiSlider.on('change', (values) => {
@@ -49,16 +48,32 @@ export default class extends Controller {
       this.filterOutlet.updateFilters(filters)
     })
 
-    this.sliderTarget.addEventListener('click', (e) => {
-      console.log('ch')
-      e.stopPropagation()
-    })
+    this.reset()
+  }
+
+  setSliderValues(min, max) {
+    console.log('y', this.stepValue === 0.5)
+    if (this.stepValue === 0.5) {
+      console.log('min l', String(Number(min)))
+      if (Number(min) % 1 === 0) {
+        this.minTarget.innerHTML = `${Number(min)}h`
+      } else {
+        this.minTarget.innerHTML = `${min[0]}h 30m`
+      }
+
+      if (Number(max) % 1 === 0) {
+        this.maxTarget.innerHTML = Number(max) === this.maxValue ? `> ${this.maxValue}h` : `${Number(max)}h`
+      } else {
+        this.maxTarget.innerHTML = `${max[0]}h 30m`
+      }
+    } else {
+      this.minTarget.innerHTML = Number(min)
+      this.maxTarget.innerHTML = Number(max) === this.maxValue ? `> ${this.maxValue}` : Number(max)
+    }
   }
 
   reset() {
     this.sliderTarget.noUiSlider.reset()
-
-    this.minTarget.innerHTML = this.minValue
-    this.maxTarget.innerHTML = this.maxValue
+    this.setSliderValues(this.minValue, this.maxValue)
   }
 }
