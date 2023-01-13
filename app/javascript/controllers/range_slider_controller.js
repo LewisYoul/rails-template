@@ -12,7 +12,8 @@ export default class extends Controller {
     max: Number,
     minName: String,
     maxName: String,
-    step: Number
+    step: Number,
+    decimalPlaces: Number
   }
 
   connect() {
@@ -27,14 +28,14 @@ export default class extends Controller {
       },
       step: this.stepValue,
       behaviour: 'tap-drag',
-      format: wNumb({ decimals: 0 }),
+      format: wNumb({ decimals: this.decimalPlacesValue }),
     });
 
     this.sliderTarget.noUiSlider.on('slide', (values) => {
       const [min, max] = values
 
-      this.minTarget.innerHTML = min
-      this.maxTarget.innerHTML = Number(max) === this.maxValue ? `> ${max}` : max
+      this.minTarget.innerHTML = Number(min)
+      this.maxTarget.innerHTML = Number(max) === this.maxValue ? `> ${this.maxValue}` : Number(max)
     })
     
     this.sliderTarget.noUiSlider.on('change', (values) => {
