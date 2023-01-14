@@ -144,6 +144,10 @@ export default class extends Controller {
     this.picker.clearSelection()
     document.getElementById('datepicker').innerText = "Date"
 
+
+    this.typeButtonTarget.innerText = 'Type'
+    this.clearCheckboxes()
+
     this.filterTargets.forEach(filterTarget => {
       const event = new CustomEvent('resetFilters')
 

@@ -70,33 +70,37 @@
 
         <button id="datepicker" class="ml-1 rounded-md shadow-md py-2 px-2 cursor-pointer bg-white">Date</button>
 
-        <div data-controller="popover" class="flex items-center bg-white rounded-md ml-2 shadow-md relative">
+        <div
+          id="distance-popover"
+          data-controller="popover"
+          data-popover-text-value="Distance"
+          class="flex items-center bg-white rounded-md ml-2 shadow-md relative"
+          >
           <div
             data-action="click->popover#toggle"
-            data-popover-target="trigger"
             class="flex items-center p-2 cursor-pointer"
           >
-            <button data-filters-target="typeButton">
-              Distance
-            </button>
+            <button data-popover-target="text"></button>
           </div>
           <div data-popover-target="popover" data-action="click@window->popover#close" class="hidden bg-white absolute left-0 bottom-10 z-600 shadow-md rounded-md p-3 w-48">
-            <%= render partial: 'shared/range_slider', locals: { label: 'Distance (km)', min: 0, max: 80, min_name: 'min_distance', max_name: 'max_distance', step: 2, decimal_places: 0 } %>
+            <%= render partial: 'shared/range_slider', locals: { id: 'distance', label: 'Distance (km)', min: 0, max: 80, min_name: 'min_distance', max_name: 'max_distance', step: 2, decimal_places: 0 } %>
           </div>
         </div>
 
-        <div data-controller="popover" class="flex items-center bg-white rounded-md ml-2 shadow-md relative">
+        <div
+          id="duration-popover"
+          data-controller="popover"
+          data-popover-text-value="Duration"
+          class="flex items-center bg-white rounded-md ml-2 shadow-md relative"
+          >
           <div
             data-action="click->popover#toggle"
-            data-popover-target="trigger"
             class="flex items-center p-2 cursor-pointer"
           >
-            <button data-filters-target="typeButton">
-              Duration
-            </button>
+            <button data-popover-target="text"></button>
           </div>
           <div data-popover-target="popover" data-action="click@window->popover#close" class="hidden bg-white absolute left-0 bottom-10 z-600 shadow-md rounded-md p-3 w-48">
-            <%= render partial: 'shared/range_slider', locals: { label: 'Duration', min: 0, max: 6, min_name: 'min_duration', max_name: 'max_duration', step: 0.5, decimal_places: 1 } %>
+            <%= render partial: 'shared/range_slider', locals: { id: 'duration', label: 'Duration', min: 0, max: 6, min_name: 'min_duration', max_name: 'max_duration', step: 0.5, decimal_places: 1 } %>
           </div>
         </div>
 

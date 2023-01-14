@@ -3,7 +3,7 @@ import noUiSlider from 'nouislider';
 import wNumb from "wnumb";
 
 export default class extends Controller {
-  static outlets = [ "filters" ]
+  static outlets = [ "filters", "popover" ]
 
   static targets = ['min', 'max', 'slider']
 
@@ -46,34 +46,56 @@ export default class extends Controller {
       filters[this.maxNameValue] = max
 
       this.filterOutlet.updateFilters(filters)
+
+      if (Number(min) === this.minValue && Number(max) === this.maxValue) {
+        this.updateTriggerText()
+      } else {
+        const [minText, maxText] = this.generateSliderText(min, max)
+
+        this.updateTriggerText(`${minText} to ${maxText}`)
+      }
     })
 
     this.reset()
   }
 
-  setSliderValues(min, max) {
-    console.log('y', this.stepValue === 0.5)
+  generateSliderText(min, max) {
+    let minText, maxText;
+
     if (this.stepValue === 0.5) {
-      console.log('min l', String(Number(min)))
       if (Number(min) % 1 === 0) {
-        this.minTarget.innerHTML = `${Number(min)}h`
+        minText = `${Number(min)}h`
       } else {
-        this.minTarget.innerHTML = `${min[0]}h 30m`
+        minText = `${min[0]}h 30m`
       }
 
       if (Number(max) % 1 === 0) {
-        this.maxTarget.innerHTML = Number(max) === this.maxValue ? `> ${this.maxValue}h` : `${Number(max)}h`
+        maxText = Number(max) === this.maxValue ? `> ${this.maxValue}h` : `${Number(max)}h`
       } else {
-        this.maxTarget.innerHTML = `${max[0]}h 30m`
+        maxText = `${max[0]}h 30m`
       }
     } else {
-      this.minTarget.innerHTML = Number(min)
-      this.maxTarget.innerHTML = Number(max) === this.maxValue ? `> ${this.maxValue}` : Number(max)
+      minText = Number(min)
+      maxText = Number(max) === this.maxValue ? `> ${this.maxValue}` : Number(max)
     }
+
+    return [minText, maxText]
+  }
+
+  setSliderValues(min, max) {
+    const [minText, maxText] = this.generateSliderText(min, max)
+
+    this.minTarget.innerHTML = minText
+    this.maxTarget.innerHTML = maxText
+  }
+
+  updateTriggerText(text = null) {
+    this.popoverOutlets[0].updateTriggerText(text)
   }
 
   reset() {
     this.sliderTarget.noUiSlider.reset()
     this.setSliderValues(this.minValue, this.maxValue)
+    this.updateTriggerText()
   }
 }
