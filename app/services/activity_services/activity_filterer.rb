@@ -18,6 +18,18 @@ module ActivityServices
       @activities = @activities.where("moving_time > ?", min_duration) if min_duration
       @activities = @activities.where("moving_time < ?", max_duration) if max_duration && max_duration < 21600
       
+      if bbox
+        @activities = @activities.where(
+          <<-SQL
+            (
+              (#{bbox.southwest_lat} <= #{bbox.northeast_lat} AND #{bbox.southwest_lat} <= (end_latlng->0)::float AND (end_latlng->0)::float <= #{bbox.northeast_lat})
+            ) AND (
+              #{bbox.southwest_lng} <= #{bbox.northeast_lng} AND #{bbox.southwest_lng} <= (end_latlng->1)::float AND (end_latlng->1)::float <= #{bbox.northeast_lng}
+            )
+          SQL
+        )
+      end
+
       Result.new(@activities.offset(offset).limit(per_page), @activities.count, page, per_page)
     end
 
@@ -33,6 +45,10 @@ module ActivityServices
 
     def per_page
       @per_page ||= @params[:per_page].to_i.positive? ? @params[:per_page].to_i : DEFAULT_PER_PAGE
+    end
+
+    def bbox
+      @bbox ||= @params[:bbox] ? Bbox.new(@params[:bbox]) : nil
     end
 
     def start_date

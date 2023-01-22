@@ -1,6 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 import { debounce } from 'debounce'
 import Litepicker from "litepicker"
+import axios from "axios"
 export default class extends Controller {
   static targets = [
     'search',
@@ -135,6 +136,12 @@ export default class extends Controller {
     this.checkboxChanged()
   }
 
+  mapMoved(e) {
+    const bboxString = e.detail
+
+    this.updateFilters({ bbox: bboxString })
+  }
+
   clearFilters() {
     this.filters = { page: 1, per_page: this.perPageValue }
     this.searchTarget.value = ''
@@ -157,7 +164,7 @@ export default class extends Controller {
 
   buildParams(data) {
     const params = new URLSearchParams()
-    console.log('data', data)
+
     Object.entries(data).forEach(([key, value]) => {
       if (Array.isArray(value)) {
           value.forEach(value => params.append(`${key}[]`, value.toString()))
@@ -170,12 +177,20 @@ export default class extends Controller {
   }
 
   updateFilters(newFilters) {
-    console.log(newFilters)
     let updatedFilters = Object.assign({}, this.filters)
     updatedFilters = Object.assign(updatedFilters, newFilters)
 
     this.filters = updatedFilters
-    console.log('uf', updatedFilters)
+
     this.applyFilters()
+  }
+
+  refreshActivities() {
+    axios.get('/activities/refresh')
+      .then(() => {
+        console.log('boop', this.filtersOutlets)
+        this.clearFilters()
+      })
+      .catch(console.error)
   }
 }

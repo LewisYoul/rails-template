@@ -12,13 +12,23 @@ export default class extends Controller {
 
   connect() {
     this.map = new Map('map', {
-      onActivityClick: this.toggleActivityById
+      onActivityClick: this.toggleActivityById,
+      onMove: (bbox) => { this.onMapMove(bbox, this) }
     })
+  }
+
+  onMapMove(bbox, self) {
+    if (self.selectedActivityValue && Object.keys(self.selectedActivityValue).length !== 0) { return }
+
+    const event = new CustomEvent('mapMoved', {
+      detail: bbox
+    })
+    window.dispatchEvent(event)
   }
   
   activitiesValueChanged(value, previousValue) {
     if (this.map) { this.map.removeAllActivities() }
-    console.log('v', this.activitiesValue)
+
     const activities = this.activitiesValue.map((activity) => { return new Activity(activity, this.map) })
 
     if (activities.length <= 0) { return }
@@ -92,10 +102,10 @@ export default class extends Controller {
   }
 
   panelTargetConnected() {
-    this.map.fitToContainer()
+    // this.map.fitToContainer()
   }
 
   panelTargetDisconnected() {
-    this.map.fitToContainer()
+    // this.map.fitToContainer()
   }
 }
