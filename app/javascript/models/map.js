@@ -45,6 +45,13 @@ export default class Map {
   addActivities(activities) {
     this.activities = activities
     this.layer.addData(activities.map((activity) => { return activity.summaryGeoJSON() }))
+
+    this.layer.setStyle({
+      weight: 3,
+      color: '#6B20A8',
+      opacity: 1.0
+    })
+
     this.layer.on('click', (e) => {
       const activityId = e.layer.feature.geometry.properties.id
 
