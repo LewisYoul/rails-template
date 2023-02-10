@@ -22,6 +22,7 @@ export default class extends Controller {
   }
 
   initialize() {
+    this.searchAsIMove = false
     this.filters = {
       name: '',
       activity_types: []
@@ -136,7 +137,13 @@ export default class extends Controller {
     this.checkboxChanged()
   }
 
+  toggleSearchAsIMove(e) {
+    this.searchAsIMove = e.target.checked
+  }
+
   mapMoved(e) {
+    if (!this.searchAsIMove) { return }
+
     const bboxString = e.detail
 
     this.updateFilters({ bbox: bboxString })
