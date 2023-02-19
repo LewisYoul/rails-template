@@ -16,6 +16,10 @@ body {
   z-index: 600;
 }
 
+.z-700 {
+  z-index: 700;
+}
+
 .strava-orange {
   color: #fc4c02;
 }
