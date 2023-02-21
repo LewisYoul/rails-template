@@ -53,7 +53,7 @@ export default class extends Controller {
   addCurrentImage() {
     const image = document.createElement('img')
     image.src = this.currentImageUrl
-    image.setAttribute("class", "object-contain h-screen w-screen")
+    image.setAttribute("class", "object-contain h-full w-full")
 
     this.carouselTarget.appendChild(image)
   }
