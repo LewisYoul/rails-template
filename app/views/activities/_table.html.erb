@@ -1,5 +1,5 @@
 <%= turbo_frame_tag 'activities' do %>
-  <div class="z-50 relative overflow-auto h-80 max-h-80">
+  <div class="z-50 overflow-auto h-80 max-h-80">
     <table class="min-w-full table-fixed" data-map-target="table" data-activities="<%= @activities.to_json %>">
       <thead class="sticky top-0 bg-white border-b">
         <tr>

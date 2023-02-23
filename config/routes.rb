@@ -22,6 +22,11 @@ Rails.application.routes.draw do
     get :success, on: :collection
     get :upgrade, on: :member
   end
+
+  resources :groups
+
+  resources :activity_groups
+
   resources :subscriptions, only: :update
   resources :webhooks do
     post :stripe, on: :collection

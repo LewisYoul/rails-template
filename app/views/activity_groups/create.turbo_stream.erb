@@ -1,0 +1,13 @@
+<%= turbo_stream.replace("group_#{@group.id}") do %>
+  <%= turbo_frame_tag "group_#{@group.id}" do %>
+    <%= destroy_activity_group_button(@activity_group) %>
+  <% end %>
+<% end %>
+
+<%= turbo_stream.replace("activity_#{@activity.id}_groups") do %>
+  <%= turbo_frame_tag "activity_#{@activity.id}_groups" do %>
+    <% @activity.groups.each do |group| %>
+      <span class="font-base inline-flex items-center rounded-full bg-purple-100 px-2.5 py-0.5 text-xs font-medium text-purple-800"><%= group.name %></span>
+    <% end %>
+  <% end %>
+<% end %>

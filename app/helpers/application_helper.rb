@@ -25,4 +25,12 @@ module ApplicationHelper
       "#{hours}h #{minutes}m"
     end
   end
+
+  def primary_button(text, opts = {})
+    button_opts = {
+      class: "bg-purple-500 hover:bg-purple-300 text-white px-4 py-1.5 rounded-md"
+    }.merge(opts)
+
+    button_tag(text, button_opts)
+  end
 end

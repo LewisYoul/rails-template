@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_11_12_173159) do
+ActiveRecord::Schema[7.0].define(version: 2023_02_23_173316) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "plpgsql"
@@ -53,6 +53,23 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_12_173159) do
     t.datetime "updated_at", null: false
     t.string "polyline"
     t.index ["user_id"], name: "index_activities_on_user_id"
+  end
+
+  create_table "activity_groups", force: :cascade do |t|
+    t.bigint "activity_id", null: false
+    t.bigint "group_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["activity_id"], name: "index_activity_groups_on_activity_id"
+    t.index ["group_id"], name: "index_activity_groups_on_group_id"
+  end
+
+  create_table "groups", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_groups_on_user_id"
   end
 
   create_table "photos", force: :cascade do |t|
@@ -107,6 +124,9 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_12_173159) do
   end
 
   add_foreign_key "activities", "users"
+  add_foreign_key "activity_groups", "activities"
+  add_foreign_key "activity_groups", "groups"
+  add_foreign_key "groups", "users"
   add_foreign_key "photos", "activities"
   add_foreign_key "subscriptions", "plans"
   add_foreign_key "subscriptions", "users"

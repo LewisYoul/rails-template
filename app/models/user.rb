@@ -2,7 +2,9 @@ class User < ApplicationRecord
   has_one :token
   has_one :subscription
   has_one :plan, through: :subscription
+  has_many :groups
   has_many :activities
+  has_many :activity_groups, through: :groups
   has_many :plan_limited_activities, -> (user) do
     return with_geometry.chronological if user.plan.paid?
 
