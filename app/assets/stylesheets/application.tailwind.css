@@ -32,6 +32,16 @@ body {
   text-decoration-color: #fc4c02;
 }
 
+/* BUTTONS */
+
+.button-primary {
+  @apply bg-purple-500 hover:bg-purple-300 text-white px-4 py-1.5 border rounded-md cursor-pointer;
+}
+
+.button-cancel {
+  @apply bg-gray-200 hover:bg-gray-300 px-4 py-1.5 border rounded-md cursor-pointer;
+}
+
 /* Functional styling;
  * These styles are required for noUiSlider to function.
  * You don't need to change these rules to apply your design.

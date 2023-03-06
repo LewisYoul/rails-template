@@ -1,0 +1,54 @@
+<turbo-frame id="lazyModal">
+  <div data-controller="tabs" class="px-[100px] py-[50px] h-full w-full">
+    <div data-tabs-target="tab" data-tab-id="1" class="flex flex-col h-full justify-between h-full w-full">
+      <div class="h-5/6 overflow-scroll">
+        <% @groups.each do |group| %>
+          <div class="mb-2">
+            <%= turbo_frame_tag "group_#{group.id}" do %>
+              <% if activity_group = group.activity_groups.find { |ag| ag.activity_id == params[:activity_id].to_i } %>
+                <%= destroy_activity_group_button(activity_group) %>
+              <% else %>
+                <%= create_activity_group_button(group, params[:activity_id]) %>
+              <% end %>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+
+      <div class="flex justify-between">
+        <%= primary_button('Done', data: { action: "click->lazyModal#close" }) %>
+        <%= tertiary_button('Create Group', data: { action: "click->tabs#display", tab_id: 2 }) %>
+      </div>
+    </div>
+
+    <div data-tabs-target="tab" data-tab-id="2" class="h-full w-full hidden">
+      <%= form_with(url: groups_path(activity_id: params[:activity_id]), class: "flex flex-col justify-between h-full w-full") do |form| %>
+        <div>
+          <h5 class="text-sm font-semibold">Create a new group</h5>
+          <hr>
+
+          <%= form.fields_for(:group) do |group_form| %>
+            <div class="mt-4">
+              <%= group_form.label(:name, class: "block text-md font-semibold leading-6 text-gray-900") %>
+              <div class="mt-2">
+                <%= group_form.text_field(:name, autofocus: true, class: "block w-full rounded-md border-0 px-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6")%>
+              </div>
+            </div>
+
+            <div class="mt-4">
+              <%= group_form.label(:description, class: "block text-md font-semibold leading-6 text-gray-900") %>
+              <div class="mt-2">
+                <%= group_form.text_area(:description, class: "block w-full rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 px-2 sm:py-1.5 sm:text-sm sm:leading-6")%>
+              </div>
+            </div>
+          <% end %>
+        </div>
+
+        <div class="flex text-center">
+          <%= form.submit('Create Group', "class" => 'button-primary') %>
+          <span class="ml-1 button-cancel", data-action="click->tabs#display" data-tab-id="1">Cancel</span>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</turbo-frame>
