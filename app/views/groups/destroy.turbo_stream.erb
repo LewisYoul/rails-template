@@ -1,0 +1,7 @@
+<%= turbo_stream.replace("groups_header") do %>
+  <%= turbo_frame_tag("groups_header") do %>
+    <% render partial: 'header', locals: { groups_count: @groups_count } %>
+  <% end %>
+<% end %>
+
+<%= turbo_stream.remove("group_#{@group.id}") %>

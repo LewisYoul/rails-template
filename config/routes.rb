@@ -23,7 +23,9 @@ Rails.application.routes.draw do
     get :upgrade, on: :member
   end
 
-  resources :groups
+  resources :groups, only: %i[create index destroy] do
+    get :groupings, on: :collection
+  end
 
   resources :activity_groups
 

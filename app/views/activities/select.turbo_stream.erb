@@ -105,7 +105,7 @@
                   </svg>
 
                   <div data-lazyModal-target="wrapper" class="h-full">
-                    <%= turbo_frame_tag "lazyModal", src: groups_path(activity_id: @activity.id), loading: 'lazy', data: { lazyModal_target: 'turboFrame' } %>
+                    <%= turbo_frame_tag "lazyModal", src: groupings_groups_path(activity_id: @activity.id), loading: 'lazy', data: { lazyModal_target: 'turboFrame' } %>
                   </div>
 
                 </div>
