@@ -1,18 +1,24 @@
 <turbo-frame id="lazyModal">
   <div data-controller="tabs" class="px-[100px] py-[50px] h-full w-full">
     <div data-tabs-target="tab" data-tab-id="1" class="flex flex-col h-full justify-between h-full w-full">
-      <div class="h-5/6 overflow-scroll">
-        <% @groups.each do |group| %>
-          <div class="mb-2">
-            <%= turbo_frame_tag "group_#{group.id}" do %>
-              <% if activity_group = group.activity_groups.find { |ag| ag.activity_id == params[:activity_id].to_i } %>
-                <%= destroy_activity_group_button(activity_group) %>
-              <% else %>
-                <%= create_activity_group_button(group, params[:activity_id]) %>
+      <div data-controller="browserSearch">
+        <%= modal_header("Add this activity to a group") %>
+
+        <input data-browserSearch-target="input" data-action="input->browserSearch#filter" type="text" placeholder="Filter groups" class="text-field mt-2 mb-2">
+
+        <div class="h-[300px] overflow-scroll">
+          <% @groups.each do |group| %>
+            <div data-browserSearch-target="item" data-browserSearch-term="<%= group.name %>" class="mb-2">
+              <%= turbo_frame_tag "group_#{group.id}" do %>
+                <% if activity_group = group.activity_groups.find { |ag| ag.activity_id == params[:activity_id].to_i } %>
+                  <%= destroy_activity_group_button(activity_group) %>
+                <% else %>
+                  <%= create_activity_group_button(group, params[:activity_id]) %>
+                <% end %>
               <% end %>
-            <% end %>
-          </div>
-        <% end %>
+            </div>
+          <% end %>
+        </div>
       </div>
 
       <div class="flex justify-between">
@@ -24,8 +30,7 @@
     <div data-tabs-target="tab" data-tab-id="2" class="h-full w-full hidden">
       <%= form_with(url: groups_path(activity_id: params[:activity_id]), class: "flex flex-col justify-between h-full w-full") do |form| %>
         <div>
-          <h5 class="text-sm font-semibold">Create a new group</h5>
-          <hr>
+          <%= modal_header("Create a new group") %>
 
           <%= form.fields_for(:group) do |group_form| %>
             <div class="mt-4">
