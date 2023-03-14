@@ -1,36 +1,7 @@
 Rails.application.routes.draw do
-  get 'session/destroy'
-  get 'map/index'
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
-
   # Defines the root path 
-  get 'map', to: "map#index", as: :authenticated_root
+  # get 'map', to: "map#index", as: :authenticated_root
   root to: "home#index", as: :unauthenticated_root
 
   resources :home, only: :index
-  resources :account, only: :index
-  resources :map, only: :index
-  resources :oauth, only: :index
-  resources :session, only: :new
-  resources :activities, only: %i[index show] do
-    get :refresh, on: :collection
-    get :import, on: :collection
-    put :select, on: :member
-    put :deselect, on: :collection
-  end
-  resources :plans do
-    get :success, on: :collection
-    get :upgrade, on: :member
-  end
-
-  resources :groups, only: %i[create index destroy] do
-    get :groupings, on: :collection
-  end
-
-  resources :activity_groups
-
-  resources :subscriptions, only: :update
-  resources :webhooks do
-    post :stripe, on: :collection
-  end
 end

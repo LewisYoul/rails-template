@@ -1,5 +1,4 @@
 import { Controller } from "@hotwired/stimulus"
-import L from 'leaflet'
 
 export default class extends Controller {
   static targets = ['text', 'popover']
